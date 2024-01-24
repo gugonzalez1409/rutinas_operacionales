@@ -23,6 +23,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.39.3",
     "bootstrap": "^4.3.1",
+    "dotenv": "^16.4.1",
     "electron-reload": "^1.2.5",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.7.1",
