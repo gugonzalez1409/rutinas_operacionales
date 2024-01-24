@@ -1,0 +1,105 @@
+<template>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .acciones {
+            text-align: center;
+        }
+
+        .btn-eliminar {
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-crear {
+            width: 25%;
+            align-self: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    </style>
+    <div class="cuenta template" id="cuenta-template" data-tab="cuentas">
+        <h2>Tabla de Usuarios</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Rol</th>
+                    <th class="acciones">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Usuario1</td>
+                    <td>
+                        <label>
+                            <input type="radio" name="rol_usuario1" value="admin"> Administrador
+                        </label>
+                        <label>
+                            <input type="radio" name="rol_usuario1" value="user"> Usuario
+                        </label>
+                    </td>
+                    <td class="acciones">
+                        <button class="btn-eliminar" onclick="eliminarUsuario('Usuario1')">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Usuario2</td>
+                    <td>
+                        <label>
+                            <input type="radio" name="rol_usuario2" value="admin"> Administrador
+                        </label>
+                        <label>
+                            <input type="radio" name="rol_usuario2" value="user"> Usuario
+                        </label>
+                    </td>
+                    <td class="acciones">
+                        <button class="btn-eliminar" onclick="eliminarUsuario('Usuario2')">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn-crear" onclick="crearNuevoUsuario()">Crear Nuevo Usuario</button>
+    </div>
+
+    <script>
+        function eliminarUsuario(nombreUsuario) {
+            var confirmarEliminar = confirm(`¿Estás seguro de que deseas eliminar a ${nombreUsuario}?`);
+            if (confirmarEliminar) {
+                // Lógica para eliminar el usuario
+                console.log(`Usuario ${nombreUsuario} eliminado.`);
+            }
+        }
+
+        function crearNuevoUsuario() {
+            // Lógica para crear un nuevo usuario
+            console.log("Crear nuevo usuario");
+        }
+    </script>
+</template>

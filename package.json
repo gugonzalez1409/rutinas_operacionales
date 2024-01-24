@@ -1,0 +1,33 @@
+{
+  "name": "rutinas-operacionales",
+  "version": "0.0.1",
+  "description": "programa para emitir y supervisar rutinas operacionales planta arauco area licor",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [],
+  "author": "Gustavo González",
+  "license": "",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
+    "electron": "^28.1.4"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "bootstrap": "^4.3.1",
+    "electron-reload": "^1.2.5",
+    "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.7.1",
+    "nodemailer": "^6.9.8",
+    "pdfmake": "^0.2.9",
+    "popper.js": "^1.14.4"
+  }
+}

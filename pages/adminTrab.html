@@ -1,0 +1,96 @@
+<template>
+  <style>
+    .adminTrab button{
+      width: 25px;
+    }
+  </style>
+    <div class="admintrab template" id="admintrab-template" data-tab="admintrab">
+        <body>
+          <form id="workerDetailsForm">
+            <label for="workerName">Nombre del Trabajador:</label>
+            <select id="workerName" name="workerName">
+              <!-- Sacar datos de bd -->
+              <option value="Dario Aguilar">Dario Aguilar</option>
+              <option value="Gustavo González">Gustavo González</option>
+              <!-- agregar más opciones -->
+            </select>
+        
+            <label for="workerArea">Área:</label>
+            <input type="text" id="workerArea" name="workerArea">
+        
+            <label for="workerRole">Rol de Trabajo:</label>
+            <input type="text" id="workerRole" name="workerRole">
+
+            <label for="workerTurn">Turno de trabajo:</label>
+            <input type="text" id="workerRole" name="workerRole">
+        
+            <button type="button" onclick="updateWorker()">Actualizar trabajador</button>
+            <button type="button" onclick="deleteWorker()">Eliminar trabajador</button>
+            <button type="button" onclick="openForm()">Nuevo trabajador</button>
+            <button type="button" onclick="">Nuevo rol de trabajo</button>
+          </form>
+        
+          <div id="addWorkerForm" style="display:none;">
+            <h2>Nuevo Trabajador</h2>
+            <label for="newWorkerName">Nombre del Trabajador:</label>
+            <input type="text" id="newWorkerName" name="newWorkerName">
+        
+            <label for="newWorkerArea">Área:</label>
+            <input type="text" id="newWorkerArea" name="newWorkerArea">
+        
+            <label for="newWorkerRole">Rol de Trabajo:</label>
+            <input type="text" id="newWorkerRole" name="newWorkerRole">
+        
+            <button type="button" onclick="createNewWorker()">Crear</button>
+            <button type="button" onclick="closeForm()">Cancelar</button>
+          </div>
+        
+          <script>
+            function openForm() {
+              document.getElementById('addWorkerForm').style.display = 'block';
+            }
+        
+            function closeForm() {
+              document.getElementById('addWorkerForm').style.display = 'none';
+            }
+            function updateWorker() {
+              var workerName = document.getElementById('workerName').value;
+              var workerArea = document.getElementById('workerArea').value;
+              var workerRole = document.getElementById('workerRole').value;
+        
+              // Puedes realizar acciones de actualización, por ejemplo, enviar datos al servidor
+              alert(`Actualizando trabajador: ${workerName}, Área: ${workerArea}, Rol: ${workerRole}`);
+            }
+        
+            function deleteWorker() {
+              var workerName = document.getElementById('workerName').value;
+        
+              // Puedes realizar acciones de eliminación, por ejemplo, enviar datos al servidor
+              alert(`Eliminando trabajador: ${workerName}`);
+            }
+        
+            // Event listener para actualizar las áreas y roles cuando se selecciona un trabajador
+            document.getElementById('workerName').addEventListener('change', function() {
+              var selectedWorker = this.value;
+        
+              // Simula obtener información del trabajador desde una fuente de datos (puedes reemplazarlo con datos reales)
+              var workerDetails = getWorkerDetails(selectedWorker);
+        
+              // Actualiza los campos de área y rol con la información obtenida
+              document.getElementById('workerArea').value = workerDetails.area;
+              document.getElementById('workerRole').value = workerDetails.role;
+            });
+        
+            // Simula obtener información del trabajador desde una fuente de datos (puedes reemplazarlo con datos reales)
+            function getWorkerDetails(workerName) {
+              // Este es solo un ejemplo. Deberías obtener los detalles del trabajador desde tu fuente de datos (base de datos, API, etc.)
+              var workerDetails = {
+                'Dario Aguilar': { area: 'Turbogeneradores', role: 'Operador Turbogeneradores' },
+                'Gustavo González': { area: 'Área 2', role: 'Operador terreno Multipropósito' }
+                // Agrega más detalles según sea necesario
+              };
+              return workerDetails[workerName] || { area: '', role: '' };
+            }
+          </script> 
+    </div>
+</template>

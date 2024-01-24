@@ -1,0 +1,129 @@
+<template>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      gap: 3rem;
+    }
+
+    .wrapper {
+      max-width: auto;
+      width: 100%;
+      padding: min(3rem, 5vw);
+    }
+
+    .form-container {
+      padding: 1.5rem;
+      background-color: rgba(245, 245, 245);
+      border-radius: 0.5rem;
+    }
+
+    .form-container:nth-child(2n) {
+      color-scheme: dark;
+      background-color: black;
+      color: white;
+    }
+
+    .legend {
+      font-weight: 100;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkbox-input {
+      width: 1.5em;
+      height: 1.5em;
+      margin-right: 0.65rem;
+    }
+
+    .button-agregar {
+      width: 100px;
+      height: 50px;
+    }
+  </style>
+  <div class="newRutina template" id="newRutina-template" data-tab="newRutina">
+    <div class="grid">
+      <form class="form-container" action="">
+        <legend class="legend">Nombre de la rutina</legend>
+        <input type="text" id="nombreRutina" name="nombreRutina" required>
+        <legend class="legend">Área de la nueva rutina</legend>
+        <select class="selectList" id="areaRutina">
+          <option>Caldera de Poder</option>
+          <option>Caldera Recuperadora y Evaporadores</option>
+          <option>Desmineralizado y Compresores</option>
+          <option>Tall Oil</option>
+          <option>Turbogeneradores</option>
+        </select>
+        <fieldset>
+          <legend class="legend">Seleccione los días que se realiza</legend>
+          <div class="form-group">
+            <input type="checkbox" id="diario" onclick="marcarTodosLosDias()" name="diario" class="checkbox-input">
+            <label for="diario">A diario</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="lunes" name="dias" value="lunes" class="checkbox-input">
+            <label for="lunes">Lunes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="martes" name="dias" value="martes" class="checkbox-input">
+            <label for="martes">Martes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="miercoles" name="dias" value="miercoles" class="checkbox-input">
+            <label for="miercoles">Miércoles</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="jueves" name="dias" value="jueves" class="checkbox-input">
+            <label for="jueves">Jueves</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="viernes" name="dias" value="viernes" class="checkbox-input">
+            <label for="viernes">Viernes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="sabado" name="dias" value="sabado" class="checkbox-input">
+            <label for="sabado">Sábado</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="domingo" name="dias" value="domingo" class="checkbox-input">
+            <label for="domingo">Domingo</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="legend">Seleccione los turnos en que se realiza</legend>
+          <div class="form-group">
+            <input type="checkbox" id="turnoDia" value="Dia" name="turno" class="checkbox-input">
+            <label for="turnoDia">Turno Día</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="turnoNoche" value="Noche" name="turno" class="checkbox-input">
+            <label for="turnoNoche">Turno Noche</label>
+          </div>
+        </fieldset>
+        <button type="button" onclick="" class="button-agregar">Agregar</button>
+      </form>
+    </div>
+    <script>
+      function marcarTodosLosDias() {
+      const checkboxDiario = document.getElementById('diario');
+      const checkboxesDias = document.getElementsByName('dias');
+      if (checkboxDiario.checked) {
+        checkboxesDias.forEach(checkbox => {
+          checkbox.checked = true;
+        });
+      } else {
+        checkboxesDias.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+      }
+    }
+    </script>
+  </div>
+</template>

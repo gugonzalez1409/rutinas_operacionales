@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Supervisión de rutinas operacionales</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .nav-pills>a.active {
+            background-color: #4CAF50 !important;
+            color: #ffffff !important;
+        }
+        .nav-pills>a:hover {
+            color: #4CAF50;
+        }
+        .nav-link-color {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-2">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="main-tab" data-toggle="pill" href="#admin" role="tab" aria-controls="admin" aria-selected="true">Informe de rutinas</a>
+                    <a class="nav-link" id="areas-tab" data-toggle="pill" href="#areas" role="tab" aria-controls="areas" aria-selected="false">Areas</a>
+                    <a class="nav-link" id="help-tab" data-toggle="pill" href="#adminTrab" role="tab" aria-controls="adminTrab" aria-selected="false">Administrar trabajadores</a>
+                    <a class="nav-link" id="modificar-tab" data-toggle="pill" href="#modRutinas" role="tab" aria-controls="modRutinas" aria-selected="false">Modificar rutinas</a>
+                    <a class="nav-link" id="newRutina-tab" data-toggle="pill" href="#newRutina" role="tab" aria-controls="newRutina" aria-selected="false">Añadir rutina</a>
+                    <a class="nav-link" id="estadisticas-tab" data-toggle="pill" href="#estadisticas" role="tab" aria-controls="estadisticas" aria-selected="false">Estadisticas</a>
+                    <a class="nav-link" id="user-tab" data-toggle="pill" href="#user" role="tab" aria-controls="user" aria-selected="false">Formulario</a>
+                    <a class="nav-link" id="cuentas-tab" data-toggle="pill" href="#adminCuentas" role="tab" aria-controls="adminCuentas" aria-selected="false">Administrar cuentas</a>
+                    <a class="nav-link" id="login-tab" data-toggle="pill" href="#login" role="tab" aria-controls="login" aria-selected="false">Iniciar sesión</a>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab"></div>
+                    <div class="tab-pane fade" id="adminTrab" role="tabpanel" aria-labelledby="adminTrab-tab"></div>
+                    <div class="tab-pane fade" id="areas" role="tabpanel" aria-labelledby="areas-tab"></div>
+                    <div class="tab-pane fade" id="modRutinas" role="tabpanel" aria-labelledby="modRutinas-tab"></div>
+                    <div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab"></div>
+                    <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab"></div>
+                    <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"></div>
+                    <div class="tab-pane fade" id="newRutina" role="tabpanel" aria-labelledby="newRutina-tab"></div>
+                    <div class="tab-pane fade" id="adminCuentas" role="tabpanel" aria-labelledby="adminCuentas-tab"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts al final para mejorar el rendimiento -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./renderer.js"></script>
+
+    <script>
+        window.addEventListener('load', (event) => {
+    const pages = [
+        'areas.html',
+        'admin.html',
+        'adminCuentas.html',
+        'adminTrab.html',
+        'estadisticas.html',
+        'login.html',
+        'modRutinas.html',
+        'newRutina.html',
+        'user.html',
+    ];
+
+    const loadPage = async (page) => {
+        try {
+            const response = await fetch(`pages/${page}`);
+            const html = await response.text();
+
+            const div = document.createElement('div');
+            div.innerHTML = html;
+
+            // Cargar HTML
+            const template = div.querySelector('template');
+            const clone = document.importNode(template.content, true);
+            const targetTab = document.getElementById(page.replace('.html',''));
+            if (targetTab) {
+                targetTab.appendChild(clone);
+                console.log(`Página ${page} cargada correctamente.`);
+            } else {
+                console.error(`Error: Contenedor para ${page} no encontrado.`);
+            }
+
+            // Cargar Script
+            const script = div.querySelector('script');
+            if (script) {
+                const scriptElement = document.createElement('script');
+                scriptElement.innerHTML = script.innerHTML;
+                targetTab.body.appendChild(scriptElement);
+                console.log(`Script de ${page} cargado correctamente.`);
+            }
+        } catch (error) {
+            console.error(`Error al cargar la página ${page}: ${error}`);
+        }
+    };
+    pages.forEach((page) => {
+        console.log(`Cargando página: ${page}`);
+        loadPage(page);
+    });
+});
+    </script>
+</body>
+</html>
