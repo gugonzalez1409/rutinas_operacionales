@@ -9,5 +9,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main:', error);
       throw error;
     }
-  },
+  }
 });

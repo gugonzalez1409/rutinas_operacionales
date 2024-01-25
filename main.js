@@ -12,8 +12,9 @@ function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 1280,
         height: 720,
-        webPreferences :{
-            preload: path.join(__dirname, 'preload.js')
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            textAreasAreResizable: false,
         } 
     })
     mainWindow.loadFile('index.html')

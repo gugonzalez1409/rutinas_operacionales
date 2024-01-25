@@ -71,9 +71,8 @@
           <label for="elegirArea">Seleccione el área</label>
           <select class="form-control" id="elegirArea">
             <script>
-              document.addEventListener('DOMContentLoaded', (event) => {
-                loadAreas();
-              })
+              console.log('data from areas:', data)
+               const data = window.electronAPI.getAreas()
               </script>
           </select>
         </div>
