@@ -9,7 +9,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 let mainWindow
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 1280, height: 720 })
+    mainWindow = new BrowserWindow({ 
+        width: 1280,
+        height: 720,
+        webPreferences :{
+            preload: path.join(__dirname, 'preload.js')
+        } 
+    })
     mainWindow.loadFile('index.html')
     mainWindow.webContents.openDevTools()
 
@@ -56,3 +62,21 @@ async function testConection(){
 
 testConection()
 
+ipcMain.handle('get-areas', async () => {
+    try {
+      console.log('estoy dentro cara facherita');
+      const { data, error } = await supabase.from('area').select('*');
+      if (error) {
+        console.error('Error al obtener datos:', error.message);
+        throw new Error('Error al obtener datos');
+      }
+      console.log('Data:', data);
+      return data;
+    } 
+    catch (error) {
+      console.error('Error: ', error.message);
+      throw error;
+    }
+  });
+
+  

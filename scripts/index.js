@@ -22,23 +22,14 @@ window.addEventListener('load', (event) => {
             const targetTab = document.getElementById(page.replace('.html',''));
             if (targetTab) {
                 targetTab.appendChild(clone);
-                console.log(`Página ${page} cargada correctamente.`);
             } else {
                 console.error(`Error: Contenedor para ${page} no encontrado.`);
-            }
-            const script = div.querySelector('script');
-            if (script) {
-                const scriptElement = document.createElement('script');
-                scriptElement.innerHTML = script.innerHTML;
-                targetTab.body.appendChild(scriptElement);
-                console.log(`Script de ${page} cargado correctamente.`);
             }
         } catch (error) {
             console.error(`Error al cargar la página ${page}: ${error}`);
         }
     };
     pages.forEach((page) => {
-        console.log(`Cargando página: ${page}`);
         loadPage(page);
         });
     });
