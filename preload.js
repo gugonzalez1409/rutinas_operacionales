@@ -18,5 +18,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main:', error);
       throw error;
     }
-  }
+  },
+  actualizarArea: async (areaSeleccionada, nuevoValor) => {
+    try {
+      const data = await ipcRenderer.invoke('actualizar-area', areaSeleccionada, nuevoValor);
+      return data;
+    } catch(error){
+      console.error('Error desde main: ', error);
+      throw error;
+    }
+  } 
 });

@@ -46,6 +46,26 @@ app.on('activate', function() {
     }
 })
 
+/*async function testConection(){
+    try {
+        const { data, error } = await supabase
+            .from('area')
+            .update({ nombre_area: 'turbogeneradores' })
+            .eq('nombre_area', 'Turbogeneradores')
+            .select()
+        if(error){
+            console.error('Error al obtener datos:', error.message);
+            throw new Error('Error al obtener datos');
+          }
+          return data;
+        }
+        catch (error) {
+            console.error('Error: ', error.message);
+            throw error;
+          }
+}
+testConection()*/
+
 ipcMain.handle('get-areas', async () => {
     try {
       const { data, error } = await supabase
@@ -63,13 +83,13 @@ ipcMain.handle('get-areas', async () => {
     }
   });
 
-  ipcMain.handle('get-trabajadores-por-area', async (areaElegida) =>{
-    try{
+ipcMain.handle('get-trabajadores-por-area', async (areaElegida) =>{
+    try {
       const {data, error } = await supabase
       .from('trabajador')
       .select('id_trabajador, nombre_trabajador')
-      .innerJoin('rol_trabajador', 'rol_trabajador.id_rol', 'trabajador.rol_trabajador')
-      .innerJoin('area', 'rol_trabajador.id_area', 'area.id')
+      //.innerJoin('rol_trabajador', 'rol_trabajador.id_rol', 'trabajador.rol_trabajador')
+      //.innerJoin('area', 'rol_trabajador.id_area', 'area.id')
       .eq('area.id', areaElegida);
       if(error){
         console.error('Error al obtener datos:', error.message);
@@ -81,7 +101,23 @@ ipcMain.handle('get-areas', async () => {
         console.error('Error: ', error.message);
         throw error;
     }
-
   })
 
-  
+ipcMain.handle('actualizar-area', async (areaSeleccionada, nuevoValor) => {
+    try {
+    const { data, error } = await supabase
+        .from('area')
+        .update({ nombre_area: nuevoValor })
+        .eq('nombre_area', areaSeleccionada)
+        .select()
+    if(error){
+        console.error('Error al obtener datos:', error.message);
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    catch (error) {
+        console.error('Error: ', error.message);
+        throw error;
+      }
+});  
