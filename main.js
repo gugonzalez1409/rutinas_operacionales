@@ -14,7 +14,6 @@ function createWindow() {
         height: 720,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            textAreasAreResizable: false,
         } 
     })
     mainWindow.loadFile('index.html')
@@ -47,31 +46,13 @@ app.on('activate', function() {
     }
 })
 
-async function testConection(){
-    try{
-        const { data, error } = await supabase.from('area').select('*');  
-        if(error){
-            console.error('Error de conexion', error.message)
-            return;    
-        }
-        console.log(data)
-    }
-    catch (error) {
-        console.error('Error: ',error.message)
-    }
-}
-
-testConection()
-
 ipcMain.handle('get-areas', async () => {
     try {
-      console.log('estoy dentro cara facherita');
       const { data, error } = await supabase.from('area').select('*');
       if (error) {
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
       }
-      console.log('Data:', data);
       return data;
     } 
     catch (error) {

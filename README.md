@@ -1,2 +1,1 @@
-# rutinas_operacionales
-practica
+# Supervisión Rutinas Operacionales Planta Licor Arauco 2024
