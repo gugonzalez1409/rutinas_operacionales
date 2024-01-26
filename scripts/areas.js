@@ -1,3 +1,4 @@
+
 function confirmEdit() {
     var confirmEdit = confirm('¿Estás seguro de que deseas editar esta área?');
     if (confirmEdit) {
@@ -61,3 +62,5 @@ function confirmEdit() {
   function clearForm() {
     document.getElementById('newValue').value = '';
   }
+
+  

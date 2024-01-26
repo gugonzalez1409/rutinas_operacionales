@@ -48,7 +48,9 @@ app.on('activate', function() {
 
 ipcMain.handle('get-areas', async () => {
     try {
-      const { data, error } = await supabase.from('area').select('*');
+      const { data, error } = await supabase
+      .from('area')
+      .select('id, nombre_area');
       if (error) {
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
@@ -60,5 +62,26 @@ ipcMain.handle('get-areas', async () => {
       throw error;
     }
   });
+
+  ipcMain.handle('get-trabajadores-por-area', async (areaElegida) =>{
+    try{
+      const {data, error } = await supabase
+      .from('trabajador')
+      .select('id_trabajador, nombre_trabajador')
+      .innerJoin('rol_trabajador', 'rol_trabajador.id_rol', 'trabajador.rol_trabajador')
+      .innerJoin('area', 'rol_trabajador.id_area', 'area.id')
+      .eq('area.id', areaElegida);
+      if(error){
+        console.error('Error al obtener datos:', error.message);
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    catch(error){
+        console.error('Error: ', error.message);
+        throw error;
+    }
+
+  })
 
   
