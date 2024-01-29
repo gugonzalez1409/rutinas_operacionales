@@ -46,7 +46,7 @@ app.on('activate', function() {
     }
 })
 
-async function testConection(){
+/*async function testConection(){
     try {
         const { data, error } = await supabase
             .from('area')
@@ -63,7 +63,7 @@ async function testConection(){
             console.error('Error: ', error.message);
             throw error;
           }
-}
+}*/
 //testConection()
 
 ipcMain.handle('get-areas', async () => {
@@ -86,8 +86,9 @@ ipcMain.handle('get-areas', async () => {
 ipcMain.handle('get-trabajadores-por-area', async (event, areaElegida) =>{
     try {
       const {data, error } = await supabase
-      .from('trabajador').select('id_trabajador, nombre_trabajador, rol_trabajador:id_rol(id_area, area:id_area(id))')
-      .eq('id', areaElegida)
+      .from('trabajador')
+      .select('*, rol_trabajador!inner(*)')
+      .eq('rol_trabajador.id_area', areaElegida)
       if(error){
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
@@ -123,7 +124,7 @@ ipcMain.handle('area-nueva', async(event, newValue)=>{
   try{
     const {data, error} = await supabase
     .from('area')
-    .insert({nombre_area: newValue})
+    .insert([{nombre_area: newValue}])
     .select()
   if(error){
     console.error('Error al insertar datos:' ,error.message);
@@ -165,6 +166,26 @@ ipcMain.handle('rutinas-por-area', async(event, areaElegida)=>{
       console.error('Error al obtener rutinas:', error.message);
       throw new Error('Error al obtener rutinas');
     }  
+    return data;
+  }
+  catch(error){
+    console.error('Error:', error.message);
+    throw error;
+  }
+})
+
+ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, observacionesRutina)=>{
+  try{
+    fecha = Date.now()
+    const {data, error} = await supabase
+    .from('informe_rutina')
+    .insert({id_rutina: rutinaRealizada, id_trabajador: operadorACargo, fecha: fecha, observaciones_rutina: observacionesRutina})
+    .select()
+    if(error){
+      console.error('Error al obtener rutinas:', error.message);
+      throw new Error('Error al emitir informe');
+    }
+    console.log('imprimiendo desde main: ', data)
     return data;
   }
   catch(error){

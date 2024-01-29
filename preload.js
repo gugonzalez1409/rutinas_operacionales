@@ -59,5 +59,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main: ', error);
       throw error;
     }
-  },  
+  },
+  emitirInforme: async( operadorACargo, rutinaRealizada, observacionesRutina) => {
+    try{
+      const data = await ipcRenderer.invoke('emitir-informe', operadorACargo, rutinaRealizada, observacionesRutina);
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main:', error);
+    }
+  } 
 });

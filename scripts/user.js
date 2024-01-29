@@ -49,4 +49,17 @@ async function getAreas() {
     }
   }
 
+  async function emitirInforme(){
+    try{  
+      const operadorACargo = document.getElementById('selectTrabajador').value;
+      const rutinaRealizada = document.getElementById('rutinaRealizada').value;
+      const observacionesRutina = document.getElementById('observacionesRutina').value;
+      data = await window.electronAPI.emitirInforme(operadorACargo, rutinaRealizada, observacionesRutina)
+      // limpiar campos del formulario
+    }
+      catch(error){
+        console.error('Error al emitir informe: ', error);
+  }
+}
+
   getAreas()
