@@ -11,10 +11,11 @@ async function getAreas() {
       });
     } 
     catch (error) {
-      console.error('Error al cargar datos en la lista desplegable:', error);
+      console.error('Error al cargar datos en la lista de areas:', error);
     }
     elegirArea.addEventListener('change', async function (){
       const areaElegida = elegirArea.value;
+      await getRutinas(areaElegida);
       await getTrabajadores(areaElegida);
     });
   }
@@ -29,6 +30,23 @@ async function getAreas() {
       option.text = item.nombre_trabajador;
       selectTrabajador.add(option);
     })
+  }
+
+  async function getRutinas(areaElegida){
+    try{
+      const data = await window.electronAPI.rutinasPorArea(areaElegida);
+      const selectRutina = document.getElementById('rutinaRealizada');
+      selectRutina.innerHTML = "";
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.id_rutina;
+        option.text = item.descripcion_rutina;
+        selectRutina.add(option);
+      })
+    }
+    catch(error){
+      console.error('Error al cargar datos en la lista de rutinas:', error);
+    }
   }
 
   getAreas()

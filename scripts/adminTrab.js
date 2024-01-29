@@ -1,3 +1,20 @@
+async function getTrabajadores(){
+  try{
+    const data = await window.electronAPI.getTrabajadores();
+    const listaTrabajadores = document.getElementById('workerName')
+    listaTrabajadores.innerHTML = ''
+    data.forEach(item => {
+      const trabajador = document.createElement('option')
+      option.value = item.id_trabajador;
+      option.text = item.nombre_trabajador;
+    });  
+  }
+  catch(error){
+    console.error('Error al cargar lista de datos: ', error)
+  }
+}
+
+
 function openForm() {
     document.getElementById('addWorkerForm').style.display = 'block';
   }

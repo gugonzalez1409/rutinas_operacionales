@@ -33,53 +33,65 @@ function confirmEdit() {
       deleteOption();
     }
   }
-  function editOption() {
-    var selectElement = document.getElementById('options');
-    var newValue = document.getElementById('newValue').value; 
-    if (!newValue) {
-      alert('Por favor, ingresa un valor.');
-      return;
+  async function editOption() {
+    try {
+      var selectElement = document.getElementById('options');
+      var selectedIndex = selectElement.selectedIndex;
+      if (selectedIndex !== -1) {
+        var newValue = document.getElementById('newValue').value;
+        if (!newValue) {
+          alert('Por favor, ingresa un valor.');
+          return;
+        }
+        var selectedId = selectElement.options[selectedIndex].value;
+        await window.electronAPI.actualizarArea(selectedId, newValue);
+        alert('Área editada con éxito.');
+        clearForm();
+        //actualizar pestaña
+      } else {
+        alert('Por favor, selecciona un área.');
+      }
+    } catch (error) {
+      console.error('Error al editar área:', error);
     }
-    var selectedIndex = selectElement.selectedIndex;
-    if (selectedIndex !== -1) {
-      selectElement.options[selectedIndex].text = newValue;
-      selectElement.options[selectedIndex].value = newValue;
-      const data = window.electronAPI.actualizarArea(selectElement, newValue);
-      alert('Área editada con éxito.');
-    } else {
-      alert('Por favor, selecciona un área.');
-    }
-    
-    clearForm();
   }
-  function addOption() {
-    var selectElement = document.getElementById('options');
-    var newValue = document.getElementById('newValue').value;
-    if (!newValue) {
-      alert('Por favor, ingresa un valor.');
-      return;
+  
+  async function addOption() {
+    try {
+      var newValue = document.getElementById('newValue').value;
+      if (!newValue) {
+        alert('Por favor, ingresa un valor.');
+        return;
+      }
+     await window.electronAPI.areaNueva(newValue);
+  
+      alert('Área agregada con éxito.');
+      clearForm();
+      getAreas(); // recargar lista, funciona más o menos XD
+    } catch (error) {
+      console.error('Error al agregar área:', error);
     }
-    var option = document.createElement('option');
-    option.text = newValue;
-    option.value = newValue;
-    selectElement.add(option);
-    alert('Área agregada con éxito.');
-    clearForm();
   }
-  function deleteOption() {
-    var selectElement = document.getElementById('options');
-    var selectedIndex = selectElement.selectedIndex;
-    if (selectedIndex !== -1) {
-      selectElement.remove(selectedIndex);
-      alert('Área eliminada con éxito.');
-    } else {
-      alert('Por favor, selecciona un área.');
+  async function deleteOption() {
+    try {
+      var selectElement = document.getElementById('options');
+      var selectedIndex = selectElement.selectedIndex;
+      if (selectedIndex !== -1) {
+        var selectedId = selectElement.options[selectedIndex].value;
+        await window.electronAPI.eliminarArea(selectedId);
+        alert('Área eliminada con éxito.');
+        clearForm();
+        getAreas();
+      } else {
+        alert('Por favor, selecciona un área.');
+      }
+    } catch (error) {
+      console.error('Error al eliminar área:', error);
     }
-    clearForm();
   }     
+
   function clearForm() {
     document.getElementById('newValue').value = '';
   }
 
-  getAreas()
-  
+getAreas()

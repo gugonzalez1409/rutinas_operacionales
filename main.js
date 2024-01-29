@@ -46,12 +46,12 @@ app.on('activate', function() {
     }
 })
 
-/*async function testConection(){
+async function testConection(){
     try {
         const { data, error } = await supabase
             .from('area')
             .update({ nombre_area: 'turbogeneradores' })
-            .eq('nombre_area', 'Turbogeneradores')
+            .eq('id', 1)
             .select()
         if(error){
             console.error('Error al obtener datos:', error.message);
@@ -64,7 +64,7 @@ app.on('activate', function() {
             throw error;
           }
 }
-testConection()*/
+//testConection()
 
 ipcMain.handle('get-areas', async () => {
     try {
@@ -83,14 +83,11 @@ ipcMain.handle('get-areas', async () => {
     }
   });
 
-ipcMain.handle('get-trabajadores-por-area', async (areaElegida) =>{
+ipcMain.handle('get-trabajadores-por-area', async (event, areaElegida) =>{
     try {
       const {data, error } = await supabase
-      .from('trabajador')
-      .select('id_trabajador, nombre_trabajador')
-      //.innerJoin('rol_trabajador', 'rol_trabajador.id_rol', 'trabajador.rol_trabajador')
-      //.innerJoin('area', 'rol_trabajador.id_area', 'area.id')
-      .eq('area.id', areaElegida);
+      .from('trabajador').select('id_trabajador, nombre_trabajador, rol_trabajador:id_rol(id_area, area:id_area(id))')
+      .eq('id', areaElegida)
       if(error){
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
@@ -103,16 +100,16 @@ ipcMain.handle('get-trabajadores-por-area', async (areaElegida) =>{
     }
   })
 
-ipcMain.handle('actualizar-area', async (areaSeleccionada, nuevoValor) => {
+ipcMain.handle('actualizar-area', async (event, selectedId, newValue) => {
     try {
     const { data, error } = await supabase
         .from('area')
-        .update({ nombre_area: nuevoValor })
-        .eq('nombre_area', areaSeleccionada)
+        .update({ nombre_area: newValue })
+        .eq('id', selectedId)
         .select()
     if(error){
-        console.error('Error al obtener datos:', error.message);
-        throw new Error('Error al obtener datos');
+        console.error('Error al actualizar area:', error.message);
+        throw new Error('Error al actualizar area');
       }
       return data;
     }
@@ -120,4 +117,58 @@ ipcMain.handle('actualizar-area', async (areaSeleccionada, nuevoValor) => {
         console.error('Error: ', error.message);
         throw error;
       }
-});  
+});
+
+ipcMain.handle('area-nueva', async(event, newValue)=>{
+  try{
+    const {data, error} = await supabase
+    .from('area')
+    .insert({nombre_area: newValue})
+    .select()
+  if(error){
+    console.error('Error al insertar datos:' ,error.message);
+    throw new Error('Error al actualizar area');
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error:', error.message);
+    throw error;
+  }
+});
+
+ipcMain.handle('eliminar-area', async(event,selectedId)=>{
+  try{
+    const {data, error} = await supabase
+    .from('area')
+    .delete()
+    .eq('id', selectedId)
+  if(error){
+    console.error('Error al borrar datos:', error.message);
+    throw new Error('Error al borrar area');
+    }
+  return data;  
+  }
+  catch(error){
+    console.error('Error:', error.message);
+    throw error;
+  }
+});
+
+ipcMain.handle('rutinas-por-area', async(event, areaElegida)=>{
+  try{
+    const {data, error} = await supabase
+    .from('rutinas_operacionales')
+    .select('id_rutina, descripcion_rutina')
+    .eq('area_rutina', areaElegida);
+    if(error){
+      console.error('Error al obtener rutinas:', error.message);
+      throw new Error('Error al obtener rutinas');
+    }  
+    return data;
+  }
+  catch(error){
+    console.error('Error:', error.message);
+    throw error;
+  }
+})

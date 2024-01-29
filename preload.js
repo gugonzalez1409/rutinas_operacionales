@@ -19,13 +19,45 @@ contextBridge.exposeInMainWorld('electronAPI', {
       throw error;
     }
   },
-  actualizarArea: async (areaSeleccionada, nuevoValor) => {
+  rutinasPorArea: async(areaElegida) => {
+    try{
+      const data = await ipcRenderer.invoke('rutinas-por-area', areaElegida);
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main:', error);
+      throw error;
+    }    
+  },
+  actualizarArea: async (selectedId, newValue) => {
     try {
-      const data = await ipcRenderer.invoke('actualizar-area', areaSeleccionada, nuevoValor);
+      console.log('selectedId: ');
+      console.log('newValue: ', newValue);
+      const data = await ipcRenderer.invoke('actualizar-area', selectedId, newValue);
       return data;
     } catch(error){
       console.error('Error desde main: ', error);
       throw error;
     }
-  } 
+  },
+  areaNueva: async(newValue) => {
+    try {
+      console.log('newValue: ', newValue);
+      const data = await ipcRenderer.invoke('area-nueva', newValue);
+      return data;
+    } catch(error){
+      console.error('Error desde main: ', error);
+      throw error;
+    }
+    },
+  eliminarArea: async(selectedId) => {
+    try{
+      console.log('selectedId:', selectedId);
+      const data = await ipcRenderer.invoke('eliminar-area',selectedId);
+      return data;
+    } catch(error){
+      console.error('Error desde main: ', error);
+      throw error;
+    }
+  },  
 });

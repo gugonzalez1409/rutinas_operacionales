@@ -7,23 +7,18 @@
     <div class="admintrab template" id="admintrab-template" data-tab="admintrab">
         <body>
           <form id="workerDetailsForm">
+            <label for="workerArea">Área:</label>
+            <select id="workerArea" name="workerArea">
+              </select>
             <label for="workerName">Nombre del Trabajador:</label>
             <select id="workerName" name="workerName">
-              <!-- Sacar datos de bd -->
-              <option value="Dario Aguilar">Dario Aguilar</option>
-              <option value="Gustavo González">Gustavo González</option>
-              <!-- agregar más opciones -->
-            </select>
-        
-            <label for="workerArea">Área:</label>
-            <input type="text" id="workerArea" name="workerArea">
-        
+              </select>
             <label for="workerRole">Rol de Trabajo:</label>
-            <input type="text" id="workerRole" name="workerRole">
-
+            <select id="workerRole" name="workerRole">
+              </select>
             <label for="workerTurn">Turno de trabajo:</label>
-            <input type="text" id="workerRole" name="workerRole">
-        
+            <select id="workerRole" name="workerRole">
+              </select>
             <button type="button" onclick="updateWorker()">Actualizar trabajador</button>
             <button type="button" onclick="deleteWorker()">Eliminar trabajador</button>
             <button type="button" onclick="openForm()">Nuevo trabajador</button>
