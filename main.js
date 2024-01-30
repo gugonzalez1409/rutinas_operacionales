@@ -46,26 +46,6 @@ app.on('activate', function() {
     }
 })
 
-/*async function testConection(){
-    try {
-        const { data, error } = await supabase
-            .from('area')
-            .update({ nombre_area: 'turbogeneradores' })
-            .eq('id', 1)
-            .select()
-        if(error){
-            console.error('Error al obtener datos:', error.message);
-            throw new Error('Error al obtener datos');
-          }
-          return data;
-        }
-        catch (error) {
-            console.error('Error: ', error.message);
-            throw error;
-          }
-}*/
-//testConection()
-
 ipcMain.handle('get-areas', async () => {
     try {
       const { data, error } = await supabase
@@ -176,13 +156,14 @@ ipcMain.handle('rutinas-por-area', async(event, areaElegida)=>{
 
 ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, observacionesRutina)=>{
   try{
-    fecha = Date.now()
+    date = new Date();
+    date = date.toISOString(); 
     const {data, error} = await supabase
-    .from('informe_rutina')
-    .insert({id_rutina: rutinaRealizada, id_trabajador: operadorACargo, fecha: fecha, observaciones_rutina: observacionesRutina})
+    .from('informe_rutinas')
+    .insert({id_rutina: rutinaRealizada, id_trabajador: operadorACargo, fecha: date, observaciones_rutina: observacionesRutina})
     .select()
     if(error){
-      console.error('Error al obtener rutinas:', error.message);
+      console.error('Error al emitir informe:', error.message);
       throw new Error('Error al emitir informe');
     }
     console.log('imprimiendo desde main: ', data)
@@ -193,3 +174,57 @@ ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, o
     throw error;
   }
 })
+
+ipcMain.handle('get-lista-trabjadores', async(event)=>{
+  try{
+    const {data, error} = await supabase
+    .from('trabajadores')
+    .select('id_trabajador, nombre_trabajador')
+    if(error){
+      console.error('Error al obtener trabajadores: ', error.message);
+      throw new Error('Error al obtener trabajadores')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+    throw error;
+  }
+})
+
+ipcMain.handle('get-lista-informes', async(event)=>{
+  try{
+    const {data, error } = await supabase
+    .from('informe_rutinas')
+    .select('*, rutinas_operacionales!inner(descripcion_rutina), trabajador!inner(nombre_trabajador, turno_trabajador, rol_trabajador!inner(nombre_rol, area!inner(nombre_area)))')
+    if(error){
+      console.error('Error al obtener lista de informes: ', error.message);
+      throw new Error('Error al obtener trabajadores')
+    }
+    return data;
+  }
+    catch(error){
+      console.error('Error: ', error.message);
+    }
+  }
+)
+
+/*async function testConection(){
+    try {
+        const { data, error } = await supabase
+            .from('area')
+            .update({ nombre_area: 'turbogeneradores' })
+            .eq('id', 1)
+            .select()
+        if(error){
+            console.error('Error al obtener datos:', error.message);
+            throw new Error('Error al obtener datos');
+          }
+          return data;
+        }
+        catch (error) {
+            console.error('Error: ', error.message);
+            throw error;
+          }
+}*/
+//testConection()

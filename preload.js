@@ -68,5 +68,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main:', error);
     }
-  } 
+  },
+  getListaTrabajadores: async() => {
+    try{
+      const data = await ipcRenderer.invoke('get-lista-trabajadores');
+      return data; 
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
+  },
+  getListaInformes: async() => {
+    try{
+      const data = await ipcRenderer.invoke('get-lista-informes');
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error);
+    }
+  }
 });

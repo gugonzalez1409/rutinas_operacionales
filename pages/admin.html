@@ -45,8 +45,6 @@
     <input type="text" id="search" placeholder="Buscar...">
     <select id="filter">
     <option value="todos">Todos</option>
-    <option value="Dia">Jornada Dia</option>
-    <option value="Noche">Jornada Noche</option>
     <option value="A">Turno A</option>
     <option value="B">Turno B</option>
     <option value="C">Turno C</option>
@@ -58,7 +56,6 @@
     <thead>
       <tr>
         <th>Fecha</th>
-        <th>Jornada</th>
         <th>Nombre</th>
         <th>Rol de Trabajador</th>
         <th>Turno</th>
@@ -67,29 +64,7 @@
         <th>Observaciones</th>
       </tr>
     </thead>
-    <tbody>
-      <!-- Aquí puedes agregar las filas de datos -->
-      <tr>
-        <td>16-01-2024 10:25 hrs.</td>
-        <td>Dia</td>
-        <td>Dario Aguilar</td>
-        <td>Operador Turbogeneradores</td>
-        <td>A</td>
-        <td>Turbogeneradores</td>
-        <td>Chequeo niveles de petroleo</td>
-        <td>Observaciones 1</td>
-      </tr>
-      <tr>
-        <td>16-01-2024 10:27 hrs.</td>
-        <td>Dia</td>
-        <td>Gustavo González</td>
-        <td>Operador terreno Multipropósito</td>
-        <td>B</td>
-        <td>Área 2</td>
-        <td>Rutina 2</td>
-        <td>Observaciones 2</td>
-      </tr>
-      <!-- Puedes agregar más filas según sea necesario -->
+    <tbody id="report-data">
     </tbody>
   </table>
   </div>

@@ -1,6 +1,6 @@
 async function getTrabajadores(){
   try{
-    const data = await window.electronAPI.getTrabajadores();
+    const data = await window.electronAPI.getListaTrabajadores();
     const listaTrabajadores = document.getElementById('workerName')
     listaTrabajadores.innerHTML = ''
     data.forEach(item => {
@@ -13,7 +13,6 @@ async function getTrabajadores(){
     console.error('Error al cargar lista de datos: ', error)
   }
 }
-
 
 function openForm() {
     document.getElementById('addWorkerForm').style.display = 'block';
@@ -60,3 +59,5 @@ function openForm() {
     };
     return workerDetails[workerName] || { area: '', role: '' };
   }
+
+  getTrabajadores()
