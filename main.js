@@ -175,11 +175,11 @@ ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, o
   }
 })
 
-ipcMain.handle('get-lista-trabjadores', async(event)=>{
+ipcMain.handle('get-lista-trabajadores', async(event)=>{
   try{
     const {data, error} = await supabase
-    .from('trabajadores')
-    .select('id_trabajador, nombre_trabajador')
+    .from('trabajador')
+    .select('*')
     if(error){
       console.error('Error al obtener trabajadores: ', error.message);
       throw new Error('Error al obtener trabajadores')
@@ -206,8 +206,7 @@ ipcMain.handle('get-lista-informes', async(event)=>{
     catch(error){
       console.error('Error: ', error.message);
     }
-  }
-)
+  })  
 
 /*async function testConection(){
     try {

@@ -1,20 +1,23 @@
 async function getTrabajadores(){
   try{
     const data = await window.electronAPI.getListaTrabajadores();
+    console.log(data);
     const listaTrabajadores = document.getElementById('workerName')
-    listaTrabajadores.innerHTML = ''
     data.forEach(item => {
       const trabajador = document.createElement('option')
-      option.value = item.id_trabajador;
-      option.text = item.nombre_trabajador;
-    });  
+      trabajador.value = item.id_trabajador;
+      trabajador.text = item.nombre_trabajador;
+      listaTrabajadores.add(trabajador);
+    });
   }
   catch(error){
     console.error('Error al cargar lista de datos: ', error)
   }
 }
 
-function openForm() {
+getTrabajadores()
+
+/*function openForm() {
     document.getElementById('addWorkerForm').style.display = 'block';
   }
 
@@ -58,6 +61,6 @@ function openForm() {
       // Agrega más detalles según sea necesario
     };
     return workerDetails[workerName] || { area: '', role: '' };
-  }
+  }*/
 
-  getTrabajadores()
+  

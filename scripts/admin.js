@@ -1,7 +1,6 @@
 async function getListaInformes() {
     try {
         const data = await window.electronAPI.getListaInformes()
-        console.log(data)
         const reporte = document.getElementById('report-data')
         data.forEach(fila => {
             const nuevaFila = document.createElement('tr');

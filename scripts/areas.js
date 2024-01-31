@@ -11,7 +11,7 @@ async function getAreas() {
     });
   } 
   catch (error) {
-    console.error('Error al cargar datos en la lista desplegable:', error);
+    console.error('Error al cargar lista de datos:', error);
   }
 }
 
@@ -47,7 +47,7 @@ function confirmEdit() {
         await window.electronAPI.actualizarArea(selectedId, newValue);
         alert('Área editada con éxito.');
         clearForm();
-        //actualizar pestaña
+        //recargar pagina
       } else {
         alert('Por favor, selecciona un área.');
       }
@@ -64,10 +64,9 @@ function confirmEdit() {
         return;
       }
      await window.electronAPI.areaNueva(newValue);
-  
       alert('Área agregada con éxito.');
       clearForm();
-      getAreas(); // recargar lista, funciona más o menos XD
+      //recargar pagina
     } catch (error) {
       console.error('Error al agregar área:', error);
     }
@@ -81,7 +80,7 @@ function confirmEdit() {
         await window.electronAPI.eliminarArea(selectedId);
         alert('Área eliminada con éxito.');
         clearForm();
-        getAreas();
+        //recargar pagina
       } else {
         alert('Por favor, selecciona un área.');
       }
