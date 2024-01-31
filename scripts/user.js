@@ -65,8 +65,10 @@ async function emitirInforme() {
     operadorACargo.value = ''
     rutinaRealizada.value = ''
     observacionesRutina.value = ''
+    alert('Informe emitido exitosamente')
   }
   catch (error) {
+    alert('Error al emitir informe')
     console.error('Error al emitir informe: ', error);
   }
 }

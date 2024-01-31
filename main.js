@@ -179,7 +179,7 @@ ipcMain.handle('get-lista-trabajadores', async(event)=>{
   try{
     const {data, error} = await supabase
     .from('trabajador')
-    .select('*')
+    .select('id_trabajador, nombre_trabajador')
     if(error){
       console.error('Error al obtener trabajadores: ', error.message);
       throw new Error('Error al obtener trabajadores')
@@ -206,7 +206,41 @@ ipcMain.handle('get-lista-informes', async(event)=>{
     catch(error){
       console.error('Error: ', error.message);
     }
-  })  
+  })
+  
+ipcMain.handle('get-roles', async(event, trabajadorElegido)=>{
+  try{
+    const {data, error} = await supabase
+    .from('trabajador')
+    .select('rol_trabajador!inner(id_rol, nombre_rol)')
+    .eq('id_trabajador', trabajadorElegido)
+    if(error){
+      console.error('Error al obtener lista de roles: ', error.message)
+      throw new Error('Error al obtener roles')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+  }
+})  
+
+ipcMain.handle('get-turnos', async(event, trabajadorElegido)=> {
+  try{
+    const {data, error} = await supabase
+    .from('trabajador')
+    .select('turno_trabajador')
+    //.eq('id_trabajador', trabajadorElegido)
+    if(error){
+      console.error('Error al obtener turnos: ', error.message)
+      throw new Error('Error al obtener turnos')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})
 
 /*async function testConection(){
     try {

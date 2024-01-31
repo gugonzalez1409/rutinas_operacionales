@@ -86,5 +86,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main: ', error);
     }
+  },
+  getRoles: async(trabajadorElegido) => {
+    try{
+      const data = await ipcRenderer.invoke('get-roles', trabajadorElegido)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
+  },
+  getTurnos: async(trabajadorElegido) =>{
+    try{
+      const data = await ipcRenderer.invoke('get-turnos', trabajadorElegido)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
   }
 });

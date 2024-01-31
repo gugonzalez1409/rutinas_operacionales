@@ -6,31 +6,31 @@
   </style>
     <div class="admintrab template" id="admintrab-template" data-tab="admintrab">
         <body>
-          <form id="workerDetailsForm">
-            <label for="workerName">Nombre del Trabajador:</label>
-            <select id="workerName" name="workerName">
+          <form id="adminTrabForm">
+            <label for="nombreTrab">Nombre del Trabajador:</label>
+            <select id="nombreTrab" name="nombreTrab">
               </select>
-            <label for="workerRole">Rol de Trabajo:</label>
-            <select id="workerRole" name="workerRole">
+            <label for="rolTrab">Rol de Trabajo:</label>
+            <select id="rolTrab" name="rolTrab">
               </select>
-            <label for="workerTurn">Turno de trabajo:</label>
-            <select id="workerRole" name="workerRole">
+            <label for="turnoTrab">Turno de trabajo:</label>
+            <select id="turnoTrab" name="turnoTrab">
               </select>
             <button type="button" onclick="updateWorker()">Actualizar trabajador</button>
             <button type="button" onclick="deleteWorker()">Eliminar trabajador</button>
             <button type="button" onclick="openForm()">Nuevo trabajador</button>
             <button type="button" onclick="">Nuevo rol de trabajo</button>
           </form>
-          <div id="addWorkerForm" style="display:none;">
+          <div id="nuevoTrabForm" style="display:none;">
             <h2>Nuevo Trabajador</h2>
-            <label for="newWorkerName">Nombre del Trabajador:</label>
-            <input type="text" id="newWorkerName" name="newWorkerName">
+            <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
+            <input type="text" id="nuevoTrabNombre" name="nuevoTrabNombre">
         
-            <label for="newWorkerArea">Área:</label>
-            <input type="text" id="newWorkerArea" name="newWorkerArea">
+            <label for="nuevoTrabArea">Área:</label>
+            <input type="text" id="nuevoTrabArea" name="nuevoTrabArea">
         
-            <label for="newWorkerRole">Rol de Trabajo:</label>
-            <input type="text" id="newWorkerRole" name="newWorkerRole">
+            <label for="nuevoTrabRol">Rol de Trabajo:</label>
+            <input type="text" id="nuevoTrabRol" name="nuevoTrabRol">
         
             <button type="button" onclick="createNewWorker()">Crear</button>
             <button type="button" onclick="closeForm()">Cancelar</button>
