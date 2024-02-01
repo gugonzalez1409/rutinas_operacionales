@@ -87,18 +87,45 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main: ', error);
     }
   },
-  getRoles: async(trabajadorElegido) => {
+  getRoles: async() => {
     try{
-      const data = await ipcRenderer.invoke('get-roles', trabajadorElegido)
+      const data = await ipcRenderer.invoke('get-roles')
       return data;
     }
     catch(error){
       console.error('Error desde main: ', error)
     }
   },
-  getTurnos: async(trabajadorElegido) =>{
+  getTurnos: async() =>{
     try{
-      const data = await ipcRenderer.invoke('get-turnos', trabajadorElegido)
+      const data = await ipcRenderer.invoke('get-turnos')
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
+  },
+  actualizarTrabajador: async(idTrab, rolTrab, turnoTrab) => {
+    try{
+      const data = await ipcRenderer.invoke('actualizar-trabajador', idTrab, rolTrab, turnoTrab)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
+  },
+  eliminarTrabajador: async(idTrab) => {
+    try{
+      const data = await ipcRenderer.invoke('eliminar-trabajador', idTrab)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
+  },
+  getAllRoles: async() => {
+    try{
+      const data = await ipcRenderer.invoke('get-all-roles')
       return data;
     }
     catch(error){

@@ -208,12 +208,11 @@ ipcMain.handle('get-lista-informes', async(event)=>{
     }
   })
   
-ipcMain.handle('get-roles', async(event, trabajadorElegido)=>{
+ipcMain.handle('get-roles', async(event)=>{
   try{
     const {data, error} = await supabase
     .from('trabajador')
-    .select('rol_trabajador!inner(id_rol, nombre_rol)')
-    .eq('id_trabajador', trabajadorElegido)
+    .select('id_trabajador, rol_trabajador!inner(id_rol, nombre_rol)')
     if(error){
       console.error('Error al obtener lista de roles: ', error.message)
       throw new Error('Error al obtener roles')
@@ -225,12 +224,11 @@ ipcMain.handle('get-roles', async(event, trabajadorElegido)=>{
   }
 })  
 
-ipcMain.handle('get-turnos', async(event, trabajadorElegido)=> {
+ipcMain.handle('get-turnos', async(event)=> {
   try{
     const {data, error} = await supabase
     .from('trabajador')
-    .select('turno_trabajador')
-    //.eq('id_trabajador', trabajadorElegido)
+    .select('id_trabajador, turno_trabajador')
     if(error){
       console.error('Error al obtener turnos: ', error.message)
       throw new Error('Error al obtener turnos')
@@ -242,22 +240,52 @@ ipcMain.handle('get-turnos', async(event, trabajadorElegido)=> {
   }
 })
 
-/*async function testConection(){
-    try {
-        const { data, error } = await supabase
-            .from('area')
-            .update({ nombre_area: 'turbogeneradores' })
-            .eq('id', 1)
-            .select()
-        if(error){
-            console.error('Error al obtener datos:', error.message);
-            throw new Error('Error al obtener datos');
-          }
-          return data;
-        }
-        catch (error) {
-            console.error('Error: ', error.message);
-            throw error;
-          }
-}*/
-//testConection()
+ipcMain.handle('actualizar-trabajador', async(event, idTrab, rolTrab, turnoTrab) =>{
+  try{
+    const {data, error} = await supabase
+    .from('trabajador')
+    .update({rol_trabajador : rolTrab, turno_trabajador : turnoTrab})
+    .eq('id_trabajador', idTrab)
+    if(error){
+      console.error('Error al obtener lista de roles: ', error.message)
+      throw new Error('Error al obtener roles')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})
+
+ipcMain.handle('eliminar-trabajador', async(event, idTrab)=>{
+  try{
+    const {data, error} = await supabase
+    .from('trabajador')
+    .delete()
+    .eq('id_trabajador', idTrab)
+    if(error){
+      console.error('Error al eliminar trabajador: ', error.message)
+      throw new Error('Error al eliminar trabajador')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ',error.message)
+  }
+})
+
+ipcMain.handle('get-all-roles', async(event) =>{
+  try{
+    const { data, error } = await supabase
+    .from('rol_trabajador')
+    .select('*')
+    if(error){
+      console.error('Error al obtener roles: ', error.message)
+      throw new Error('Error al obtener roles')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})

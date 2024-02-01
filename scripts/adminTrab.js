@@ -2,7 +2,7 @@ async function getTrabajadores(){
   try{
     const data = await window.electronAPI.getListaTrabajadores();
     const listaTrabajadores = document.getElementById('nombreTrab')
-    console.log(listaTrabajadores)
+    //console.log(listaTrabajadores)
     listaTrabajadores.innerHTML = ''
     data.forEach(item => {
       const trabajador = document.createElement('option')
@@ -23,13 +23,20 @@ async function getTrabajadores(){
 
 async function getRoles(trabajadorElegido){
   try{
-    const data = await window.electronAPI.getRoles(trabajadorElegido)
+    const data = await window.electronAPI.getRoles()
     const roles = document.getElementById('rolTrab')
     roles.innerHTML= ''
     data.forEach(item => {
       const rol = document.createElement('option')
-      rol.value = item.rol_trabajador.id_rol;
-      rol.text = item.rol_trabajador.nombre_rol;
+      if(trabajadorElegido == item.id_trabajador){
+        rol.value = item.rol_trabajador.id_rol;
+        rol.text = item.rol_trabajador.nombre_rol;
+        rol.selected = true;
+      }
+      else{
+        rol.value = item.rol_trabajador.id_rol;
+        rol.text = item.rol_trabajador.nombre_rol;
+      }
       roles.add(rol)
     });
   }
@@ -40,14 +47,20 @@ async function getRoles(trabajadorElegido){
 
 async function getTurnos(trabajadorElegido){
   try{
-    const data = await window.electronAPI.getTurnos(trabajadorElegido)
+    const data = await window.electronAPI.getTurnos()
     const turnos = document.getElementById('turnoTrab')
     turnos.innerHTML= ''
+    console.log(data);
     data.forEach(item => {
       const turno = document.createElement('option')
-      turno.text = item.turno_trabajador;
+      if(trabajadorElegido == item.id_trabajador){
+        turno.text = item.turno_trabajador;
+        turno.selected = true;
+      }
+      else{
+        turno.text = item.turno_trabajador;
+      }
       turnos.add(turno)
-
     });
   }
   catch(error){
@@ -58,22 +71,73 @@ async function getTurnos(trabajadorElegido){
 //necesito cargar todos los roles y areas, pero que tenga preseleccionado el propio del trabajador
 
 function openForm() {
-    document.getElementById('addWorkerForm').style.display = 'block';
+    document.getElementById('nuevoTrabForm').style.display = 'block';
+    getAllRoles()
+    //getRolesPorArea()
   }
 
 function closeForm() {
-    document.getElementById('addWorkerForm').style.display = 'none';
+    document.getElementById('nuevoTrabForm').style.display = 'none';
   }
 
-/*function updateWorker() {
-   var workerName = document.getElementById('workerName').value;
-   var workerArea = document.getElementById('workerArea').value;
-   var workerRole = document.getElementById('workerRole').value;
-  // Puedes realizar acciones de actualización, por ejemplo, enviar datos al servidor
-  alert(`Actualizando trabajador: ${workerName}, Área: ${workerArea}, Rol: ${workerRole}`);
+async function actualizarTrabajador() {
+  try {
+    var idTrab = document.getElementById('nombreTrab').value;
+    var rolTrab = document.getElementById('rolTrab').value;
+    var turnoTrab = document.getElementById('turnoTrab').value;
+    /*console.log('nombre: ', idTrab)
+    console.log('rol: ', rolTrab)
+    console.log('turno: ', turnoTrab)*/
+    data = await window.electronAPI.actualizarTrabajador(idTrab, rolTrab, turnoTrab);
+    alert('Trabajador actualizado exitosamente');
   }
+  catch(error){
+    alert('Error al actualizar trabajador')
+    console.error('Error al actualizar trabajador: ', error);
+  }
+}
 
-  function deleteWorker() {
+async function eliminarTrabajador(){
+  try{
+    var idTrab = document.getElementById('nombreTrab').value;
+    data = await window.electronAPI.eliminarTrabajador(idTrab);
+    alert('Trabajador eliminado exitosamente');
+  }
+  catch(error){
+    alert('Error al eliminar trabajador')
+    console.error('Error al eliminar trabajador: ', error);
+  }
+}
+
+async function getAllRoles(){
+  try{
+    const data = await window.electronAPI.getAllRoles()
+    const nuevoTrabRol = document.getElementById('nuevoTrabRol')
+    nuevoTrabRol.innerHTML =''
+    data.forEach(item =>{
+      const rol = document.createElement('option')
+      rol.value = item.id_rol;
+      rol.text = item.nombre_rol;
+      nuevoTrabRol.add(rol)
+    })
+  }
+  catch(error){
+    alert('Error al encontrar areas')
+    console.error('Error al encontrar areas: ', error)
+  }
+}
+
+async function turnoNuevoTrab(){
+  try{
+    const turnos = document.getElementById('nuevoTrabTurno')
+    turnos.innerHTML =''
+  }
+  catch(error){
+
+  }
+}
+
+/*  function deleteWorker() {
    var workerName = document.getElementById('workerName').value;
     // Puedes realizar acciones de eliminación, por ejemplo, enviar datos al servidor
    alert(`Eliminando trabajador: ${workerName}`);

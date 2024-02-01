@@ -16,23 +16,23 @@
             <label for="turnoTrab">Turno de trabajo:</label>
             <select id="turnoTrab" name="turnoTrab">
               </select>
-            <button type="button" onclick="updateWorker()">Actualizar trabajador</button>
-            <button type="button" onclick="deleteWorker()">Eliminar trabajador</button>
+            <button type="button" onclick="actualizarTrabajador()">Actualizar trabajador</button>
+            <button type="button" onclick="eliminarTrabajador()">Eliminar trabajador</button>
             <button type="button" onclick="openForm()">Nuevo trabajador</button>
             <button type="button" onclick="">Nuevo rol de trabajo</button>
           </form>
           <div id="nuevoTrabForm" style="display:none;">
             <h2>Nuevo Trabajador</h2>
             <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
-            <input type="text" id="nuevoTrabNombre" name="nuevoTrabNombre">
+            <input type="text" id="nuevoTrabNombre" name="nuevoTrabNombre" required>
         
-            <label for="nuevoTrabArea">Área:</label>
-            <input type="text" id="nuevoTrabArea" name="nuevoTrabArea">
-        
-            <label for="nuevoTrabRol">Rol de Trabajo:</label>
-            <input type="text" id="nuevoTrabRol" name="nuevoTrabRol">
-        
-            <button type="button" onclick="createNewWorker()">Crear</button>
+            <label for="nuevoTrabRol">Rol de trabajo:</label>
+            <select id="nuevoTrabRol" name="nuevoTrabRol">
+            </select>
+            <label for="nuevoTrabTurno">Turno:</label>
+            <select id="nuevoTrabTurno" name="nuevoTrabTurno">
+            </select>
+            <button type="button" onclick="nuevoTrabajador()">Crear</button>
             <button type="button" onclick="closeForm()">Cancelar</button>
           </div>
     </div>
