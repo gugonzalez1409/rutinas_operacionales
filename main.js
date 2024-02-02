@@ -323,3 +323,20 @@ ipcMain.handle('nuevo-rol', async(event, nombre, area) => {
     console.error('Error: ',error.message)
   }
 })
+
+ipcMain.handle('get-rutinas-por-area', async(event, idArea) =>{
+  try{
+    const {data, error} = await supabase
+    .from('rutinas_operacionales')
+    .select('id_rutina, descripcion_rutina')
+    .eq('area_rutina', idArea)
+    if(error){
+      console.error('Error al obtener rutinas: ', error.message)
+      throw new Error('Error al insertar nuevo trabajador')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})

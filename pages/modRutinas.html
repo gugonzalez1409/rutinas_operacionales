@@ -48,48 +48,28 @@
           </head>
           <body>
             <label for="areas">Selecciona un Área:</label>
-            <select id="areas" name="areas" onchange="cargarRutinas()">
-              <option value="area1">Área 1</option>
-              <option value="area2">Área 2</option>
+            <select id="areasModRutinas" name="areasModRutinas">
             </select>
             <table class="tablaRutinas" id="tablaRutinas">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Rutina</th>
-                  <th>Día</th>
-                  <th>Turno</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
-                <!-- Aquí se llenarán las filas de datos dinámicamente -->
+              <tbody id="rutinasPorArea">
               </tbody>
             </table>
-          
             <script>
 
-/*              const rutinasPorArea = {
-                area1: [
-                  { id: 1, rutina: 'Rutina 1', dia: 'Lunes', turno: 'Mañana' },
-                  { id: 2, rutina: 'Rutina 2', dia: 'Martes', turno: 'Tarde' },
-                ],
-                area2: [
-                  { id: 3, rutina: 'Rutina 3', dia: 'Miércoles', turno: 'Noche' },
-                  { id: 4, rutina: 'Rutina 4', dia: 'Jueves', turno: 'Mañana' },
-                ],
-              };
-          
-              function cargarRutinas() {
+/*              function cargarRutinas() {
                 var selectedArea = document.getElementById('areas').value;
-                var rutinas = rutinasPorArea[selectedArea] || [];
-          
+                var rutinas = rutinasPorArea[selectedArea] || [];        
                 var tablaRutinas = document.getElementById('tablaRutinas');
                 var tbody = tablaRutinas.getElementsByTagName('tbody')[0];
-                
                 // Limpiamos el contenido anterior de la tabla
                 tbody.innerHTML = '';
-          
                 // Llenamos la tabla con las rutinas
                 rutinas.forEach(function(rutina) {
                   var row = tbody.insertRow();

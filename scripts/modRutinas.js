@@ -1,13 +1,43 @@
-const rutinasPorArea = {
-    area1: [
-      { id: 1, rutina: 'Rutina 1', dia: 'Lunes', turno: 'Mañana' },
-      { id: 2, rutina: 'Rutina 2', dia: 'Martes', turno: 'Tarde' },
-    ],
-    area2: [
-      { id: 3, rutina: 'Rutina 3', dia: 'Miércoles', turno: 'Noche' },
-      { id: 4, rutina: 'Rutina 4', dia: 'Jueves', turno: 'Mañana' },
-    ],
-  };
+  async function getAreasModRutinas(){
+    try{
+      data = await window.electronAPI.getAreas()
+      const areaElegida = document.getElementById('areasModRutinas')
+      areaElegida.innerHTML = ''
+      data.forEach(item => {
+        const option = document.createElement('option')
+        option.value = item.id;
+        option.text = item.nombre_area;
+        areaElegida.add(option)
+      })
+      areaElegida.addEventListener('change', async function(){
+        const idArea = areaElegida.value;
+        await getRutinasPorArea(idArea);
+      })
+    }
+    catch(error){
+      console.error('Error al cargar lista de areas:', error);
+    }
+  }
+
+  async function getRutinasPorArea(idArea){
+    try{
+      const data = await window.electronAPI.getRutinasPorArea(idArea)
+      const rutinas = document.getElementById('rutinasPorArea')
+      rutinas.innerHTML=''
+      data.forEach(fila =>{
+        const nuevaFila = document.createElement('tr')
+        nuevaFila.innerHTML = `
+        <td>${fila.id_rutina}</td>
+        <td>${fila.descripcion_rutina}</td>
+      `;
+      rutinas.appendChild(nuevaFila)
+        
+      })
+    }
+    catch(error){
+      console.error('Error al obtener rutinas:', error);
+    }
+  }
 
   function cargarRutinas() {
     var selectedArea = document.getElementById('areas').value;
@@ -50,3 +80,5 @@ const rutinasPorArea = {
     // borrar rutina
     alert('Borrar rutina con ID: ' + id);
   }
+
+getAreasModRutinas()

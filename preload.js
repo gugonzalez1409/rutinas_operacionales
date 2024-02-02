@@ -149,5 +149,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main: ', error)
     }
-  }
-});
+  },
+  getRutinasPorArea: async(idArea) => {
+    try{
+      const data = await ipcRenderer.invoke('get-rutinas-por-area', idArea)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main:', error);
+    }
+    }
+  })
