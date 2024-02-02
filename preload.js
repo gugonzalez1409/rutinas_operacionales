@@ -159,9 +159,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main:', error);
     }
   },
-  insertarNuevaRutina: async(nombreRutina, dia, turno) => {
+  insertarNuevaRutina: async(nombreRutina, area) => {
     try{
-      const data = await ipcRenderer.invoke('insertar-nueva-rutina', nombreRutina, dia, turno)
+      const data = await ipcRenderer.invoke('insertar-nueva-rutina', nombreRutina, area)
+      return data;
+    }
+    catch(error){
+      console.error('Error desde main: ', error);
+    }
+  },
+  insertarDiasJornada: async() => {
+    try{
+      const data = await ipcRenderer.invoke('isertar-dias-jornada')
       return data;
     }
     catch(error){

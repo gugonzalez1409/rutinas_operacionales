@@ -62,14 +62,21 @@ function actualizarSelecciones() {
     }
 
 async function crearNuevaRutina(){
+    const nombreRutina = document.getElementById('nombreRutina').value;
     const areaSeleccionada = document.getElementById('areaRutina').value;
     const diasSeleccionados = obtenerDiasSeleccionados();
     const turnosSeleccionados = obtenerTurnosSeleccionados();
-    console.log("dias")
-    console.log(diasSeleccionados);
-    console.log("turnos")
-    console.log(turnosSeleccionados);
-    console.log('area')
-    console.log(areaSeleccionada)
+    console.log("nombre de la rutina: ", nombreRutina);
+    console.log('area seleccionada: ', areaSeleccionada);
+    console.log('dias seleccionados: ', diasSeleccionados);
+    console.log('turnos seleccionados: ', turnosSeleccionados);
+    //inserta en rutinas_operacionales
+    //data = await window.electronAPI.crearNuevaRutina(nombreRutina, areaSeleccionada)
+    /*for(const dia of DiasSeleccionados){
+        for(const turno of turnosSelccionados){
+            new_data = await window.electronAPI.insertarDiasJornada(dia, turno);
+        }
+    }*/
 }
+
 getAreasNuevaRutina()
