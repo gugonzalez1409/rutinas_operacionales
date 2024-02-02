@@ -179,7 +179,7 @@ ipcMain.handle('get-lista-trabajadores', async(event)=>{
   try{
     const {data, error} = await supabase
     .from('trabajador')
-    .select('id_trabajador, nombre_trabajador')
+    .select('*')
     if(error){
       console.error('Error al obtener trabajadores: ', error.message);
       throw new Error('Error al obtener trabajadores')
@@ -227,8 +227,8 @@ ipcMain.handle('get-roles', async(event)=>{
 ipcMain.handle('get-turnos', async(event)=> {
   try{
     const {data, error} = await supabase
-    .from('trabajador')
-    .select('id_trabajador, turno_trabajador')
+    .from('turnos')
+    .select('*')
     if(error){
       console.error('Error al obtener turnos: ', error.message)
       throw new Error('Error al obtener turnos')
@@ -287,5 +287,39 @@ ipcMain.handle('get-all-roles', async(event) =>{
   }
   catch(error){
     console.error('Error: ', error.message)
+  }
+})
+
+ipcMain.handle('crear-nuevo-trabajador', async(event, nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador) => {
+  try{
+    const { data, error } = await supabase
+    .from('trabajador')
+    .insert([{nombre_trabajador: nombreNuevoTrabajador, rol_trabajador: rolNuevoTrabajador, turno_trabajador: turnoNuevoTrabajador}])
+    .select()
+    if(error){
+      console.error('Error al insertar nuevo trabajador: ', error.message)
+      throw new Error('Error al insertar nuevo trabajador')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})
+
+ipcMain.handle('nuevo-rol', async(event, nombre, area) => {
+  try{
+    const { data, error} = await supabase
+    .from('rol_trabajador')
+    .insert({nombre_rol : nombre, id_area : area})
+    .select()
+    if(error){
+      console.error('Error al insertar nuevo trabajador: ', error.message)
+      throw new Error('Error al insertar nuevo trabajador')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ',error.message)
   }
 })

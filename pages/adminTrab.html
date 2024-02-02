@@ -19,7 +19,7 @@
             <button type="button" onclick="actualizarTrabajador()">Actualizar trabajador</button>
             <button type="button" onclick="eliminarTrabajador()">Eliminar trabajador</button>
             <button type="button" onclick="openForm()">Nuevo trabajador</button>
-            <button type="button" onclick="">Nuevo rol de trabajo</button>
+            <button type="button" onclick="openRolForm()">Nuevo rol de trabajo</button>
           </form>
           <div id="nuevoTrabForm" style="display:none;">
             <h2>Nuevo Trabajador</h2>
@@ -34,6 +34,17 @@
             </select>
             <button type="button" onclick="nuevoTrabajador()">Crear</button>
             <button type="button" onclick="closeForm()">Cancelar</button>
+          </div>
+          <div id="nuevoRolForm" style="display:none;">
+            <h2>Nuevo Rol de trabajo</h2>
+            <label for="nuevoRolNombre">Nombre del Rol:</label>
+            <input type="text" id="nuevoRolNombre" name="nuevoRolNombre" required>
+        
+            <label for="areaRol">Área asociada:</label>
+            <select id="areaRol" name="areaRol">
+            </select>
+            <button type="button" onclick="nuevoRol()">Crear</button>
+            <button type="button" onclick="closeRolForm()">Cancelar</button>
           </div>
     </div>
 </template>

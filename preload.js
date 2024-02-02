@@ -131,5 +131,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main: ', error)
     }
+  },
+  crearNuevoTrabajador: async(nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador) => {
+    try{
+      const data = await ipcRenderer.invoke('crear-nuevo-trabajador', nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador)
+      return data;
+    }
+   catch(error){
+    console.error('Error desde main: ', error)
+   } 
+  },
+  nuevoRol: async(nombre, area) => {
+    try{
+      const data = await ipcRenderer.invoke('nuevo-rol',nombre, area)
+      return data;      
+    }
+    catch(error){
+      console.error('Error desde main: ', error)
+    }
   }
 });

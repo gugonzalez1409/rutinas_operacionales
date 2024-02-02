@@ -2,7 +2,6 @@ async function getTrabajadores(){
   try{
     const data = await window.electronAPI.getListaTrabajadores();
     const listaTrabajadores = document.getElementById('nombreTrab')
-    //console.log(listaTrabajadores)
     listaTrabajadores.innerHTML = ''
     data.forEach(item => {
       const trabajador = document.createElement('option')
@@ -12,8 +11,13 @@ async function getTrabajadores(){
     });
     listaTrabajadores.addEventListener('change', async function() {
       const trabajadorElegido = listaTrabajadores.value;
-      await getRoles(trabajadorElegido)
-      await getTurnos(trabajadorElegido)
+      var trabajadorSeleccionado = data.find(function(diccionario) {
+        return diccionario.id_trabajador == trabajadorElegido;
+    });
+      const rolTrabajadorElegido = trabajadorSeleccionado['rol_trabajador'];
+      const turnoTrabajadorElegido = trabajadorSeleccionado['turno_trabajador'];
+      await getRoles(rolTrabajadorElegido);
+      await getTurnos(turnoTrabajadorElegido);
     });
   }
   catch(error){
@@ -21,21 +25,21 @@ async function getTrabajadores(){
   }
 }
 
-async function getRoles(trabajadorElegido){
+async function getRoles(rolTrabajadorElegido){
   try{
-    const data = await window.electronAPI.getRoles()
+    const data = await window.electronAPI.getAllRoles()
     const roles = document.getElementById('rolTrab')
     roles.innerHTML= ''
     data.forEach(item => {
       const rol = document.createElement('option')
-      if(trabajadorElegido == item.id_trabajador){
-        rol.value = item.rol_trabajador.id_rol;
-        rol.text = item.rol_trabajador.nombre_rol;
+      if(rolTrabajadorElegido == item.id_rol){
+        rol.value = item.id_rol;
+        rol.text = item.nombre_rol;
         rol.selected = true;
       }
       else{
-        rol.value = item.rol_trabajador.id_rol;
-        rol.text = item.rol_trabajador.nombre_rol;
+        rol.value = item.id_rol;
+        rol.text = item.nombre_rol;
       }
       roles.add(rol)
     });
@@ -45,20 +49,19 @@ async function getRoles(trabajadorElegido){
   }
 }
 
-async function getTurnos(trabajadorElegido){
+async function getTurnos(turnoTrabajadorElegido){
   try{
     const data = await window.electronAPI.getTurnos()
     const turnos = document.getElementById('turnoTrab')
     turnos.innerHTML= ''
-    console.log(data);
     data.forEach(item => {
       const turno = document.createElement('option')
-      if(trabajadorElegido == item.id_trabajador){
-        turno.text = item.turno_trabajador;
+      if(turnoTrabajadorElegido == item.id){
+        turno.text = item.nombre_turno;
         turno.selected = true;
       }
       else{
-        turno.text = item.turno_trabajador;
+        turno.text = item.nombre_turno;
       }
       turnos.add(turno)
     });
@@ -68,26 +71,30 @@ async function getTurnos(trabajadorElegido){
   }
 }
 
-//necesito cargar todos los roles y areas, pero que tenga preseleccionado el propio del trabajador
-
 function openForm() {
     document.getElementById('nuevoTrabForm').style.display = 'block';
     getAllRoles()
-    //getRolesPorArea()
+    turnoNuevoTrab()
   }
 
 function closeForm() {
     document.getElementById('nuevoTrabForm').style.display = 'none';
   }
 
+function closeRolForm() {
+    document.getElementById('nuevoRolForm').style.display = 'none';
+  }
+
+function openRolForm(){
+  document.getElementById('nuevoRolForm').style.display ='block';
+  getAreasRol()
+}  
+
 async function actualizarTrabajador() {
   try {
     var idTrab = document.getElementById('nombreTrab').value;
     var rolTrab = document.getElementById('rolTrab').value;
     var turnoTrab = document.getElementById('turnoTrab').value;
-    /*console.log('nombre: ', idTrab)
-    console.log('rol: ', rolTrab)
-    console.log('turno: ', turnoTrab)*/
     data = await window.electronAPI.actualizarTrabajador(idTrab, rolTrab, turnoTrab);
     alert('Trabajador actualizado exitosamente');
   }
@@ -129,39 +136,71 @@ async function getAllRoles(){
 
 async function turnoNuevoTrab(){
   try{
+    const data = await window.electronAPI.getTurnos()
     const turnos = document.getElementById('nuevoTrabTurno')
     turnos.innerHTML =''
+    data.forEach(item =>{
+      const turno = document.createElement('option')
+      turno.value = item.id
+      turno.text = item.nombre_turno
+      turnos.add(turno)
+    })
   }
   catch(error){
-
+    alert('Error al encontrar turnos')
+    console.error('Error al encontrar turnos: ', error)
   }
 }
 
-/*  function deleteWorker() {
-   var workerName = document.getElementById('workerName').value;
-    // Puedes realizar acciones de eliminación, por ejemplo, enviar datos al servidor
-   alert(`Eliminando trabajador: ${workerName}`);
+async function nuevoTrabajador(){
+  try{
+    var nombreNuevoTrabajador = document.getElementById('nuevoTrabNombre').value;
+    var rolNuevoTrabajador = document.getElementById('nuevoTrabRol').value;
+    var turnoNuevoTrabajador = document.getElementById('nuevoTrabTurno').value;
+    data = await window.electronAPI.crearNuevoTrabajador(nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador)
+    nombreNuevoTrabajador.value = ''
+    rolNuevoTrabajador.value = ''
+    turnoNuevoTrabajador.value = ''
+    alert('Trabajador creado exitosamente')
   }
+  catch(error){
+    alert('Error al crear trabajador')
+    console.error('Error al crear trabajador: ', error);
+  }
+}
 
-  // Event listener para actualizar las áreas y roles cuando se selecciona un trabajador
-  document.getElementById('workerName').addEventListener('change', function() {
-    var selectedWorker = this.value;
-    // Simula obtener información del trabajador desde una fuente de datos (puedes reemplazarlo con datos reales)
-    var workerDetails = getWorkerDetails(selectedWorker);
-    // Actualiza los campos de área y rol con la información obtenida
-    document.getElementById('workerArea').value = workerDetails.area;
-    document.getElementById('workerRole').value = workerDetails.role;
-  });
+async function getAreasRol(){
+  try{
+    const data = await window.electronAPI.getAreas();
+    console.log(data)
+    const areas = document.getElementById('areaRol');
+    areas.innerHTML = ''
+    data.forEach(item => {
+      const area = document.createElement('option')
+      area.value = item.id;
+      area.text = item.nombre_area;
+      areas.add(area);
+    })
+  }
+  catch(error){
+    alert('Error al buscar areas')
+    console.error('Error al buscar areas: ', error)
+  }
+}
 
-  // Simula obtener información del trabajador desde una fuente de datos (puedes reemplazarlo con datos reales)
-  function getWorkerDetails(workerName) {
-    // Este es solo un ejemplo. Deberías obtener los detalles del trabajador desde tu fuente de datos (base de datos, API, etc.)
-    var workerDetails = {
-      'Dario Aguilar': { area: 'Turbogeneradores', role: 'Operador Turbogeneradores' },
-      'Gustavo González': { area: 'Área 2', role: 'Operador terreno Multipropósito' }
-      // Agrega más detalles según sea necesario
-    };
-    return workerDetails[workerName] || { area: '', role: '' };
-  }*/
+async function nuevoRol(){
+  try{
+    var nombre = document.getElementById('nuevoRolNombre').value;
+    var area = document.getElementById('areaRol').value;
+    data = window.electronAPI.nuevoRol(nombre, area)
+    nombre.innerHTML ='';
+    area.innerHTML = '';
+    alert('Nuevo rol creado exitosamente')
+  }
+  catch(error){
+    alert('Error al crear nuevo rol')
+    console.error('Error al crear nuevo rol: ', error)
+  }
+}
 
   getTrabajadores()
