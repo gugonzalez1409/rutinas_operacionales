@@ -57,52 +57,52 @@
         <select class="selectList" id="areaRutina">
         </select>
         <fieldset>
-          <legend class="legend">Seleccione los días que se realiza</legend>
-          <div class="form-group">
-            <input type="checkbox" id="diario" onclick="marcarTodosLosDias()" name="diario" class="checkbox-input">
-            <label for="diario">A diario</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="lunes" name="dias" value="lunes" class="checkbox-input">
-            <label for="lunes">Lunes</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="martes" name="dias" value="martes" class="checkbox-input">
-            <label for="martes">Martes</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="miercoles" name="dias" value="miercoles" class="checkbox-input">
-            <label for="miercoles">Miércoles</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="jueves" name="dias" value="jueves" class="checkbox-input">
-            <label for="jueves">Jueves</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="viernes" name="dias" value="viernes" class="checkbox-input">
-            <label for="viernes">Viernes</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="sabado" name="dias" value="sabado" class="checkbox-input">
-            <label for="sabado">Sábado</label>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="domingo" name="dias" value="domingo" class="checkbox-input">
-            <label for="domingo">Domingo</label>
-          </div>
-        </fieldset>
-        <fieldset>
           <legend class="legend">Seleccione los turnos en que se realiza</legend>
           <div class="form-group">
-            <input type="checkbox" id="turnoDia" value="Dia" name="turno" class="checkbox-input">
+            <input type="checkbox" id="turnoDia" value=1 name="turno" class="checkbox-input"onclick="actualizarSelecciones()">
             <label for="turnoDia">Turno Día</label>
           </div>
           <div class="form-group">
-            <input type="checkbox" id="turnoNoche" value="Noche" name="turno" class="checkbox-input">
+            <input type="checkbox" id="turnoNoche" value=2 name="turno" class="checkbox-input"onclick="actualizarSelecciones()">
             <label for="turnoNoche">Turno Noche</label>
           </div>
         </fieldset>
-        <button type="button" onclick="" class="button-agregar">Agregar</button>
+        <fieldset>
+          <legend class="legend">Seleccione los días que se realiza</legend>
+          <div class="form-group">
+            <input type="checkbox" id="diario" onclick="marcarTodosLosDias()" name="diario" class="checkbox-input" onclick="actualizarSelecciones()">
+            <label for="diario">A diario</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="lunes" name="dias" value=1 class="checkbox-input" onclick="actualizarSelecciones() ">
+            <label for="lunes">Lunes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="martes" name="dias" value=2 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="martes">Martes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="miercoles" name="dias" value=3 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="miercoles">Miércoles</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="jueves" name="dias" value=4 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="jueves">Jueves</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="viernes" name="dias" value=5 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="viernes">Viernes</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="sabado" name="dias" value=6 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="sabado">Sábado</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="domingo" name="dias" value=7 class="checkbox-input"onclick="actualizarSelecciones() ">
+            <label for="domingo">Domingo</label>
+          </div>
+        </fieldset>
+        <button type="button" onclick="crearNuevaRutina()" class="button-agregar">Agregar</button>
       </form>
     </div>
   </div>

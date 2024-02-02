@@ -340,3 +340,15 @@ ipcMain.handle('get-rutinas-por-area', async(event, idArea) =>{
     console.error('Error: ', error.message)
   }
 })
+
+ipcMain.handle('insertar-nueva-rutina', async(event, nombreRutina, dia, turno)=>{
+  try{
+    //insert en rutinas_operacionales
+    const {data, error} = await supabase
+    .from('rutinas_operacionales')
+    .insert()
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+  }
+})

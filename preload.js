@@ -158,5 +158,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main:', error);
     }
+  },
+  insertarNuevaRutina: async(nombreRutina, dia, turno) => {
+    try{
+      const data = await ipcRenderer.invoke('insertar-nueva-rutina', nombreRutina, dia, turno)
+      return data;
     }
-  })
+    catch(error){
+      console.error('Error desde main: ', error);
+    }
+  }
+})
