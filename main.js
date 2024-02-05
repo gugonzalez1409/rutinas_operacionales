@@ -17,7 +17,7 @@ function createWindow() {
         } 
     })
     mainWindow.loadFile('index.html')
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
@@ -45,20 +45,6 @@ app.on('activate', function() {
         createWindow()
     }
 })
-
-function formatearFechaYHora(fecha) {
-  const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-  const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-  const diaSemana = diasSemana[fecha.getDay()];
-  const dia = fecha.getDate();
-  const mes = meses[fecha.getMonth()];
-  const año = fecha.getFullYear();
-  const hora = fecha.getHours();
-  const minutos = fecha.getMinutes();
-  const minutosFormateados = (minutos < 10) ? `0${minutos}` : minutos;
-  const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados} horas.`;
-  return formatoFecha;
-}
 
 ipcMain.handle('get-areas', async () => {
     try {
@@ -386,5 +372,24 @@ ipcMain.handle('insertar-dia-jornada', async(event, dia, turno, id_rutina)=>{
   catch(error){
     console.error('Error al insertar rutina: ', error.message)
     throw new error('error al insertar rutina')
+  }
+})
+
+ipcMain.handle('borrar-rutina', async(event, id_rutina)=>{
+  try{
+    const { data, error } = await supabase
+    .from('rutinas_operacionales')
+    .delete()
+    .eq('id_rutina', id_rutina)
+    if(error){
+      console.error('Error al eliminar rutina: ', error.message)
+      throw new Error('Error al eliminar rutina')
+    }
+    console.log(data)
+    return data;
+  }
+  catch(error){
+    console.error('Error al borrar rutina: ', error.message)
+    throw new error('error al borrar rutina')
   }
 })

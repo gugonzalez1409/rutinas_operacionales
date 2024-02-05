@@ -2,7 +2,7 @@ async function getTrabajadores(){
   try{
     const data = await window.electronAPI.getListaTrabajadores();
     const listaTrabajadores = document.getElementById('nombreTrab')
-    listaTrabajadores.innerHTML = ''
+    listaTrabajadores.innerHTML = '';
     data.forEach(item => {
       const trabajador = document.createElement('option')
       trabajador.value = item.id_trabajador;
@@ -16,6 +16,7 @@ async function getTrabajadores(){
     });
       const rolTrabajadorElegido = trabajadorSeleccionado['rol_trabajador'];
       const turnoTrabajadorElegido = trabajadorSeleccionado['turno_trabajador'];
+      console.log(turnoTrabajadorElegido);
       await getRoles(rolTrabajadorElegido);
       await getTurnos(turnoTrabajadorElegido);
     });
@@ -58,10 +59,12 @@ async function getTurnos(turnoTrabajadorElegido){
       const turno = document.createElement('option')
       if(turnoTrabajadorElegido == item.id){
         turno.text = item.nombre_turno;
+        turno.value = item.id;
         turno.selected = true;
       }
       else{
         turno.text = item.nombre_turno;
+        turno.value = item.id;
       }
       turnos.add(turno)
     });

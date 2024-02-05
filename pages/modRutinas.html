@@ -38,6 +38,11 @@
 
     button:hover {
         background-color: #0056b3;
+      }
+
+    .actions {
+        display: flex;
+        gap: 8px;
       }    
     </style>  
     <div class="container template" id="contact-template" data-tab="contact">
@@ -61,47 +66,6 @@
               <tbody id="rutinasPorArea">
               </tbody>
             </table>
-            <script>
-
-/*              function cargarRutinas() {
-                var selectedArea = document.getElementById('areas').value;
-                var rutinas = rutinasPorArea[selectedArea] || [];        
-                var tablaRutinas = document.getElementById('tablaRutinas');
-                var tbody = tablaRutinas.getElementsByTagName('tbody')[0];
-                // Limpiamos el contenido anterior de la tabla
-                tbody.innerHTML = '';
-                // Llenamos la tabla con las rutinas
-                rutinas.forEach(function(rutina) {
-                  var row = tbody.insertRow();
-                  row.insertCell(0).innerText = rutina.id;
-                  row.insertCell(1).innerText = rutina.rutina;
-                  row.insertCell(2).innerText = rutina.dia;
-                  row.insertCell(3).innerText = rutina.turno;
-          
-                  // botones
-                  var cellAcciones = row.insertCell(4);
-                  var btnEditar = document.createElement('button');
-                  btnEditar.innerText = 'Editar';
-                  btnEditar.onclick = function() { editarRutina(rutina.id); };
-                  cellAcciones.appendChild(btnEditar);
-          
-                  var btnBorrar = document.createElement('button');
-                  btnBorrar.innerText = 'Borrar';
-                  btnBorrar.onclick = function() { borrarRutina(rutina.id); };
-                  cellAcciones.appendChild(btnBorrar);
-                });
-              }
-          
-              function editarRutina(id) {
-                // editar rutina
-                alert('Editar rutina con ID: ' + id);
-              }
-          
-              function borrarRutina(id) {
-                // borrar rutina
-                alert('Borrar rutina con ID: ' + id);
-              }*/
-            </script>
           </body>
     </div>
 </template>

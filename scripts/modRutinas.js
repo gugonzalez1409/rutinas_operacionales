@@ -29,9 +29,12 @@
         nuevaFila.innerHTML = `
         <td>${fila.id_rutina}</td>
         <td>${fila.descripcion_rutina}</td>
+        <td class ="actions">
+        <button onclick="editarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-edit">Editar</i></button>
+        <button onclick="borrarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-trash">Borrar</i></button>
+        </td>
       `;
       rutinas.appendChild(nuevaFila)
-        
       })
     }
     catch(error){
@@ -39,46 +42,20 @@
     }
   }
 
-  function cargarRutinas() {
-    var selectedArea = document.getElementById('areas').value;
-    var rutinas = rutinasPorArea[selectedArea] || [];
-
-    var tablaRutinas = document.getElementById('tablaRutinas');
-    var tbody = tablaRutinas.getElementsByTagName('tbody')[0];
-    
-    // Limpiamos el contenido anterior de la tabla
-    tbody.innerHTML = '';
-
-    // Llenamos la tabla con las rutinas
-    rutinas.forEach(function(rutina) {
-      var row = tbody.insertRow();
-      row.insertCell(0).innerText = rutina.id;
-      row.insertCell(1).innerText = rutina.rutina;
-      row.insertCell(2).innerText = rutina.dia;
-      row.insertCell(3).innerText = rutina.turno;
-
-      // botones
-      var cellAcciones = row.insertCell(4);
-      var btnEditar = document.createElement('button');
-      btnEditar.innerText = 'Editar';
-      btnEditar.onclick = function() { editarRutina(rutina.id); };
-      cellAcciones.appendChild(btnEditar);
-
-      var btnBorrar = document.createElement('button');
-      btnBorrar.innerText = 'Borrar';
-      btnBorrar.onclick = function() { borrarRutina(rutina.id); };
-      cellAcciones.appendChild(btnBorrar);
-    });
-  }
-
   function editarRutina(id) {
-    // editar rutina
     alert('Editar rutina con ID: ' + id);
   }
 
-  function borrarRutina(id) {
-    // borrar rutina
-    alert('Borrar rutina con ID: ' + id);
+  async function borrarRutina(id) {
+    var confirmBorrar = confirm('¿Está seguro que desea borrar la rutina operacional con ID: ' + id + '?')
+    if(confirmBorrar){
+      data = await window.electronAPI.borrarRutina(id)
+      //recargar página
+      alert('Rutina operacional borrada exitosamente')
+    }
+    else{
+      return;
+    }
   }
 
 getAreasModRutinas()

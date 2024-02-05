@@ -61,7 +61,11 @@ async function emitirInforme() {
     var operadorACargo = document.getElementById('selectTrabajador');
     var rutinaRealizada = document.getElementById('rutinaRealizada');
     var observacionesRutina = document.getElementById('observacionesRutina');
-    data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value)
+    if(operadorACargo.value === '' || rutinaRealizada.value === ''){
+      alert('Rellene los campos necesarios para emitir informe')
+      return;
+    }
+    data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
     operadorACargo.value = ''
     rutinaRealizada.value = ''
     observacionesRutina.value = ''

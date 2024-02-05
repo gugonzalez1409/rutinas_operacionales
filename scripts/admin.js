@@ -22,7 +22,22 @@ async function getListaInformes() {
     }
 }
 
-function filtrarTabla() {
+function formatearFechaYHora(fechaTS) {
+    const fecha = new Date(fechaTS);
+    const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+    const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    const diaSemana = diasSemana[fecha.getDay()];
+    const dia = fecha.getDate();
+    const mes = meses[fecha.getMonth()];
+    const año = fecha.getFullYear();
+    const hora = fecha.getHours();
+    const minutos = fecha.getMinutes();
+    const minutosFormateados = (minutos < 10) ? `0${minutos}` : minutos;
+    const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados}`;
+    return formatoFecha;
+  }
+
+  function filtrarTabla() {
     var input = document.getElementById('search').value.toLowerCase();
     var filter = document.getElementById('filter').value.toLowerCase();
     var rows = document.querySelectorAll('tbody tr');
@@ -39,20 +54,5 @@ function filtrarTabla() {
         }
     });
 }
-
-function formatearFechaYHora(fechaTimestamp) {
-    const fecha = new Date(fechaTimestamp);
-    const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-    const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-    const diaSemana = diasSemana[fecha.getDay()];
-    const dia = fecha.getDate();
-    const mes = meses[fecha.getMonth()];
-    const año = fecha.getFullYear();
-    const hora = fecha.getHours();
-    const minutos = fecha.getMinutes();
-    const minutosFormateados = (minutos < 10) ? `0${minutos}` : minutos;
-    const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados}`;
-    return formatoFecha;
-  }
 
 getListaInformes()
