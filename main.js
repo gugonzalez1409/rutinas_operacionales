@@ -49,19 +49,14 @@ app.on('activate', function() {
 function formatearFechaYHora(fecha) {
   const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
   const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-
   const diaSemana = diasSemana[fecha.getDay()];
   const dia = fecha.getDate();
   const mes = meses[fecha.getMonth()];
   const año = fecha.getFullYear();
   const hora = fecha.getHours();
   const minutos = fecha.getMinutes();
-
-  // Agregar un cero inicial a los minutos si es necesario
   const minutosFormateados = (minutos < 10) ? `0${minutos}` : minutos;
-
-  const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados}`;
-
+  const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados} horas.`;
   return formatoFecha;
 }
 
@@ -176,7 +171,6 @@ ipcMain.handle('rutinas-por-area', async(event, areaElegida)=>{
 ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, observacionesRutina)=>{
   try{
     date = new Date();
-    date = date.toISOString(); 
     const {data, error} = await supabase
     .from('informe_rutinas')
     .insert({id_rutina: rutinaRealizada, id_trabajador: operadorACargo, fecha: date, observaciones_rutina: observacionesRutina})
@@ -185,7 +179,6 @@ ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, o
       console.error('Error al emitir informe:', error.message);
       throw new Error('Error al emitir informe');
     }
-    console.log('imprimiendo desde main: ', data)
     return data;
   }
   catch(error){
@@ -215,7 +208,7 @@ ipcMain.handle('get-lista-informes', async(event)=>{
   try{
     const {data, error } = await supabase
     .from('informe_rutinas')
-    .select('*, rutinas_operacionales!inner(descripcion_rutina), trabajador!inner(nombre_trabajador, turno_trabajador, rol_trabajador!inner(nombre_rol, area!inner(nombre_area)))')
+    .select('*, rutinas_operacionales!inner(descripcion_rutina), trabajador!inner(nombre_trabajador, turno_trabajador!inner(*), rol_trabajador!inner(nombre_rol, area!inner(nombre_area)))')
     .order('fecha', {ascending: false})
     if(error){
       console.error('Error al obtener lista de informes: ', error.message);
