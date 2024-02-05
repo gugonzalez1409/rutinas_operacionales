@@ -62,21 +62,42 @@ function actualizarSelecciones() {
     }
 
 async function crearNuevaRutina(){
-    const nombreRutina = document.getElementById('nombreRutina').value;
-    const areaSeleccionada = document.getElementById('areaRutina').value;
-    const diasSeleccionados = obtenerDiasSeleccionados();
-    const turnosSeleccionados = obtenerTurnosSeleccionados();
+    var nombreRutina = document.getElementById('nombreRutina').value;
+    var areaSeleccionada = document.getElementById('areaRutina').value;
+    var diasSeleccionados = obtenerDiasSeleccionados();
+    var turnosSeleccionados = obtenerTurnosSeleccionados();
+    if(turnosSeleccionados.length === 0){
+        alert('Debe seleccionar al menos una jornada de trabajo')
+        return;
+    }
+    else if(diasSeleccionados.length === 0){
+        alert('Debe seleccionar al menos un dia')
+        return;
+    }
     console.log("nombre de la rutina: ", nombreRutina);
     console.log('area seleccionada: ', areaSeleccionada);
     console.log('dias seleccionados: ', diasSeleccionados);
     console.log('turnos seleccionados: ', turnosSeleccionados);
     //inserta en rutinas_operacionales
-    //data = await window.electronAPI.crearNuevaRutina(nombreRutina, areaSeleccionada)
-    /*for(const dia of DiasSeleccionados){
-        for(const turno of turnosSelccionados){
-            new_data = await window.electronAPI.insertarDiasJornada(dia, turno);
+    const data = await window.electronAPI.insertarNuevaRutina(nombreRutina, areaSeleccionada)
+    const id_rutina = data[0]['id_rutina']
+    for(const dia of diasSeleccionados){
+        for(const turno of turnosSeleccionados){
+            new_data = await window.electronAPI.insertarDiaJornada(dia, turno, id_rutina);
         }
-    }*/
+    }
+    limpiarFormulario()
+    alert('Rutina agregada exitosamente')
+
+}
+
+function limpiarFormulario(){
+    document.getElementById('nombreRutina').value = '';
+    document.getElementById('areaRutina').value = '';
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
 }
 
 getAreasNuevaRutina()

@@ -168,9 +168,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error desde main: ', error);
     }
   },
-  insertarDiasJornada: async() => {
+  insertarDiaJornada: async(dia, turno, id_rutina) => {
     try{
-      const data = await ipcRenderer.invoke('isertar-dias-jornada')
+      const data = await ipcRenderer.invoke('insertar-dia-jornada',dia, turno, id_rutina)
       return data;
     }
     catch(error){

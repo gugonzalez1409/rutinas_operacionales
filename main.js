@@ -46,6 +46,25 @@ app.on('activate', function() {
     }
 })
 
+function formatearFechaYHora(fecha) {
+  const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+  const diaSemana = diasSemana[fecha.getDay()];
+  const dia = fecha.getDate();
+  const mes = meses[fecha.getMonth()];
+  const año = fecha.getFullYear();
+  const hora = fecha.getHours();
+  const minutos = fecha.getMinutes();
+
+  // Agregar un cero inicial a los minutos si es necesario
+  const minutosFormateados = (minutos < 10) ? `0${minutos}` : minutos;
+
+  const formatoFecha = `${diaSemana} ${dia} de ${mes} ${año} ${hora}:${minutosFormateados}`;
+
+  return formatoFecha;
+}
+
 ipcMain.handle('get-areas', async () => {
     try {
       const { data, error } = await supabase
@@ -197,6 +216,7 @@ ipcMain.handle('get-lista-informes', async(event)=>{
     const {data, error } = await supabase
     .from('informe_rutinas')
     .select('*, rutinas_operacionales!inner(descripcion_rutina), trabajador!inner(nombre_trabajador, turno_trabajador, rol_trabajador!inner(nombre_rol, area!inner(nombre_area)))')
+    .order('fecha', {ascending: false})
     if(error){
       console.error('Error al obtener lista de informes: ', error.message);
       throw new Error('Error al obtener trabajadores')
@@ -356,5 +376,22 @@ ipcMain.handle('insertar-nueva-rutina', async(event, nombreRutina, area)=>{
   }
   catch(error){
     console.error('Error: ', error.message)
+  }
+})
+
+ipcMain.handle('insertar-dia-jornada', async(event, dia, turno, id_rutina)=>{
+  try{
+    const {data, error} = await supabase
+    .from('dia_jornada')
+    .insert({id_jornada: turno, id_dia: dia, id_rutina: id_rutina})
+    if(error){
+      console.error('Error al insertar rutina: ', error.message)
+      throw new error('error al insertar rutina')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error al insertar rutina: ', error.message)
+    throw new error('error al insertar rutina')
   }
 })
