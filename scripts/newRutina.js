@@ -1,6 +1,3 @@
-//TENGO QUE INSERTAR EN RUTINAS Y EN DIAS_AGENDA
-//EN RUTINAS SOLO 1 VEZ, EN DIAS_AGENDA DEPENDIENDO DE LOS DIAS Y TURNOS SELECCIONADOS
-
 async function getAreasNuevaRutina(){
     try{
         data = await window.electronAPI.getAreas()

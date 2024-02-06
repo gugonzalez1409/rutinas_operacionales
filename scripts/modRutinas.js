@@ -42,8 +42,9 @@
     }
   }
 
-  function editarRutina(id) {
-    alert('Editar rutina con ID: ' + id);
+  async function editarRutina(id) {
+    console.log(id);
+    const modal = await window.electronAPI.abrirModal();
   }
 
   async function borrarRutina(id) {

@@ -185,5 +185,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     catch(error){
       console.error('Error desde main: ', error);
     }
+  },
+  abrirModal: async() => {
+    await ipcRenderer.invoke('abrir-modal');
+    return;
   }
 })

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, remote } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const supabaseUrl = 'https://ftxxcnmgoyrppxvjjcmr.supabase.co';
@@ -45,6 +45,24 @@ app.on('activate', function() {
         createWindow()
     }
 })
+
+ipcMain.handle('abrir-modal', () => {
+  abrirModal();
+})
+
+function abrirModal() {
+  const modalWindow = new BrowserWindow({
+    parent: mainWindow,
+    modal: true,
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+
+  modalWindow.loadFile('./pages/modNewRutina.html');
+}
 
 ipcMain.handle('get-areas', async () => {
     try {
@@ -385,7 +403,6 @@ ipcMain.handle('borrar-rutina', async(event, id_rutina)=>{
       console.error('Error al eliminar rutina: ', error.message)
       throw new Error('Error al eliminar rutina')
     }
-    console.log(data)
     return data;
   }
   catch(error){

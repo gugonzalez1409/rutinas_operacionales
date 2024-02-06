@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+    <title>Supervisión de rutinas operacionales</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+          }
+      
+          .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: 3rem;
+          }
+      
+          .wrapper {
+            max-width: auto;
+            width: 100%;
+            padding: min(3rem, 5vw);
+          }
+      
+          .form-container {
+            padding: 1.5rem;
+            background-color: rgba(245, 245, 245);
+            border-radius: 0.5rem;
+          }
+      
+          .form-container:nth-child(2n) {
+            color-scheme: dark;
+            background-color: black;
+            color: white;
+          }
+      
+          .legend {
+            font-weight: 100;
+          }
+      
+          .form-group {
+            display: flex;
+            align-items: center;
+          }
+      
+          .checkbox-input {
+            width: 1.5em;
+            height: 1.5em;
+            margin-right: 0.65rem;
+          }
+      
+          .button-agregar {
+            width: 100px;
+            height: 50px;
+          }
+        </style>
+</head>
+<body>
+    <div class="newRutina template" id="newRutina-template" data-tab="newRutina">
+      <div class="grid">
+        <form class="form-container" action="">
+          <legend class="legend">Nombre de la rutina</legend>
+          <input type="text" id="nombreRutina" name="nombreRutina" required>
+          <legend class="legend">Área de la nueva rutina</legend>
+          <select class="selectList" id="areaRutina">
+          </select>
+          <fieldset>
+            <legend class="legend">Seleccione los turnos en que se realiza</legend>
+            <div class="form-group">
+              <input type="checkbox" id="turnoDia" value=1 name="turno" class="checkbox-input"onclick="actualizarSelecciones()">
+              <label for="turnoDia">Turno Día</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="turnoNoche" value=2 name="turno" class="checkbox-input"onclick="actualizarSelecciones()">
+              <label for="turnoNoche">Turno Noche</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend class="legend">Seleccione los días que se realiza</legend>
+            <div class="form-group">
+              <input type="checkbox" id="diario" onclick="marcarTodosLosDias()" name="diario" class="checkbox-input" onclick="actualizarSelecciones()">
+              <label for="diario">A diario</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="lunes" name="dias" value=1 class="checkbox-input" onclick="actualizarSelecciones() ">
+              <label for="lunes">Lunes</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="martes" name="dias" value=2 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="martes">Martes</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="miercoles" name="dias" value=3 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="miercoles">Miércoles</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="jueves" name="dias" value=4 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="jueves">Jueves</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="viernes" name="dias" value=5 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="viernes">Viernes</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="sabado" name="dias" value=6 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="sabado">Sábado</label>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="domingo" name="dias" value=7 class="checkbox-input"onclick="actualizarSelecciones() ">
+              <label for="domingo">Domingo</label>
+            </div>
+          </fieldset>
+          <button type="button" onclick="" class="button-agregar">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
