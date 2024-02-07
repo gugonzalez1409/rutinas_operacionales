@@ -43,9 +43,8 @@
   }
 
   async function editarRutina(id) {
-    const modal = await window.electronAPI.abrirModal();
-    const IDrutina = id;
-    
+    const modal = await window.electronAPI.abrirModal(id);
+
   }
 
   async function borrarRutina(id) {

@@ -1,3 +1,7 @@
+async function obtenerIDrutina(){
+    
+}
+
 async function getAreasEditRutina(){
     try{
         const data = await window.electronAPI.getAreas()
@@ -22,11 +26,39 @@ function marcarTodosLosDias() {
         checkboxesDias.forEach(checkbox => {
         checkbox.checked = true;
         });
-        //actualizarSelecciones()
+        actualizarSelecciones()
     } else {
         checkboxesDias.forEach(checkbox => {
         checkbox.checked = false;
         });
+    }
+}
+
+function obtenerDiasSeleccionados(){
+    const DiasSeleccionados = []
+    const checkboxesDias = document.querySelectorAll('input[name="ModDias"]:checked');
+    checkboxesDias.forEach((checkbox) =>{
+        DiasSeleccionados.push(checkbox.value);
+    });
+    return DiasSeleccionados;
+}
+
+function obtenerTurnosSeleccionados(){
+    const turnosSeleccionados =[]
+    const checkboxesTurnos = document.querySelectorAll('input[name="ModTurno"]:checked')
+    checkboxesTurnos.forEach((checkbox)=>{
+        turnosSeleccionados.push(checkbox.value);
+    });
+    return turnosSeleccionados;
+}
+
+function actualizarSelecciones() {
+    const diasSeleccionados = obtenerDiasSeleccionados();
+    const turnosSeleccionados = obtenerTurnosSeleccionados();
+    for (const dia of diasSeleccionados) {
+        for (const turno of turnosSeleccionados) {
+          console.log(`${dia}, ${turno}`);
+        }
     }
 }
 

@@ -9,6 +9,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 let mainWindow
 let modalWindow
 
+const tiempo = new Date();
+const dia = tiempo.getDay();
+const hora = tiempo.getHours();
+
+console.log("dia: ", dia);
+console.log("hora: ", hora);
+
 function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 1280,
@@ -47,26 +54,29 @@ app.on('activate', function() {
     }
 })
 
-ipcMain.handle('abrir-modal', () => {
-  abrirModal();
-})
+ipcMain.handle('abrir-modal', async(event, args) => {
+  const {id} = args;
+  if (!modalWindow) {
+    modalWindow = new BrowserWindow({
+      parent: mainWindow,
+      modal: true,
+      width: 800,
+      height: 600,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+      },
+    });
+    modalWindow.loadFile('./pages/modNewRutina.html');
+    modalWindow.webContents.on('did-finish-load', () => {
+      modalWindow.webContents.send('id-rutina', id);
+    });
 
-function abrirModal() {
-  modalWindow = new BrowserWindow({
-    parent: mainWindow,
-    modal: true,
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    } 
-  });
-  modalWindow.loadFile('./pages/modNewRutina.html');
-  
-  modalWindow.on('closed', () => {
-    modalWindow = null;
-  });
-}
+    modalWindow.on('closed', () => {
+      modalWindow = null;
+    });
+  }
+  return { success: true, message: 'Modal abierto correctamente' };
+})
 
 ipcMain.handle('get-areas', async () => {
     try {
@@ -77,7 +87,6 @@ ipcMain.handle('get-areas', async () => {
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
       }
-      console.log(data)
       return data;
     } 
     catch (error) {

@@ -16,7 +16,6 @@ async function getTrabajadores(){
     });
       const rolTrabajadorElegido = trabajadorSeleccionado['rol_trabajador'];
       const turnoTrabajadorElegido = trabajadorSeleccionado['turno_trabajador'];
-      console.log(turnoTrabajadorElegido);
       await getRoles(rolTrabajadorElegido);
       await getTurnos(turnoTrabajadorElegido);
     });
