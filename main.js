@@ -7,6 +7,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
+let modalWindow
 
 function createWindow() {
     mainWindow = new BrowserWindow({ 
@@ -51,14 +52,20 @@ ipcMain.handle('abrir-modal', () => {
 })
 
 function abrirModal() {
-  const modalWindow = new BrowserWindow({
+  modalWindow = new BrowserWindow({
     parent: mainWindow,
     modal: true,
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    } 
   });
-
   modalWindow.loadFile('./pages/modNewRutina.html');
+  
+  modalWindow.on('closed', () => {
+    modalWindow = null;
+  });
 }
 
 ipcMain.handle('get-areas', async () => {
@@ -70,6 +77,7 @@ ipcMain.handle('get-areas', async () => {
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
       }
+      console.log(data)
       return data;
     } 
     catch (error) {

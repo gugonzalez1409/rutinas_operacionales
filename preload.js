@@ -189,5 +189,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   abrirModal: async() => {
     await ipcRenderer.invoke('abrir-modal');
     return;
-  }
+  },
 })

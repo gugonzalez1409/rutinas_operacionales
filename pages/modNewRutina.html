@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <title>Supervisión de rutinas operacionales</title>
     <style>
         * {
             box-sizing: border-box;
           }
-          .Modgrid {
+          .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
             gap: 3rem;
@@ -41,14 +42,19 @@
             margin-right: 0.65rem;
           }
           .button-guardar {
-            width: 100px;
-            height: 50px;
+            width: 25%;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
           }
         </style>
 </head>
 <body>
     <div class="ModNewRutina template" id="ModNewRutina-template" data-tab="ModNewRutina">
-      <div class="ModGrid">
+      <div class="grid">
         <form class="form-container" action="">
           <legend class="legend">Nombre de la rutina</legend>
           <input type="text" id="nombreModRutina" name="nombreModRutina" required>
@@ -106,5 +112,7 @@
       </div>
     </div>
 </body>
+<script src="./../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="./../scripts/modNewRutina.js"></script>
 </html>
