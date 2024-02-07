@@ -17,7 +17,7 @@ function createWindow() {
         } 
     })
     mainWindow.loadFile('index.html')
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
@@ -56,9 +56,6 @@ function abrirModal() {
     modal: true,
     width: 800,
     height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-    },
   });
 
   modalWindow.loadFile('./pages/modNewRutina.html');

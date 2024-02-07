@@ -1,6 +1,6 @@
   async function getAreasModRutinas(){
     try{
-      data = await window.electronAPI.getAreas()
+      const data = await window.electronAPI.getAreas()
       const areaElegida = document.getElementById('areasModRutinas')
       areaElegida.innerHTML = ''
       data.forEach(item => {
@@ -45,6 +45,7 @@
   async function editarRutina(id) {
     console.log(id);
     const modal = await window.electronAPI.abrirModal();
+    console.log('abri el modal')
   }
 
   async function borrarRutina(id) {
