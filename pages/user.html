@@ -1,57 +1,7 @@
 <template>
-  <style>
-    .user {
-      width: 100%;
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .user p {
-      text-align: center;
-      color: #333;
-    }
-    .user form {
-      margin-top: 20px;
-    }
-    .user .form-group {
-      margin-bottom: 15px;
-    }
-    .user label {
-      display: block;
-      margin-bottom: 5px;
-      color: #555;
-    }
-    .user select,
-    .user textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
-    .user .form-textarea {
-      margin-bottom: 15px;
-    }
-    .user button {
-      width: 25%;
-      padding: 10px;
-      background-color: #3498db;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    .user button.btn-secondary {
-      background-color: #2c3e50;
-    }
-    .user h2{
-      text-align: center;
-    }
-    .user button:hover {
-      background-color: #2980b9;
-    }
-  </style>
+  <head>
+    <link rel="stylesheet" href="./styles/user.css">
+  </head>
     <div class="user template" id="user-template" data-tab="user">
     <body>
         <h2>Ingrese las rutinas y actividades realizadas</h2>
@@ -67,11 +17,10 @@
           <select class="form-control" id="selectTrabajador">
             </select>
         </div>
-        <div class="form-group">
-          <label for="rutinaRealizada">Rutina realizada:</label>
-          <select class="form-control" id="rutinaRealizada">
-          </select>
-        </div>
+        <div class="form-checkbox">
+          <label>Rutinas realizadas:</label>
+          <div id="rutinaCheckboxes"></div>
+        </div>        
         <div class="form-textarea">
           <label for="observacionesRutina">Ingrese observaciones: (opcional)</label>
           <textarea class="form-control" id="observacionesRutina" rows="5"></textarea>

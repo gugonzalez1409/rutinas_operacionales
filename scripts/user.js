@@ -35,19 +35,26 @@ async function getTrabajadores(areaElegida) {
 async function getRutinas(areaElegida) {
   try {
     const data = await window.electronAPI.rutinasPorArea(areaElegida);
-    const selectRutina = document.getElementById('rutinaRealizada');
-    selectRutina.innerHTML = "";
+    const rutinaCheckboxes = document.getElementById('rutinaCheckboxes');
+    rutinaCheckboxes.innerHTML = "";
     data.forEach(item => {
-      const option = document.createElement('option');
-      option.value = item.id_rutina;
-      option.text = item.descripcion_rutina;
-      selectRutina.add(option);
-    })
-  }
-  catch (error) {
+      const checkboxDiv = document.createElement('div');
+      checkboxDiv.classList.add('checkbox-group');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.name = 'rutinas';
+      checkbox.value = item.id_rutina;
+      const label = document.createElement('label');
+      label.textContent = item.descripcion_rutina;
+      checkboxDiv.appendChild(checkbox);
+      checkboxDiv.appendChild(label);
+      rutinaCheckboxes.appendChild(checkboxDiv);
+    });
+  } catch (error) {
     console.error('Error al cargar datos en la lista de rutinas:', error);
   }
 }
+
 
 function confirmForm() {
   var confirmEdit = confirm('Va a emitir el reporte con los datos seleccionados, ¿está seguro?');

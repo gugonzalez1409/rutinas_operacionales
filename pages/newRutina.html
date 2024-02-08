@@ -1,53 +1,7 @@
 <template>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-      gap: 3rem;
-    }
-
-    .wrapper {
-      max-width: auto;
-      width: 100%;
-      padding: min(3rem, 5vw);
-    }
-
-    .form-container {
-      padding: 1.5rem;
-      background-color: rgba(245, 245, 245);
-      border-radius: 0.5rem;
-    }
-
-    .form-container:nth-child(2n) {
-      color-scheme: dark;
-      background-color: black;
-      color: white;
-    }
-
-    .legend {
-      font-weight: 100;
-    }
-
-    .form-group {
-      display: flex;
-      align-items: center;
-    }
-
-    .checkbox-input {
-      width: 1.5em;
-      height: 1.5em;
-      margin-right: 0.65rem;
-    }
-
-    .button-agregar {
-      width: 100px;
-      height: 50px;
-    }
-  </style>
+<head>
+  <link rel="stylesheet" href="./styles/newRutina.css">
+</head>
   <div class="newRutina template" id="newRutina-template" data-tab="newRutina">
     <div class="grid">
       <form class="form-container" action="">
