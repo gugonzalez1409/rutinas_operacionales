@@ -9,6 +9,9 @@
         option.text = item.nombre_area;
         areaElegida.add(option)
       })
+      const idArea = areaElegida.value;
+      await getRutinasPorArea(idArea);
+      
       areaElegida.addEventListener('change', async function(){
         const idArea = areaElegida.value;
         await getRutinasPorArea(idArea);

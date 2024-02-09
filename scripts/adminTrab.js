@@ -9,6 +9,16 @@ async function getTrabajadores(){
       trabajador.text = item.nombre_trabajador;
       listaTrabajadores.add(trabajador);
     });
+
+    const trabajadorElegido = listaTrabajadores.value;
+    var trabajadorSeleccionado = data.find(function(diccionario) {
+      return diccionario.id_trabajador == trabajadorElegido;
+  });
+    const rolTrabajadorElegido = trabajadorSeleccionado['rol_trabajador'];
+    const turnoTrabajadorElegido = trabajadorSeleccionado['turno_trabajador'];
+    await getRoles(rolTrabajadorElegido);
+    await getTurnos(turnoTrabajadorElegido);
+    
     listaTrabajadores.addEventListener('change', async function() {
       const trabajadorElegido = listaTrabajadores.value;
       var trabajadorSeleccionado = data.find(function(diccionario) {

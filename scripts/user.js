@@ -70,11 +70,9 @@ async function emitirInforme() {
   try {
     // obtener variables a insertar en BD
     var operadorACargo = document.getElementById('selectTrabajador');
-    //var rutinaRealizada = document.getElementById('rutinaCheckboxes');
     var observacionesRutina = document.getElementById('observacionesRutina');
     const padre = document.getElementById('rutinaCheckboxes')
     const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
-    console.log(checkboxes)
     //comprobar al menos una rutina fue seleccionada
     var bool = false;
     checkboxes.forEach((checkbox)=>{

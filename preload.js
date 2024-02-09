@@ -1,5 +1,15 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+contextBridge.exposeInMainWorld('messageAPI', {
+  alerta: (channel, message) => {
+        ipcRenderer.invoke('send-alert', message);
+    },
+  confirmar: (channel,message) => {
+      var select = ipcRenderer.invoke('send-confirm', message);
+      return select;
+  }  
+})
+
 contextBridge.exposeInMainWorld('electronAPI', {
   getAreas: async () => {
     try {

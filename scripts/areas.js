@@ -17,10 +17,12 @@ async function getAreas() {
 
 async function confirmEdit() {
   try{
-    var confirmEdit = confirm('¿Estás seguro de que deseas editar esta área?');
-    if (confirmEdit) {
+    var alert = window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
+    console.log('hola, te voy a mostar lo que retorna la alerta:')
+    console.log(alert)
+    if (alert){
       editOption();
-      location.reload()
+      //location.reload()
     }
   }
   catch(error){
@@ -49,19 +51,21 @@ async function editOption() {
       if (selectedIndex !== -1) {
         var newValue = document.getElementById('newValue').value;
         if (!newValue) {
-          alert('Por favor, ingresa un valor.');
+          window.messageAPI.alerta("send-alert", "Por favor, ingresa un valor.")
           return;
         }
         var selectedId = selectElement.options[selectedIndex].value;
         await window.electronAPI.actualizarArea(selectedId, newValue);
-        alert('Área editada con éxito.');
+        window.messageAPI.alerta("send-alert", "Área editada con éxito.")
         clearForm();
-        //recargar pagina
-      } else {
-        alert('Por favor, selecciona un área.');
+        //location.reload()
+      } 
+      else {
+        window.messageAPI.alerta("send-alert", "Por favor, selecciona un área.")
       }
-    } catch (error) {
-      console.error('Error al editar área:', error);
+    } 
+    catch (error) {
+      window.messageAPI.alerta("send-alert", "Error al editar el área, por favor vuelva a intentarlo.")
     }
   }
   
@@ -69,11 +73,11 @@ async function addOption() {
     try {
       var newValue = document.getElementById('newValue').value;
       if (!newValue) {
-        alert('Por favor, ingresa un valor.');
+        window.messageAPI.alerta("send-alert", "Por favor, ingresa un valor.")
         return;
       }
      await window.electronAPI.areaNueva(newValue);
-      alert('Área agregada con éxito.');
+     window.messageAPI.alerta("send-alert", "Área agregada con exitosamente.")
       clearForm();
       //recargar pagina
     } catch (error) {
@@ -88,11 +92,11 @@ async function deleteOption() {
       if (selectedIndex !== -1) {
         var selectedId = selectElement.options[selectedIndex].value;
         await window.electronAPI.eliminarArea(selectedId);
-        alert('Área eliminada con éxito.');
+        window.messageAPI.alerta("send-alert", "Área eliminada exitosamente.")
         clearForm();
-        //recargar pagina
+        //location.reload()
       } else {
-        alert('Por favor, selecciona un área.');
+        window.messageAPI.alerta("send-alert", "Por favor, selecciona un área.")
       }
     } catch (error) {
       console.error('Error al eliminar área:', error);
@@ -102,5 +106,6 @@ async function deleteOption() {
 function clearForm() {
     document.getElementById('newValue').value = '';
 }
+
 
 getAreas()

@@ -1,9 +1,9 @@
 require('dotenv').config();
-const { app, BrowserWindow, ipcMain, remote } = require('electron');
+const { app, BrowserWindow, ipcMain, remote, dialog } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const supabaseUrl = 'https://ftxxcnmgoyrppxvjjcmr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eHhjbm1nb3lycHB4dmpqY21yIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNDgyOTAzOCwiZXhwIjoyMDIwNDA1MDM4fQ.pJABUWJmVcrND8a-yGcJy-JeTjvKAUqz1CMaxiNy0AQ';
+const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
@@ -53,6 +53,30 @@ app.on('activate', function() {
         createWindow()
     }
 })
+
+ipcMain.handle("send-alert", (event, incomingMessage) => {
+  const options = {
+      type: "none",
+      buttons: ["Ok"],
+      title: "Rutinas Operacionales",
+      message: incomingMessage
+  }
+  dialog.showMessageBox(mainWindow, options)
+})
+
+ipcMain.handle("send-confirm", (event, incomingMessage) => {
+  const options = {
+    type: "question",
+    buttons: ["Cancelar", "OK"],
+    title: "Rutinas Operacionales",
+    message: incomingMessage,
+    defaultId: 1,
+    cancelId: 0
+  }
+  const response = dialog.showMessageBoxSync(mainWindow, options);
+  console.log(response)
+  return response;
+});
 
 ipcMain.handle('abrir-modal', async(event, args) => {
   const {id} = args
