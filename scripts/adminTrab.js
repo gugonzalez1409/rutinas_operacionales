@@ -108,7 +108,7 @@ async function actualizarTrabajador() {
     var rolTrab = document.getElementById('rolTrab').value;
     var turnoTrab = document.getElementById('turnoTrab').value;
     data = await window.electronAPI.actualizarTrabajador(idTrab, rolTrab, turnoTrab);
-    alert('Trabajador actualizado exitosamente');
+    window.messageAPI.alerta("send-alert", "Trabajador actualizado exitosamente.")
   }
   catch(error){
     alert('Error al actualizar trabajador')
@@ -120,10 +120,10 @@ async function eliminarTrabajador(){
   try{
     var idTrab = document.getElementById('nombreTrab').value;
     data = await window.electronAPI.eliminarTrabajador(idTrab);
-    alert('Trabajador eliminado exitosamente');
+    window.messageAPI.alerta("send-alert", "Trabajador eliminado exitosamente.")
   }
   catch(error){
-    alert('Error al eliminar trabajador')
+    window.messageAPI.alerta("send-alert", "Error al eliminar el trabajador.")
     console.error('Error al eliminar trabajador: ', error);
   }
 }
@@ -141,7 +141,7 @@ async function getAllRoles(){
     })
   }
   catch(error){
-    alert('Error al encontrar areas')
+    window.messageAPI.alerta("send-alert", "Error al encontrar areas.")
     console.error('Error al encontrar areas: ', error)
   }
 }
@@ -159,7 +159,7 @@ async function turnoNuevoTrab(){
     })
   }
   catch(error){
-    alert('Error al encontrar turnos')
+    window.messageAPI.alerta("send-alert", "Error al encontrar turnos.")
     console.error('Error al encontrar turnos: ', error)
   }
 }
@@ -167,16 +167,20 @@ async function turnoNuevoTrab(){
 async function nuevoTrabajador(){
   try{
     var nombreNuevoTrabajador = document.getElementById('nuevoTrabNombre').value;
+    if(nombreNuevoTrabajador == ''){
+      window.messageAPI.alerta("send-alert", "Ingrese todos los campos necesarios antes de confirmar")
+      return;
+    }
     var rolNuevoTrabajador = document.getElementById('nuevoTrabRol').value;
     var turnoNuevoTrabajador = document.getElementById('nuevoTrabTurno').value;
     data = await window.electronAPI.crearNuevoTrabajador(nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador)
+    window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
     nombreNuevoTrabajador.value = ''
     rolNuevoTrabajador.value = ''
     turnoNuevoTrabajador.value = ''
-    alert('Trabajador creado exitosamente')
   }
   catch(error){
-    alert('Error al crear trabajador')
+    window.messageAPI.alerta("send-alert", "Error al crear trabajador.")
     console.error('Error al crear trabajador: ', error);
   }
 }
@@ -195,7 +199,7 @@ async function getAreasRol(){
     })
   }
   catch(error){
-    alert('Error al buscar areas')
+    window.messageAPI.alerta("send-alert", "Error al buscar areas.")
     console.error('Error al buscar areas: ', error)
   }
 }
@@ -207,11 +211,59 @@ async function nuevoRol(){
     data = window.electronAPI.nuevoRol(nombre, area)
     nombre.innerHTML ='';
     area.innerHTML = '';
-    alert('Nuevo rol creado exitosamente')
+    window.messageAPI.alerta("send-alert", "Nuevo rol creado exitosamente.")
   }
   catch(error){
-    alert('Error al crear nuevo rol')
+    window.messageAPI.alerta("send-alert", "Error al crear nuevo rol.")
     console.error('Error al crear nuevo rol: ', error)
+  }
+}
+
+async function confirmActualizarTrabajador(){
+  try{
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
+    if(alert){
+      actualizarTrabajador()
+    }
+  }
+  catch(error){
+    console.error('Error al actualizar trabajador:', error);
+  }
+}
+
+async function confirmEliminarTrabajador(){
+  try {
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de eliminar el trabajador seleccionado?")
+    if(alert){
+      eliminarTrabajador()
+    }
+  }
+  catch(error){
+    console.error('Error al eliminar trabajador:', error);
+  }
+}
+
+async function confirmNuevoTrabajador(){
+  try {
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear un nuevo trabajador con los datos seleccionados?")
+    if(alert){
+      nuevoTrabajador()
+    }
+  }
+  catch(error){
+    console.error('Error al crear nuevo trabajador:', error);
+  }
+}
+
+async function confirmNuevoRol(){
+  try{
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear el rol con los datos seleccionados?")
+    if(alert){
+      nuevoRol()
+    }
+  }
+  catch(error){
+    console.error('Error al crear nuevo rol: ', error);
   }
 }
 

@@ -22,14 +22,13 @@ window.addEventListener('load', (event) => {
             const targetTab = document.getElementById(page.replace('.html',''));
             if(targetTab) {
                 targetTab.appendChild(clone);
-                //console.log(targetTab)
                 return targetTab;
             } 
             else {
                 console.error(`Error: Contenedor para ${page} no encontrado.`);
             }
         } catch (error) {
-            console.error(`Error al cargar la página ${page}: ${error}`);
+                console.error(`Error al cargar la página ${page}: ${error}`);
         }
     };
     pages.forEach((page) => {

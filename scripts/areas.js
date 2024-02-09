@@ -17,9 +17,7 @@ async function getAreas() {
 
 async function confirmEdit() {
   try{
-    var alert = window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
-    console.log('hola, te voy a mostar lo que retorna la alerta:')
-    console.log(alert)
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if (alert){
       editOption();
       //location.reload()
@@ -30,16 +28,17 @@ async function confirmEdit() {
   }
 }
 
-function confirmAdd() {
-    var confirmAdd = confirm('¿Estás seguro de que deseas agregar esta área?');
-    if (confirmAdd) {
+async function confirmAdd() {
+  var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro que desea agregar el area?")
+    if (alert) {
       addOption();
+      //location.reload()
     }
   }
 
-function confirmDelete() {
-    var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este área?');
-    if (confirmDelete) {
+async function confirmDelete() {
+    var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro que desea eliminar este area?")
+    if (alert) {
       deleteOption();
     }
   }
@@ -58,7 +57,6 @@ async function editOption() {
         await window.electronAPI.actualizarArea(selectedId, newValue);
         window.messageAPI.alerta("send-alert", "Área editada con éxito.")
         clearForm();
-        //location.reload()
       } 
       else {
         window.messageAPI.alerta("send-alert", "Por favor, selecciona un área.")

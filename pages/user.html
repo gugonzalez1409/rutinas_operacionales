@@ -5,28 +5,28 @@
     <div class="user template" id="user-template" data-tab="user">
     <body>
         <h2>Ingrese las rutinas y actividades realizadas</h2>
-      </body>
-      <form id="formUser">
-        <div class="form-group">
-          <label for="elegirArea">Seleccione el área:</label>
-          <select class="form-control" id="elegirArea">
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="selectTrabajador">Operador a cargo:</label>
-          <select class="form-control" id="selectTrabajador">
+        <form id="formUser">
+          <div class="form-group">
+            <label for="elegirArea">Seleccione el área:</label>
+            <select class="form-control" id="elegirArea">
             </select>
-        </div>
-        <div class="form-checkbox">
-          <label>Rutinas realizadas:</label>
-          <div id="rutinaCheckboxes"></div>
-        </div>        
-        <div class="form-textarea">
-          <label for="observacionesRutina">Ingrese observaciones: (opcional)</label>
-          <textarea class="form-control" id="observacionesRutina" rows="5"></textarea>
-        </div>
-      <button type="button" onclick="confirmForm()" class="btn btn-primary">Confirmar</button>  
-      <button type="button"  onclick="" class="btn btn-secondary">Terminar turno</button> 
-      </form>
+          </div>
+          <div class="form-group">
+            <label for="selectTrabajador">Operador a cargo:</label>
+            <select class="form-control" id="selectTrabajador">
+              </select>
+          </div>
+          <div class="form-checkbox">
+            <label>Rutinas realizadas:</label>
+            <div id="rutinaCheckboxes"></div>
+          </div>        
+          <div class="form-textarea">
+            <label for="observacionesRutina">Ingrese observaciones: (opcional)</label>
+            <textarea class="form-control" id="observacionesRutina" rows="5"></textarea>
+          </div>
+        <button type="button" onclick="confirmForm()" class="btn btn-primary">Confirmar</button>  
+        <button type="button"  onclick="" class="btn btn-secondary">Terminar turno</button> 
+        </form>
+      </body>
     </div>
 </template>

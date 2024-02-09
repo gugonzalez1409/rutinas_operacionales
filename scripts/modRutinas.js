@@ -34,7 +34,7 @@
         <td>${fila.descripcion_rutina}</td>
         <td class ="actions">
         <button onclick="editarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-edit">Editar</i></button>
-        <button onclick="borrarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-trash">Borrar</i></button>
+        <button onclick="confirmBorrarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-trash">Borrar</i></button>
         </td>
       `;
       rutinas.appendChild(nuevaFila)
@@ -51,15 +51,25 @@
   }
 
   async function borrarRutina(id) {
-    var confirmBorrar = confirm('¿Está seguro que desea borrar la rutina operacional con ID: ' + id + '?')
-    if(confirmBorrar){
-      data = await window.electronAPI.borrarRutina(id)
-      //recargar página
-      alert('Rutina operacional borrada exitosamente')
-    }
-    else{
-      return;
+    try{ 
+        data = await window.electronAPI.borrarRutina(id)
+        window.messageAPI.alerta('send-alert','Rutina operacional borrada exitosamente')
+      }
+    catch(error){
+      console.error('Error al borrar rutina:', error);
     }
   }
+
+  async function confirmBorrarRutina(id){
+    try{
+      var alert = window.messageAPI.confirmar("send-confirm", "¿Está seguro de borrar la rutina con ID: " + id + "?")
+      if(alert){
+        borrarRutina(id)
+      }
+    }
+    catch(error){
+      console.error('Error al confirmar borrar rutina: ', error);
+    }
+  }  
 
 getAreasModRutinas()

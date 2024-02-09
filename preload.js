@@ -4,8 +4,8 @@ contextBridge.exposeInMainWorld('messageAPI', {
   alerta: (channel, message) => {
         ipcRenderer.invoke('send-alert', message);
     },
-  confirmar: (channel,message) => {
-      var select = ipcRenderer.invoke('send-confirm', message);
+  confirmar:  async (channel,message) => {
+      var select = await ipcRenderer.invoke('send-confirm', message);
       return select;
   }  
 })
