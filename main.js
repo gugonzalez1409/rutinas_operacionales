@@ -67,11 +67,12 @@ ipcMain.handle("send-alert", (event, incomingMessage) => {
 ipcMain.handle("send-confirm", (event, incomingMessage) => {
   const options = {
     type: "question",
-    buttons: ["Cancelar", "OK"],
+    buttons: ["Cancel", "Ok"],
     title: "Rutinas Operacionales",
     message: incomingMessage,
-    defaultId: 1,
-    cancelId: 0
+    cancelId: 0,
+    defaultId: 1
+
   }
   const response = dialog.showMessageBoxSync(mainWindow, options);
   console.log(response)

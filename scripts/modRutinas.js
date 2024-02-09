@@ -53,7 +53,7 @@
   async function borrarRutina(id) {
     try{ 
         data = await window.electronAPI.borrarRutina(id)
-        window.messageAPI.alerta('send-alert','Rutina operacional borrada exitosamente')
+        window.messageAPI.alerta('send-alert','Rutina borrada exitosamente')
       }
     catch(error){
       console.error('Error al borrar rutina:', error);
@@ -62,7 +62,7 @@
 
   async function confirmBorrarRutina(id){
     try{
-      var alert = window.messageAPI.confirmar("send-confirm", "¿Está seguro de borrar la rutina con ID: " + id + "?")
+      var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de borrar la rutina con ID: " + id + "?")
       if(alert){
         borrarRutina(id)
       }

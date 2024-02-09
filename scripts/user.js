@@ -9,6 +9,9 @@ async function getAreas() {
       option.text = item.nombre_area;
       elegirArea.add(option);
     });
+    const areaElegida = elegirArea.value;
+    await getRutinas(areaElegida);
+    await getTrabajadores(areaElegida);
   }
   catch (error) {
     console.error('Error al cargar datos en la lista de areas:', error);
