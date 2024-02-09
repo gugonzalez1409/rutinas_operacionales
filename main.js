@@ -3,7 +3,7 @@ const { app, BrowserWindow, ipcMain, remote } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const supabaseUrl = 'https://ftxxcnmgoyrppxvjjcmr.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eHhjbm1nb3lycHB4dmpqY21yIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNDgyOTAzOCwiZXhwIjoyMDIwNDA1MDM4fQ.pJABUWJmVcrND8a-yGcJy-JeTjvKAUqz1CMaxiNy0AQ';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
@@ -55,7 +55,8 @@ app.on('activate', function() {
 })
 
 ipcMain.handle('abrir-modal', async(event, args) => {
-  const {id} = args;
+  const {id} = args
+  console.log(args)
   if (!modalWindow) {
     modalWindow = new BrowserWindow({
       parent: mainWindow,

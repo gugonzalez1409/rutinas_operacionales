@@ -15,25 +15,34 @@ async function getAreas() {
   }
 }
 
-function confirmEdit() {
+async function confirmEdit() {
+  try{
     var confirmEdit = confirm('¿Estás seguro de que deseas editar esta área?');
     if (confirmEdit) {
       editOption();
+      location.reload()
     }
   }
-  function confirmAdd() {
+  catch(error){
+    console.error('Error al confirmar la edición:', error);
+  }
+}
+
+function confirmAdd() {
     var confirmAdd = confirm('¿Estás seguro de que deseas agregar esta área?');
     if (confirmAdd) {
       addOption();
     }
   }
-  function confirmDelete() {
+
+function confirmDelete() {
     var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este área?');
     if (confirmDelete) {
       deleteOption();
     }
   }
-  async function editOption() {
+
+async function editOption() {
     try {
       var selectElement = document.getElementById('options');
       var selectedIndex = selectElement.selectedIndex;
@@ -56,7 +65,7 @@ function confirmEdit() {
     }
   }
   
-  async function addOption() {
+async function addOption() {
     try {
       var newValue = document.getElementById('newValue').value;
       if (!newValue) {
@@ -71,7 +80,8 @@ function confirmEdit() {
       console.error('Error al agregar área:', error);
     }
   }
-  async function deleteOption() {
+
+async function deleteOption() {
     try {
       var selectElement = document.getElementById('options');
       var selectedIndex = selectElement.selectedIndex;
@@ -89,8 +99,8 @@ function confirmEdit() {
     }
   }     
 
-  function clearForm() {
+function clearForm() {
     document.getElementById('newValue').value = '';
-  }
+}
 
 getAreas()

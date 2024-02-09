@@ -20,9 +20,12 @@ window.addEventListener('load', (event) => {
             const template = div.querySelector('template');
             const clone = document.importNode(template.content, true);
             const targetTab = document.getElementById(page.replace('.html',''));
-            if (targetTab) {
+            if(targetTab) {
                 targetTab.appendChild(clone);
-            } else {
+                //console.log(targetTab)
+                return targetTab;
+            } 
+            else {
                 console.error(`Error: Contenedor para ${page} no encontrado.`);
             }
         } catch (error) {

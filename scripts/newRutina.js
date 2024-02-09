@@ -80,6 +80,7 @@ async function crearNuevaRutina(){
     const id_rutina = data[0]['id_rutina']
     for(const dia of diasSeleccionados){
         for(const turno of turnosSeleccionados){
+            // inserta en dia_jornada
             new_data = await window.electronAPI.insertarDiaJornada(dia, turno, id_rutina);
         }
     }

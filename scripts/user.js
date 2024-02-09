@@ -34,9 +34,12 @@ async function getTrabajadores(areaElegida) {
 
 async function getRutinas(areaElegida) {
   try {
+    // obtener rutinas por area, llamado a BD
     const data = await window.electronAPI.rutinasPorArea(areaElegida);
     const rutinaCheckboxes = document.getElementById('rutinaCheckboxes');
+    console.log(rutinaCheckboxes);
     rutinaCheckboxes.innerHTML = "";
+    // logica para llenar checkboxes con rutinas correspondientes
     data.forEach(item => {
       const checkboxDiv = document.createElement('div');
       checkboxDiv.classList.add('checkbox-group');
@@ -55,7 +58,7 @@ async function getRutinas(areaElegida) {
   }
 }
 
-
+// confirmar emision de formulario
 function confirmForm() {
   var confirmEdit = confirm('Va a emitir el reporte con los datos seleccionados, ¿está seguro?');
   if (confirmEdit) {
@@ -65,16 +68,31 @@ function confirmForm() {
 
 async function emitirInforme() {
   try {
+    // obtener variables a insertar en BD
     var operadorACargo = document.getElementById('selectTrabajador');
-    var rutinaRealizada = document.getElementById('rutinaRealizada');
+    //var rutinaRealizada = document.getElementById('rutinaCheckboxes');
     var observacionesRutina = document.getElementById('observacionesRutina');
-    if(operadorACargo.value === '' || rutinaRealizada.value === ''){
+    const padre = document.getElementById('rutinaCheckboxes')
+    const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
+    console.log(checkboxes)
+    //comprobar al menos una rutina fue seleccionada
+    var bool = false;
+    checkboxes.forEach((checkbox)=>{
+      if(checkbox.checked == true){
+        bool = true
+      }
+    })
+    // comprobar que estan los datos necesarios para insertar
+    if(operadorACargo.value === '' || bool === false){
       alert('Rellene los campos necesarios para emitir informe')
       return;
     }
-    data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
+    //data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
+    // resetear valores insertados
     operadorACargo.value = ''
-    rutinaRealizada.value = ''
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
     observacionesRutina.value = ''
     alert('Informe emitido exitosamente')
   }
