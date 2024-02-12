@@ -95,6 +95,7 @@ async function emitirInforme() {
         checkbox.checked = false;
     });
     observacionesRutina.value = ''
+    
     await window.messageAPI.alerta('send-alert', 'Informe emitido exitosamente')
   }
   catch (error) {

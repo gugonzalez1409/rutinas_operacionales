@@ -174,10 +174,11 @@ async function nuevoTrabajador(){
     var rolNuevoTrabajador = document.getElementById('nuevoTrabRol').value;
     var turnoNuevoTrabajador = document.getElementById('nuevoTrabTurno').value;
     data = await window.electronAPI.crearNuevoTrabajador(nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador)
+    nombreNuevoTrabajador = ''
+    rolNuevoTrabajador = ''
+    turnoNuevoTrabajador = ''
     window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
-    nombreNuevoTrabajador.value = ''
-    rolNuevoTrabajador.value = ''
-    turnoNuevoTrabajador.value = ''
+
   }
   catch(error){
     window.messageAPI.alerta("send-alert", "Error al crear trabajador.")
@@ -188,7 +189,6 @@ async function nuevoTrabajador(){
 async function getAreasRol(){
   try{
     const data = await window.electronAPI.getAreas();
-    console.log(data)
     const areas = document.getElementById('areaRol');
     areas.innerHTML = ''
     data.forEach(item => {

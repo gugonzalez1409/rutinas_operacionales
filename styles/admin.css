@@ -25,10 +25,10 @@ select {
     margin-bottom: 10px;
   }
 
-button {
+.admin button {
     width:25%;
-    padding: 8px;
     background-color: #007BFF;
+    align-self: center;
     color: #fff;
     border: none;
     cursor: pointer;

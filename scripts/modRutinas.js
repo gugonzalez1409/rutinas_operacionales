@@ -26,8 +26,8 @@
     try{
       const data = await window.electronAPI.getRutinasPorArea(idArea)
       const rutinas = document.getElementById('rutinasPorArea')
-      rutinas.innerHTML=''
-      data.forEach(fila =>{
+      rutinas.innerHTML= ''
+      data.forEach(fila => {
         const nuevaFila = document.createElement('tr')
         nuevaFila.innerHTML = `
         <td>${fila.id_rutina}</td>
