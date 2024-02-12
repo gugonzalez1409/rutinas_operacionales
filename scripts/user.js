@@ -38,9 +38,9 @@ async function getTrabajadores(areaElegida) {
 async function getRutinas(areaElegida) {
   try {
     // obtener rutinas por area, llamado a BD
-    const data = await window.electronAPI.rutinasPorArea(areaElegida);
+    const data = await window.electronAPI.getRutinasPorTurno(areaElegida);
     const rutinaCheckboxes = document.getElementById('rutinaCheckboxes');
-    console.log(rutinaCheckboxes);
+    //console.log(rutinaCheckboxes);
     rutinaCheckboxes.innerHTML = "";
     // logica para llenar checkboxes con rutinas correspondientes
     data.forEach(item => {
@@ -49,9 +49,9 @@ async function getRutinas(areaElegida) {
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.name = 'rutinas';
-      checkbox.value = item.id_rutina;
+      checkbox.value = item.rutinas_operacionales.id_rutina;
       const label = document.createElement('label');
-      label.textContent = item.descripcion_rutina;
+      label.textContent = item.rutinas_operacionales.descripcion_rutina;
       checkboxDiv.appendChild(checkbox);
       checkboxDiv.appendChild(label);
       rutinaCheckboxes.appendChild(checkboxDiv);
@@ -62,8 +62,8 @@ async function getRutinas(areaElegida) {
 }
 
 // confirmar emision de formulario
-function confirmForm() {
-  var confirmEdit = confirm('Va a emitir el reporte con los datos seleccionados, ¿está seguro?');
+async function confirmForm() {
+  var confirmEdit = await window.messageAPI.confirmar('send-confirm', 'Va a emitir el reporte con los datos seleccionados, ¿está seguro?')
   if (confirmEdit) {
     emitirInforme()
   }
@@ -85,7 +85,7 @@ async function emitirInforme() {
     })
     // comprobar que estan los datos necesarios para insertar
     if(operadorACargo.value === '' || bool === false){
-      alert('Rellene los campos necesarios para emitir informe')
+      await window.messageAPI.alerta('send-alert', 'Rellene los campos necesarios para emitir informe')
       return;
     }
     //data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
@@ -95,10 +95,10 @@ async function emitirInforme() {
         checkbox.checked = false;
     });
     observacionesRutina.value = ''
-    alert('Informe emitido exitosamente')
+    await window.messageAPI.alerta('send-alert', 'Informe emitido exitosamente')
   }
   catch (error) {
-    alert('Error al emitir informe')
+    await window.messageAPI.alerta('send-alert', 'Error al emitir informe')
     console.error('Error al emitir informe: ', error);
   }
 }

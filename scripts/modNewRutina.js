@@ -54,6 +54,13 @@ async function getAreasEditRutina(){
     }
 }
 
+async function getJornadaActual(){
+    const id = await window.electronAPI.getIDrutina()
+    const data = await window.electronAPI.getJornadaActual(id);
+    
+    
+}
+
 function marcarTodosLosDias() {
     const checkboxDiario = document.getElementById('ModDiario');
     const checkboxesDias = document.getElementsByName('ModDias');
@@ -97,6 +104,7 @@ function actualizarSelecciones() {
     }
 }
 
+getJornadaActual()
 getNombreRutina()
 getAreasEditRutina()
 getAreaRutina()

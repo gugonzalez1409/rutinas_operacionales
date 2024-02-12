@@ -64,11 +64,11 @@ async function crearNuevaRutina(){
     var diasSeleccionados = obtenerDiasSeleccionados();
     var turnosSeleccionados = obtenerTurnosSeleccionados();
     if(turnosSeleccionados.length === 0){
-        alert('Debe seleccionar al menos una jornada de trabajo')
+        await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos una jornada de trabajo')
         return;
     }
     else if(diasSeleccionados.length === 0){
-        alert('Debe seleccionar al menos un dia')
+        await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos un dia')
         return;
     }
     console.log("nombre de la rutina: ", nombreRutina);
@@ -85,7 +85,7 @@ async function crearNuevaRutina(){
         }
     }
     limpiarFormulario()
-    alert('Rutina agregada exitosamente')
+    await window.messageAPI.alerta('send-alert', 'Rutina agregada exitosamente')
 
 }
 

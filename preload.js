@@ -211,5 +211,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getAreaRutina: async(id) => {
     const area = await ipcRenderer.invoke('get-area-rutina', id)
     return area;
+  },
+  getJornadaActual: async(id) => {
+    const jornada = await ipcRenderer.invoke('get-jornada-actual', id)
+    return jornada;
+  },
+  getRutinasPorTurno: async(area) => {
+    const rutinas = await ipcRenderer.invoke('get-rutinas-turno', area)
+    return rutinas;
   }
 })

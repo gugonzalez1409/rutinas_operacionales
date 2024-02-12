@@ -8,14 +8,14 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
 let modalWindow
-let idRutina
+let idRutina // para pasar al modal
 
-const tiempo = new Date();
+/*const tiempo = new Date();
 const dia = tiempo.getDay();
 const hora = tiempo.getHours();
 
 console.log("dia: ", dia);
-console.log("hora: ", hora);
+console.log("hora: ", hora);*/
 
 function createWindow() {
     mainWindow = new BrowserWindow({ 
@@ -76,7 +76,6 @@ ipcMain.handle("send-confirm", (event, incomingMessage) => {
 
   }
   const response = dialog.showMessageBoxSync(mainWindow, options);
-  console.log(response)
   return response;
 });
 
@@ -94,10 +93,6 @@ ipcMain.handle('abrir-modal', async(event, args) => {
       },
     });
     modalWindow.loadFile('./pages/modNewRutina.html');
-    modalWindow.webContents.on('did-finish-load', () => {
-      modalWindow.webContents.send('id-rutina', id);
-    });
-
     modalWindow.on('closed', () => {
       modalWindow = null;
     });
@@ -163,10 +158,10 @@ ipcMain.handle('actualizar-area', async (event, selectedId, newValue) => {
       }
       return data;
     }
-    catch (error) {
+    catch (error){
         console.error('Error: ', error.message);
         throw error;
-      }
+    }
 });
 
 ipcMain.handle('area-nueva', async(event, newValue)=>{
@@ -379,7 +374,7 @@ ipcMain.handle('nuevo-rol', async(event, nombre, area) => {
   try{
     const { data, error} = await supabase
     .from('rol_trabajador')
-    .insert({nombre_rol : nombre, id_area : area})
+    .insert({nombre_rol: nombre, id_area: area})
     .select()
     if(error){
       console.error('Error al insertar nuevo trabajador: ', error.message)
@@ -495,5 +490,232 @@ ipcMain.handle('get-area-rutina', async(event, id)=> {
   catch(error){
     console.error('Error al obtener nombre de rutina: ', error.message)
     throw new error('error al obtener nombre de rutina')
+  }
+})
+
+ipcMain.handle('get-jornada-actual', async(event, id) => {
+  try {
+    const { data, error } = await supabase
+      .from('dia_jornada')
+      .select('id_jornada, id_dia')
+      .eq('id_rutina', id);
+    if (error) {
+      console.error('Error al obtener datos: ', error.message);
+      throw new Error('Error al obtener datos');
+    }
+    return data;
+  } catch (error) {
+    console.error('Error al obtener jornadas de rutina: ', error.message);
+    throw new Error('Error al obtener jornadas de rutina');
+  }
+});
+
+ipcMain.handle('get-rutinas-turno', async(event, area) => {
+  try{
+    // obtener momento actual
+    const tiempo = new Date();
+    const dia = tiempo.getDay();
+    const hora = tiempo.getHours();
+    const minutos = tiempo.getMinutes(); // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
+    // TURNO LUNES DIA
+    if(dia == 1 && (hora >= 6 || hora <= 18) ){ 
+      const {data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 1)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message);
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO LUNES NOCHE
+    else if( (dia == 1 && hora >= 18) || (dia == 2 && hora <= 6) ){ 
+      const { data, error } = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 1)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message);
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO MARTES DIA
+    else if(dia == 2 && (hora >= 6 || hora <= 18) ){ 
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 2)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO MARTES NOCHE
+    else if((dia == 2 && hora >= 18) || (dia == 3 && hora <= 6)){ 
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 2)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO MIERCOLES DIA
+    else if(dia == 3 && (hora >= 6 || hora <= 18)){ 
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 3)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO MIERCOLES NOCHE
+    else if((dia == 3 && hora >= 18) || (dia == 4 && hora <= 6)){ 
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 3)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO JUEVES DIA
+    else if(dia == 4 && (hora >= 6 || hora <= 18)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 4)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO JUEVES NOCHE
+    else if((dia == 4 && hora >= 18) || (dia == 5 && hora <= 6)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 4)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO VIERNES DIA
+    else if(dia == 5 && (hora >= 6 || hora <= 18)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 5)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO VIERNES NOCHE
+    else if((dia == 5 && hora >= 18) || (dia == 6 && hora <= 6)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 5)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO SABADO DIA
+    else if(dia == 6 && (hora >= 6 || hora <= 18)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 6)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO SABADO NOCHE
+    else if((dia == 6 && hora >= 18) || (dia == 7 && hora <= 6)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 6)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO DOMINGO DIA
+    else if(dia == 7 && (hora >= 6 || hora <= 18)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 7)
+      .eq('id_jornada', 1)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    }
+    // TURNO DOMINGO NOCHE
+    else if((dia == 7 && hora >= 18) || (dia == 1 && hora <= 6)){
+      const { data, error} = await supabase
+      .from('dia_jornada')
+      .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
+      .eq('id_dia', 7)
+      .eq('id_jornada', 2)
+      .eq('rutinas_operacionales.area_rutina', area)
+      if(error){
+        console.error('Error al obtener datos: ', error.message)
+        throw new Error('Error al obtener datos');
+      }
+      return data;
+    } 
+  }
+  catch(error){
+    console.error('Error al obtener rutinas por turno: ', error.message)
+    throw new Error('Error al obtener rutinas por turno');
   }
 })
