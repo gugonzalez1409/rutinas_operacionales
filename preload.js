@@ -200,4 +200,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
     await ipcRenderer.invoke('abrir-modal', id_rutina);
     return;
   },
+  getIDrutina: async()=> {
+    const id = await ipcRenderer.invoke('id-rutina')
+    return id;
+  },
+  getNombreRutina: async(id) => {
+    const nombre = await ipcRenderer.invoke('get-nombre-rutina', id)
+    return nombre;
+  },
+  getAreaRutina: async(id) => {
+    const area = await ipcRenderer.invoke('get-area-rutina', id)
+    return area;
+  }
 })

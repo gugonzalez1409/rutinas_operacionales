@@ -8,6 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
 let modalWindow
+let idRutina
 
 const tiempo = new Date();
 const dia = tiempo.getDay();
@@ -81,7 +82,7 @@ ipcMain.handle("send-confirm", (event, incomingMessage) => {
 
 ipcMain.handle('abrir-modal', async(event, args) => {
   const {id} = args
-  console.log(args)
+  idRutina = args;
   if (!modalWindow) {
     modalWindow = new BrowserWindow({
       parent: mainWindow,
@@ -102,6 +103,16 @@ ipcMain.handle('abrir-modal', async(event, args) => {
     });
   }
   return { success: true, message: 'Modal abierto correctamente' };
+})
+
+ipcMain.handle('id-rutina', async()=>{
+  try{
+    return idRutina;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+    throw error;
+  }
 })
 
 ipcMain.handle('get-areas', async () => {
@@ -448,5 +459,41 @@ ipcMain.handle('borrar-rutina', async(event, id_rutina)=>{
   catch(error){
     console.error('Error al borrar rutina: ', error.message)
     throw new error('error al borrar rutina')
+  }
+})
+
+ipcMain.handle('get-nombre-rutina', async(event, id)=> {
+  try{
+    const {data, error} = await supabase
+    .from('rutinas_operacionales')
+    .select('descripcion_rutina')
+    .eq('id_rutina', id)
+    if(error){
+      console.error('Error al obtener datos: ', error.message)
+      throw new Error('Error al obtener datos')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error al obtener nombre de rutina: ', error.message)
+    throw new error('error al obtener nombre de rutina')
+  }
+})
+
+ipcMain.handle('get-area-rutina', async(event, id)=> {
+  try{
+    const { data, error } = await supabase
+    .from('rutinas_operacionales')
+    .select('area_rutina')
+    .eq('id_rutina', id)
+    if(error){
+      console.error('Error al obtener datos: ', error.message)
+      throw new Error('Error al obtener datos')
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error al obtener nombre de rutina: ', error.message)
+    throw new error('error al obtener nombre de rutina')
   }
 })
