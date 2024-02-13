@@ -166,17 +166,17 @@ async function turnoNuevoTrab(){
 
 async function nuevoTrabajador(){
   try{
-    var nombreNuevoTrabajador = document.getElementById('nuevoTrabNombre').value;
+    var nombreNuevoTrabajador = document.getElementById('nuevoTrabNombre');
     if(nombreNuevoTrabajador == ''){
       window.messageAPI.alerta("send-alert", "Ingrese todos los campos necesarios antes de confirmar")
       return;
     }
-    var rolNuevoTrabajador = document.getElementById('nuevoTrabRol').value;
-    var turnoNuevoTrabajador = document.getElementById('nuevoTrabTurno').value;
-    data = await window.electronAPI.crearNuevoTrabajador(nombreNuevoTrabajador, rolNuevoTrabajador, turnoNuevoTrabajador)
-    nombreNuevoTrabajador = ''
-    rolNuevoTrabajador = ''
-    turnoNuevoTrabajador = ''
+    var rolNuevoTrabajador = document.getElementById('nuevoTrabRol');
+    var turnoNuevoTrabajador = document.getElementById('nuevoTrabTurno');
+    data = await window.electronAPI.crearNuevoTrabajador(nombreNuevoTrabajador.value, rolNuevoTrabajador.value, turnoNuevoTrabajador.value)
+    nombreNuevoTrabajador.value = ''
+    rolNuevoTrabajador.value = ''
+    turnoNuevoTrabajador.value = ''
     window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
 
   }

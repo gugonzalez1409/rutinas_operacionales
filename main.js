@@ -10,13 +10,6 @@ let mainWindow
 let modalWindow
 let idRutina // para pasar al modal
 
-/*const tiempo = new Date();
-const dia = tiempo.getDay();
-const hora = tiempo.getHours();
-
-console.log("dia: ", dia);
-console.log("hora: ", hora);*/
-
 function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 1280,
@@ -510,106 +503,108 @@ ipcMain.handle('get-jornada-actual', async(event, id) => {
   }
 });
 
-async function obtenerRutinas(area, dia, jornada){
-  try{
-    const {data, error} = await supabase
+async function obtenerRutinas(area, dia, jornada) {
+  try {
+    const { data, error } = await supabase
       .from('dia_jornada')
       .select('rutinas_operacionales!inner(id_rutina, descripcion_rutina)')
       .eq('id_dia', dia)
       .eq('id_jornada', jornada)
-      .eq('rutinas_operacionales.area_rutina', area)
-      if (error) {
-        console.error('Error al obtener datos: ', error.message);
-        throw new Error('Error al obtener datos');
-      }
-      return data;
-  }
-  catch(error){
+      .eq('rutinas_operacionales.area_rutina', area);
+
+    if (error) {
+      console.error('Error al obtener datos: ', error.message);
+      throw new Error('Error al obtener datos');
+    }
+
+    return data;
+  } catch (error) {
     console.error('Error al obtener datos: ', error.message);
     throw new Error('Error al obtener datos');
   }
 }
 
-ipcMain.handle('get-rutinas-turno', async(event, area) => {
-  try{
-    // obtener momento actual
+ipcMain.handle('get-rutinas-turno', async (event, area) => {
+  try {
+    // Obtener momento actual
     const tiempo = new Date();
     const dia = tiempo.getDay();
     const hora = tiempo.getHours();
     const minutos = tiempo.getMinutes(); // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
-    // TURNO LUNES DIA
-    if(dia == 1 && (hora >= 6 || hora <= 18) ){ 
-      const data = obtenerRutinas(area, dia, 1)
+    let turno;
+    switch (dia) {
+      case 1:
+        if (hora >= 6 && hora <= 18) {
+          console.log('lunes dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 1) || (hora <= 6 && dia === 2)) {
+          console.log('lunes noche');
+          turno = 2;
+        }
+        break;
+      case 2:
+        if (hora >= 6 && hora <= 18) {
+          console.log('martes dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 2) || (hora <= 6 && dia === 3)) {
+          console.log('martes noche');
+          turno = 2;
+        }
+        break;
+      case 3:
+        if (hora >= 6 && hora <= 18) {
+          console.log('miercoles dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 3) || (hora <= 6 && dia === 4)) {
+          console.log('miercoles noche');
+          turno = 2;
+        }
+        break;
+      case 4:
+        if (hora >= 6 && hora <= 18) {
+          console.log('jueves dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 4) || (hora <= 6 && dia === 5)) {
+          console.log('jueves noche');
+          turno = 2;
+        }
+        break;
+      case 5:
+        if (hora >= 6 && hora <= 18) {
+          console.log('viernes dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 5) || (hora <= 6 && dia === 6)) {
+          console.log('viernes noche');
+          turno = 2;
+        }
+        break;
+      case 6:
+        if (hora >= 6 && hora <= 18) {
+          console.log('sabado dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 6) || (hora <= 6 && dia === 7)) {
+          console.log('sabado noche');
+          turno = 2;
+        }
+        break;
+      case 7:
+        if (hora >= 6 && hora <= 18) {
+          console.log('domingo dia');
+          turno = 1;
+        } else if ((hora >= 18 && dia === 7) || (hora <= 6 && dia === 1)) {
+          console.log('domingo noche');
+          turno = 2;
+        }
+        break;
+      default:
+        console.log('Día no válido');
+    }
+    if (turno !== undefined) {
+      const data = await obtenerRutinas(area, dia, turno);
       return data;
     }
-    // TURNO LUNES NOCHE
-    else if( (dia == 1 && hora >= 18) || (dia == 2 && hora <= 6) ){ 
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO MARTES DIA
-    else if(dia == 2 && (hora >= 6 || hora <= 18) ){ 
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO MARTES NOCHE
-    else if((dia == 2 && hora >= 18) || (dia == 3 && hora <= 6)){ 
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO MIERCOLES DIA
-    else if(dia == 3 && (hora >= 6 || hora <= 18)){ 
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO MIERCOLES NOCHE
-    else if((dia == 3 && hora >= 18) || (dia == 4 && hora <= 6)){ 
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO JUEVES DIA
-    else if(dia == 4 && (hora >= 6 || hora <= 18)){
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO JUEVES NOCHE
-    else if((dia == 4 && hora >= 18) || (dia == 5 && hora <= 6)){
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO VIERNES DIA
-    else if(dia == 5 && (hora >= 6 || hora <= 18)){
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO VIERNES NOCHE
-    else if((dia == 5 && hora >= 18) || (dia == 6 && hora <= 6)){
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO SABADO DIA
-    else if(dia == 6 && (hora >= 6 || hora <= 18)){
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO SABADO NOCHE
-    else if((dia == 6 && hora >= 18) || (dia == 7 && hora <= 6)){
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    }
-    // TURNO DOMINGO DIA
-    else if(dia == 7 && (hora >= 6 || hora <= 18)){
-      const data = obtenerRutinas(area, dia, 1)
-      return data;
-    }
-    // TURNO DOMINGO NOCHE
-    else if((dia == 7 && hora >= 18) || (dia == 1 && hora <= 6)){
-      const data = obtenerRutinas(area, dia, 2)
-      return data;
-    } 
-  }
-  catch(error){
-    console.error('Error al obtener rutinas por turno: ', error.message)
+  } catch (error) {
+    console.error('Error al obtener rutinas por turno: ', error.message);
     throw new Error('Error al obtener rutinas por turno');
   }
-})
+});

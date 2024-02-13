@@ -4,13 +4,15 @@
     </head>
     <div class="container template" id="main-template" data-tab="main">
     <input type="text" id="search" placeholder="Buscar...">
-    <select id="filter">
-    <option value="todos">Todos</option>
+    <select id="turno-filter" placeholder="Filtro por turno">
+    <option value="todos">Todos los turnos</option>
     <option value="A">Turno A</option>
     <option value="B">Turno B</option>
     <option value="C">Turno C</option>
     <option value="D">Turno D</option>
     <option value="E">Turno E</option>
+  </select>
+  <select id="rol-filter" placeholder="Filtro por rol">
   </select>
   <button onclick="filtrarTabla()">Filtrar</button>
   <table class ="admin-table">

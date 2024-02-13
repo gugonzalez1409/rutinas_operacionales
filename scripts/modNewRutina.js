@@ -9,7 +9,6 @@ async function getAreaRutina(){
        const data = await window.electronAPI.getAreaRutina(id);
        const idArea = data[0]['area_rutina']
        return idArea
-        
     }
     catch(error){
        console.error('Error al obtener nombre de rutina:', error);
@@ -56,24 +55,41 @@ async function getAreasEditRutina(){
 
 async function getJornadaActual(){
     const id = await window.electronAPI.getIDrutina()
-    const data = await window.electronAPI.getJornadaActual(id);
-    
-    
-}
-
-function marcarTodosLosDias() {
-    const checkboxDiario = document.getElementById('ModDiario');
-    const checkboxesDias = document.getElementsByName('ModDias');
-    if (checkboxDiario.checked) {
-        checkboxesDias.forEach(checkbox => {
-        checkbox.checked = true;
-        });
-        actualizarSelecciones()
-    } else {
-        checkboxesDias.forEach(checkbox => {
-        checkbox.checked = false;
-        });
-    }
+    const data = await window.electronAPI.getJornadaActual(id);// array con los dias y jornada
+    console.log(data);
+    //obtener checkboxes
+    const padre = document.getElementById('ModNewRutina-template')
+    const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
+    console.log(checkboxes)
+    data.forEach(item => {
+        if(checkboxes[0].value == item['id_jornada']){
+            checkboxes[0].checked = true
+        }
+        if(checkboxes[1].value == item['id_jornada']){
+            checkboxes[1].checked = true
+        }
+        if(checkboxes[2].value == item['id_dia']){
+            checkboxes[2].checked = true
+        }
+        else if(checkboxes[3].value == item['id_dia']){
+            checkboxes[3].checked = true
+        }
+        else if(checkboxes[4].value == item['id_dia']){
+            checkboxes[4].checked = true
+        }
+        else if(checkboxes[5].value == item['id_dia']){
+            checkboxes[5].checked = true
+        }
+        else if(checkboxes[6].value == item['id_dia']){
+            checkboxes[6].checked = true
+        }
+        else if(checkboxes[7].value == item['id_dia']){
+            checkboxes[7].checked = true
+        }
+        else if(checkboxes[8].value == item['id_dia']){
+            checkboxes[8].checked = true
+        }
+    })
 }
 
 function obtenerDiasSeleccionados(){
