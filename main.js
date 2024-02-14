@@ -48,6 +48,8 @@ app.on('activate', function() {
     }
 })
 
+
+//mensajes de alerta y confirmacion accion realizada
 ipcMain.handle("send-alert", (event, incomingMessage) => {
   const options = {
       type: "none",
@@ -72,6 +74,7 @@ ipcMain.handle("send-confirm", (event, incomingMessage) => {
   return response;
 });
 
+//modal para editar rutinas
 ipcMain.handle('abrir-modal', async(event, args) => {
   const {id} = args
   idRutina = args;
@@ -103,6 +106,7 @@ ipcMain.handle('id-rutina', async()=>{
   }
 })
 
+//llamadas a base de datos
 ipcMain.handle('get-areas', async () => {
     try {
       const { data, error } = await supabase
@@ -530,7 +534,8 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
     const tiempo = new Date();
     const dia = tiempo.getDay();
     const hora = tiempo.getHours();
-    const minutos = tiempo.getMinutes(); // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
+    // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
+    const minutos = tiempo.getMinutes();
     let turno;
     switch (dia) {
       case 1:

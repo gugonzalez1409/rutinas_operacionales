@@ -41,8 +41,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   actualizarArea: async (selectedId, newValue) => {
     try {
-      console.log('selectedId: ');
-      console.log('newValue: ', newValue);
       const data = await ipcRenderer.invoke('actualizar-area', selectedId, newValue);
       return data;
     } catch(error){
@@ -52,7 +50,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   areaNueva: async(newValue) => {
     try {
-      console.log('newValue: ', newValue);
       const data = await ipcRenderer.invoke('area-nueva', newValue);
       return data;
     } catch(error){

@@ -2,9 +2,7 @@ window.addEventListener('load', (event) => {
     const pages = [
         'areas.html',
         'admin.html',
-        'adminCuentas.html',
         'adminTrab.html',
-        'estadisticas.html',
         'login.html',
         'modRutinas.html',
         'newRutina.html',
