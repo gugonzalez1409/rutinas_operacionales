@@ -38,8 +38,11 @@ async function getTrabajadores(areaElegida) {
 async function getRutinas(areaElegida) {
   try {
     // obtener rutinas por area, llamado a BD
-    const data = await window.electronAPI.getRutinasPorTurno(areaElegida);
+    const info = await window.electronAPI.getRutinasPorTurno(areaElegida);
+    const data = info[0] // obtener rutinas
     const rutinaCheckboxes = document.getElementById('rutinaCheckboxes');
+    const form = document.getElementById('checkbox-label')
+    form.textContent = info[1]
     //console.log(rutinaCheckboxes);
     rutinaCheckboxes.innerHTML = "";
     // logica para llenar checkboxes con rutinas correspondientes
@@ -100,6 +103,8 @@ async function emitirInforme() {
       return;
     }
     console.log(checkboxes)
+    //inserto los nombres como texto y no por referencia, para no perder info en el futuro (cambio de rutinas, turnos,areas, etc)
+    // guardar el contexto donde se hizo
     //data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
     // resetear valores insertados
     operadorACargo.value = ''
