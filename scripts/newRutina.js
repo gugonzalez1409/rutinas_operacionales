@@ -67,7 +67,7 @@ async function crearNuevaRutina(){
         await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos una jornada de trabajo')
         return;
     }
-    else if(diasSeleccionados.length === 0){
+    if(diasSeleccionados.length === 0){
         await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos un dia')
         return;
     }

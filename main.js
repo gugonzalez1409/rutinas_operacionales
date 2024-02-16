@@ -662,3 +662,38 @@ ipcMain.handle('borrar-jornadas-rutina', async(event, id) => {
     throw error;
   }
 })
+
+ipcMain.handle('get-datos-trabajador', async (event, id) => {
+  try {
+    const { data, error } = await supabase
+      .from('trabajador')
+      .select('id_trabajador, nombre_trabajador, rol_trabajador!inner(nombre_rol), turno_trabajador!inner(nombre_turno)')
+      .eq('id_trabajador', id);
+    if (error) {
+      console.error('Error al obtener datos de trabajador:', error.message);
+      throw new Error('Error al obtener datos de trabajador');
+    }
+    return data;
+  } catch (error) {
+    console.error('Error: ', error.message);
+    throw error;
+  }
+});
+
+ipcMain.handle('get-nombre-area', async(event, id)=>{
+  try {
+    const { data , error} = await supabase
+    .from('area')
+    .select('nombre_area')
+    .eq('id', id)
+    if(error){
+      console.error('Error al obtener nombre de area: ', error.message)
+      throw new Error('Error al obtener datos de trabajador');
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+    throw error;
+  }
+})

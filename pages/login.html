@@ -1,8 +1,14 @@
-<template>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <link rel="stylesheet" href="./styles/login.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supervisión de rutinas operacionales</title>
+  <link rel="stylesheet" href="./../styles/login.css">
 </head>
-    <div class="login template" id="login-template" data-tab="login">
+<body>
+  <div class="login template" id="login-template" data-tab="login">
     <h2>Inicio de sesión</h2>
     <form id="login-form">
       <label for="username">Usuario:</label>
@@ -11,5 +17,6 @@
       <input type="password" id="password" name="password" required>
       <button type="submit" class="btn btn-primary">Iniciar</button>
     </form>        
-    </div>
-</template>
+  </div>
+</body>
+</html>

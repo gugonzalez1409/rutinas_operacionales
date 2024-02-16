@@ -62,12 +62,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.log('selectedId:', selectedId);
       const data = await ipcRenderer.invoke('eliminar-area',selectedId);
       return data;
-    } catch(error){
+    }
+    catch(error){
       console.error('Error desde main: ', error);
       throw error;
     }
   },
-  emitirInforme: async( operadorACargo, rutinaRealizada, observacionesRutina) => {
+  emitirInforme: async(operadorACargo, rutinaRealizada, observacionesRutina) => {
     try{
       const data = await ipcRenderer.invoke('emitir-informe', operadorACargo, rutinaRealizada, observacionesRutina);
       return data;
@@ -219,14 +220,22 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   editNombreRutina: async(nombre, id) => {
     const nombre_nuevo = await ipcRenderer.invoke('edit-nombre-rutina', nombre, id);
-    return nombre_nuevo
+    return nombre_nuevo;
   },
   editAreaRutina: async(area, id) => {
-    const response = await ipcRenderer.invoke('edit-area-rutina', area, id)
-    return response
+    const response = await ipcRenderer.invoke('edit-area-rutina', area, id);
+    return response;
   },
   borrarJornadasRutina: async(id) => {
-    const response = await ipcRenderer.invoke('borrar-jornadas-rutina', id)
-    return response
+    const response = await ipcRenderer.invoke('borrar-jornadas-rutina', id);
+    return response;
+  },
+  getDatosTrabajador: async(id) => {
+    const response = await ipcRenderer.invoke('get-datos-trabajador', id);
+    return response;
+  },
+  getNombreArea: async(id) => {
+    const data = await ipcRenderer.invoke('get-nombre-area', id)
+    return data;
   }
 })

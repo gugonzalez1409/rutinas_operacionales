@@ -56,7 +56,8 @@ async function getRutinas(areaElegida) {
       checkboxDiv.appendChild(label);
       rutinaCheckboxes.appendChild(checkboxDiv);
     });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error al cargar datos en la lista de rutinas:', error);
   }
 }
@@ -71,11 +72,21 @@ async function confirmForm() {
 
 async function emitirInforme() {
   try {
-    // obtener variables a insertar en BD
+    //obtener area de rutina realizada
+    var area = document.getElementById('elegirArea').value;
+    var data_area = await window.electronAPI.getNombreArea(area);
+    const nombre_area =data_area[0].nombre_area;
+    // obtener datos de trabajador a cargo
     var operadorACargo = document.getElementById('selectTrabajador');
+    const data_trabajador = await window.electronAPI.getDatosTrabajador(operadorACargo.value)
+    const nombre_trabajador = data_trabajador[0].nombre_trabajador;
+    const rol_trabajador = data_trabajador[0].rol_trabajador.nombre_rol;
+    const turno_trabajador = data_trabajador[0].turno_trabajador.nombre_turno;
+    //obteniendo observaciones de rutinas
     var observacionesRutina = document.getElementById('observacionesRutina');
+    // checkboxes de rutinas
     const padre = document.getElementById('rutinaCheckboxes')
-    const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = padre.querySelectorAll('input[type="checkbox"]:checked');
     //comprobar al menos una rutina fue seleccionada
     var bool = false;
     checkboxes.forEach((checkbox)=>{
@@ -88,6 +99,7 @@ async function emitirInforme() {
       await window.messageAPI.alerta('send-alert', 'Rellene los campos necesarios para emitir informe')
       return;
     }
+    console.log(checkboxes)
     //data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
     // resetear valores insertados
     operadorACargo.value = ''
@@ -95,7 +107,6 @@ async function emitirInforme() {
         checkbox.checked = false;
     });
     observacionesRutina.value = ''
-    
     await window.messageAPI.alerta('send-alert', 'Informe emitido exitosamente')
   }
   catch (error) {

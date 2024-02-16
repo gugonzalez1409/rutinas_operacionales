@@ -3,7 +3,6 @@ window.addEventListener('load', (event) => {
         'areas.html',
         'admin.html',
         'adminTrab.html',
-        'login.html',
         'modRutinas.html',
         'newRutina.html',
         'user.html',

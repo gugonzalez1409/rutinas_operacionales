@@ -143,14 +143,15 @@ async function modificarRutina(){
     }
 
     if(old_nombre != new_nombre){ // si cambia el nombre
-        const data_nombre = await window.electronAPI.editNombreRutina(new_nombre, id);// update nombre en rutinas_operacionales
+        // update nombre en rutinas_operacionales
+        const data_nombre = await window.electronAPI.editNombreRutina(new_nombre, id);
     }
     if(new_area != old_area){ // si cambia el area
-        const data_area = await window.electronAPI.editAreaRutina(new_area, id); // update rutina en rutinas_operacionales
+        // update rutina en rutinas_operacionales
+        const data_area = await window.electronAPI.editAreaRutina(new_area, id); 
     }
-    
-    const data_old_dias = await window.electronAPI.borrarJornadasRutina(id); // borra dias anteriores en dia_jornada
-    
+    // borra dias anteriores en dia_jornada
+    const data_old_dias = await window.electronAPI.borrarJornadasRutina(id); 
     //inserta dias nuevos
     for(const dia of diasSeleccionados){
         for(const turno of turnosSeleccionados){

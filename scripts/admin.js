@@ -13,7 +13,7 @@ async function getListaInformes() {
             <td>${fila.trabajador.rol_trabajador.area.nombre_area}</td>
             <td>${fila.rutinas_operacionales.descripcion_rutina}</td>
             <td>${fila.observaciones_rutina}</td>
-          `;
+            `;
           reporte.appendChild(nuevaFila)
         })
     }
@@ -69,7 +69,8 @@ function formatearFechaYHora(fechaTS) {
             var matchRol = rolFilter === 'todos' || cells[2].textContent.toLowerCase().includes(rolFilter);
             if (matchSearch && matchTurno && matchRol) {
                 row.style.display = '';
-            } else {
+            }
+            else {
                 row.style.display = 'none';
             }
         }
