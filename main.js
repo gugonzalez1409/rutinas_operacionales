@@ -48,7 +48,6 @@ app.on('activate', function() {
     }
 })
 
-
 //mensajes de alerta y confirmacion accion realizada
 ipcMain.handle("send-alert", (event, incomingMessage) => {
   const options = {
@@ -612,4 +611,54 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
     console.error('Error al obtener rutinas por turno: ', error.message);
     throw new Error('Error al obtener rutinas por turno');
   }
+
+
 });
+
+ipcMain.handle('edit-nombre-rutina', async(event, nombre, id)=>{
+  try {
+    const { data, error } = await supabase
+        .from('rutinas_operacionales')
+        .update({ descripcion_rutina: nombre })
+        .eq('id_rutina', id)
+        .select()
+    if(error){
+        console.error('Error al actualizar rutina:', error.message);
+        throw new Error('Error al actualizar rutina');
+      }
+      return data;
+    }
+    catch (error){
+        console.error('Error: ', error.message);
+        throw error;
+    }
+});
+
+ipcMain.handle('edit-area-rutina', async(event, area, id) =>{
+  try {
+    const {data, error} = await supabase
+    .from('rutinas_operacionales')
+    .update({area_rutina : area})
+    .eq('id_rutina', id)
+    .select()
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+    throw error;
+  }
+})
+
+ipcMain.handle('borrar-jornadas-rutina', async(event, id) => {
+  try {
+    const {data, error} = await supabase
+    .from('dia_jornada')
+    .delete()
+    .eq('id_rutina', id)
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message);
+    throw error;
+  }
+})

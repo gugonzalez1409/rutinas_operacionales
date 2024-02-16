@@ -7,8 +7,8 @@ async function getAreaRutina(){
     try{
        const id = await getIDrutina();
        const data = await window.electronAPI.getAreaRutina(id);
-       const idArea = data[0]['area_rutina']
-       return idArea
+       const idArea = data[0]['area_rutina'];
+       return idArea;
     }
     catch(error){
        console.error('Error al obtener nombre de rutina:', error);
@@ -25,6 +25,7 @@ async function getNombreRutina(){
             if (nombreInput) {
                 nombreInput.value = nombre;
             }
+            return nombre;
         }
     }
     catch(error){
@@ -38,15 +39,18 @@ async function getAreasEditRutina(){
         const areaMod = document.getElementById('areaModRutina')
         const idArea = await getAreaRutina()
         areaMod.innerHTML = ''
+        var old_area;
         data.forEach(item => {
             const nuevaArea = document.createElement('option')
             nuevaArea.value = item.id;
             nuevaArea.text = item.nombre_area;
             if(item.id == idArea){
+                old_area = item.id;
                nuevaArea.selected = true
             }
             areaMod.add(nuevaArea)
         });
+        return old_area;
     }
     catch(error){
         console.error('Error al cargar lista de areas:', error);
@@ -118,6 +122,43 @@ function actualizarSelecciones() {
           console.log(`${dia}, ${turno}`);
         }
     }
+}
+
+async function modificarRutina(){
+    const id = await getIDrutina(); // id rutina seleccionada
+    const old_nombre = await getNombreRutina();
+    // conseguir nombre y area originales
+    const old_area = await getAreaRutina();
+    const new_nombre = document.getElementById('nombreModRutina').value; // nombre de rutina
+    const new_area = document.getElementById('areaModRutina').value; // area de rutina
+    const diasSeleccionados = obtenerDiasSeleccionados(); // dias a realizar 
+    const turnosSeleccionados = obtenerTurnosSeleccionados(); // turno a realizar
+    if(turnosSeleccionados.length === 0){
+        await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos una jornada de trabajo')
+        return;
+    }
+    else if(diasSeleccionados.length === 0){
+        await window.messageAPI.alerta('send-alert', 'Debe seleccionar al menos un dia')
+        return;
+    }
+
+    if(old_nombre != new_nombre){ // si cambia el nombre
+        const data_nombre = await window.electronAPI.editNombreRutina(new_nombre, id);// update nombre en rutinas_operacionales
+    }
+    if(new_area != old_area){ // si cambia el area
+        const data_area = await window.electronAPI.editAreaRutina(new_area, id); // update rutina en rutinas_operacionales
+    }
+    
+    const data_old_dias = await window.electronAPI.borrarJornadasRutina(id); // borra dias anteriores en dia_jornada
+    
+    //inserta dias nuevos
+    for(const dia of diasSeleccionados){
+        for(const turno of turnosSeleccionados){
+            // inserta en dia_jornada
+            new_data = await window.electronAPI.insertarDiaJornada(dia, turno, id);
+        }
+    }
+    await window.messageAPI.alerta('send-alert', 'Rutina modificada exitosamente')
 }
 
 getJornadaActual()

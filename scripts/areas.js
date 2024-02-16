@@ -20,7 +20,7 @@ async function confirmEdit() {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if (alert){
       editOption();
-      //location.reload()
+      refresh();
     }
   }
   catch(error){
@@ -32,7 +32,6 @@ async function confirmAdd() {
   var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro que desea agregar el area?")
     if (alert) {
       addOption();
-      //location.reload()
     }
   }
 
@@ -77,7 +76,6 @@ async function addOption() {
      await window.electronAPI.areaNueva(newValue);
      window.messageAPI.alerta("send-alert", "Área agregada con exitosamente.")
       clearForm();
-      //recargar pagina
     } catch (error) {
       console.error('Error al agregar área:', error);
     }
@@ -92,18 +90,24 @@ async function deleteOption() {
         await window.electronAPI.eliminarArea(selectedId);
         window.messageAPI.alerta("send-alert", "Área eliminada exitosamente.")
         clearForm();
-        //location.reload()
       } else {
         window.messageAPI.alerta("send-alert", "Por favor, selecciona un área.")
       }
     } catch (error) {
       console.error('Error al eliminar área:', error);
     }
-  }     
+  }
+
+ /*function refresh(){
+    var active = document.querySelectorAll('.active'); // contenido
+    location.reload()
+    active[0].classList.add('active')
+    active[1].classList.add('active')
+    active[1].classList.add('show')
+}*/  
 
 function clearForm() {
     document.getElementById('newValue').value = '';
 }
-
 
 getAreas()
