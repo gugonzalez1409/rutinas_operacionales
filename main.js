@@ -8,6 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow
 let modalWindow
+
 let idRutina // para pasar al modal
 
 function createWindow() {
@@ -18,7 +19,7 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js'),
         } 
     })
-    mainWindow.loadFile('index.html')
+    mainWindow.loadFile('./pages/login.html')
     mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
@@ -48,7 +49,25 @@ app.on('activate', function() {
     }
 })
 
-//mensajes de alerta y confirmacion accion realizada
+ipcMain.handle('log-in', async (event, email, password)=>{
+  try{
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+    if(error){
+      console.error('Error al iniciar sesión:', error.message);
+        throw new Error('Error al iniciar sesión');
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error en login: ', error.message);
+    throw error;
+  }
+})
+
+//MENSAJES DE ALERTA Y CONFIRMACION DE CADA ACCION
 ipcMain.handle("send-alert", (event, incomingMessage) => {
   const options = {
       type: "none",
@@ -73,7 +92,8 @@ ipcMain.handle("send-confirm", (event, incomingMessage) => {
   return response;
 });
 
-//modal para editar rutinas
+//MODAL EDIT RUTINAS
+
 ipcMain.handle('abrir-modal', async(event, args) => {
   const {id} = args
   idRutina = args;
@@ -105,7 +125,9 @@ ipcMain.handle('id-rutina', async()=>{
   }
 })
 
-//llamadas a base de datos
+
+//LLAMADAS A BASE DE DATOS
+
 ipcMain.handle('get-areas', async () => {
     try {
       const { data, error } = await supabase
@@ -519,7 +541,6 @@ async function obtenerRutinas(area, dia, jornada) {
       console.error('Error al obtener datos: ', error.message);
       throw new Error('Error al obtener datos');
     }
-
     return data;
   } catch (error) {
     console.error('Error al obtener datos: ', error.message);
@@ -592,7 +613,7 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
           turno = 2;
         }
         break;
-      case 7:
+      case 0:
         if (hora >= 6 && hora <= 18) {
           nombre_turno = 'Rutinas domingo turno dia'
           turno = 1;

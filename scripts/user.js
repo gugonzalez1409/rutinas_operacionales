@@ -44,7 +44,7 @@ async function getRutinas(areaElegida) {
     const form = document.getElementById('checkbox-label')
     form.textContent = info[1]
     //console.log(rutinaCheckboxes);
-    rutinaCheckboxes.innerHTML = "";
+    rutinaCheckboxes.innerHTML = '';
     // logica para llenar checkboxes con rutinas correspondientes
     data.forEach(item => {
       const checkboxDiv = document.createElement('div');

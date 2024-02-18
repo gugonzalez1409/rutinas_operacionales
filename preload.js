@@ -237,5 +237,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getNombreArea: async(id) => {
     const data = await ipcRenderer.invoke('get-nombre-area', id)
     return data;
+  },
+  LogIn: async(email, password)=> {
+    const response = await ipcRenderer.invoke('log-in', email, password)
+    return response;
   }
 })
