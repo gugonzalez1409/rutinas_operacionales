@@ -218,7 +218,9 @@ ipcMain.handle('area-nueva', async(event, newValue)=>{
   try{
     const {data, error} = await supabase
     .from('area')
-    .insert([{nombre_area: newValue}])
+    .insert([{
+        nombre_area: newValue
+      }])
     .select()
   if(error){
     console.error('Error al insertar datos:' ,error.message);
@@ -268,12 +270,20 @@ ipcMain.handle('rutinas-por-area', async(event, areaElegida)=>{
   }
 })
 
-ipcMain.handle('emitir-informe', async(event, operadorACargo, rutinaRealizada, observacionesRutina)=>{
+ipcMain.handle('emitir-informe', async(event, nombre_trabajador, rol_trabajador, turno_trabajador, observacionesRutina, area_rutina, rutinas)=>{
   try{
     date = new Date();
     const {data, error} = await supabase
     .from('informe_rutinas')
-    .insert({id_rutina: rutinaRealizada, id_trabajador: operadorACargo, fecha: date, observaciones_rutina: observacionesRutina})
+    .insert({
+      fecha : date, 
+      nombre_trabajador : nombre_trabajador, 
+      rol_trabajador : rol_trabajador, 
+      turno_trabajador : turno_trabajador, 
+      observaciones_rutina : observacionesRutina, 
+      area_rutina : area_rutina,
+      nombre_rutina : rutinas
+    })
     .select()
     if(error){
       console.error('Error al emitir informe:', error.message);
@@ -308,7 +318,7 @@ ipcMain.handle('get-lista-informes', async(event)=>{
   try{
     const {data, error } = await supabase
     .from('informe_rutinas')
-    .select('*, rutinas_operacionales!inner(descripcion_rutina), trabajador!inner(nombre_trabajador, turno_trabajador!inner(*), rol_trabajador!inner(nombre_rol, area!inner(nombre_area)))')
+    .select('*')
     .order('fecha', {ascending: false})
     if(error){
       console.error('Error al obtener lista de informes: ', error.message);
@@ -407,7 +417,11 @@ ipcMain.handle('crear-nuevo-trabajador', async(event, nombreNuevoTrabajador, rol
   try{
     const { data, error } = await supabase
     .from('trabajador')
-    .insert([{nombre_trabajador: nombreNuevoTrabajador, rol_trabajador: rolNuevoTrabajador, turno_trabajador: turnoNuevoTrabajador}])
+    .insert([{
+      nombre_trabajador: nombreNuevoTrabajador,
+      rol_trabajador: rolNuevoTrabajador, 
+      turno_trabajador: turnoNuevoTrabajador
+    }])
     .select()
     if(error){
       console.error('Error al insertar nuevo trabajador: ', error.message)
@@ -424,7 +438,10 @@ ipcMain.handle('nuevo-rol', async(event, nombre, area) => {
   try{
     const { data, error} = await supabase
     .from('rol_trabajador')
-    .insert({nombre_rol: nombre, id_area: area})
+    .insert({
+      nombre_rol: nombre,
+      id_area: area
+    })
     .select()
     if(error){
       console.error('Error al insertar nuevo trabajador: ', error.message)
@@ -445,7 +462,7 @@ ipcMain.handle('get-rutinas-por-area', async(event, idArea) =>{
     .eq('area_rutina', idArea)
     if(error){
       console.error('Error al obtener rutinas: ', error.message)
-      throw new Error('Error al insertar nuevo trabajador')
+      throw new Error('Error al obtener rutinas')
     }
     return data;
   }
@@ -459,7 +476,10 @@ ipcMain.handle('insertar-nueva-rutina', async(event, nombreRutina, area)=>{
     //insert en rutinas_operacionales
     const {data, error} = await supabase
     .from('rutinas_operacionales')
-    .insert({area_rutina: area, descripcion_rutina: nombreRutina})
+    .insert({
+      area_rutina: area, 
+      descripcion_rutina: nombreRutina
+    })
     .select()
     if(error){
       console.error('Error al insertar rutina: ', error.message)
@@ -476,7 +496,11 @@ ipcMain.handle('insertar-dia-jornada', async(event, dia, turno, id_rutina)=>{
   try{
     const {data, error} = await supabase
     .from('dia_jornada')
-    .insert({id_jornada: turno, id_dia: dia, id_rutina: id_rutina})
+    .insert({
+      id_jornada: turno, 
+      id_dia: dia, 
+      id_rutina: id_rutina
+    })
     if(error){
       console.error('Error al insertar rutina: ', error.message)
       throw new error('error al insertar rutina')
@@ -484,8 +508,8 @@ ipcMain.handle('insertar-dia-jornada', async(event, dia, turno, id_rutina)=>{
     return data;
   }
   catch(error){
-    console.error('Error al insertar rutina: ', error.message)
-    throw new error('error al insertar rutina')
+    console.error('Error al insertar jornada: ', error.message)
+    throw new error('error al insertar jornada')
   }
 })
 

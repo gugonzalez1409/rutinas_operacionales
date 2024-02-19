@@ -3,18 +3,42 @@ async function getListaInformes() {
         const data = await window.electronAPI.getListaInformes()
         const reporte = document.getElementById('report-data')
         data.forEach(fila => {
+            // info de trabajador que emitio informe
             const nuevaFila = document.createElement('tr');
             const fechaFormateada = formatearFechaYHora(fila.fecha);
+            nuevaFila.classList.add('worker-row');
             nuevaFila.innerHTML = `
             <td>${fechaFormateada}</td>
-            <td>${fila.trabajador.nombre_trabajador}</td>
-            <td>${fila.trabajador.rol_trabajador.nombre_rol}</td>
-            <td>${fila.trabajador.turno_trabajador.nombre_turno}</td>
-            <td>${fila.trabajador.rol_trabajador.area.nombre_area}</td>
-            <td>${fila.rutinas_operacionales.descripcion_rutina}</td>
-            <td>${fila.observaciones_rutina}</td>
+            <td>${fila.nombre_trabajador}</td>
+            <td>${fila.rol_trabajador}</td>
+            <td>${fila.turno_trabajador}</td>
+            <td>${fila.area_rutina}</td>
+            <td class = "actions">
+            <button type="button" onclick = "mostrarDetalles(this)">Mostrar Detalles </button>
+            </td>
             `;
-          reporte.appendChild(nuevaFila)
+            reporte.appendChild(nuevaFila)
+            // mostrando info de rutinas realizadas y observaciones
+            const detallesFila = document.createElement('tr')
+            detallesFila.classList.add('details')
+            const observaciones = fila.observaciones_rutina ? fila.observaciones_rutina : 'No hay observaciones';
+            let rutinasHTML = '<ul>'
+            for(const [nombreRutina, realizada] of Object.entries(fila.nombre_rutina)){
+                const icono = realizada === 1 ? '<i class="fas fa-check-circle" style="color: green;"></i>' : '<i class="fas fa-times-circle" style="color: red;"></i>';
+                rutinasHTML += `<li>${icono} ${nombreRutina}</li>`;
+            }
+            rutinasHTML += '</ul>'
+            detallesFila.innerHTML = `
+            <td colspan="6">
+              <ul>
+                  <li> Rutinas: <li>
+                  ${rutinasHTML}
+                  <li> Observaciones: </li>
+                  ${observaciones}
+              </ul>
+            </td>
+      `;
+            reporte.appendChild(detallesFila); 
         })
     }
     catch(error){
@@ -22,6 +46,7 @@ async function getListaInformes() {
     }
 }
 
+ // obtener todos los roles para hacer filtro
 async function getRolesFiltro(){
     const data = await window.electronAPI.getAllRoles();
     const filtroRol = document.getElementById('rol-filter')
@@ -38,6 +63,7 @@ async function getRolesFiltro(){
     })
 }
 
+// formateo de fecha para mostrar en tabla
 function formatearFechaYHora(fechaTS) {
     const fecha = new Date(fechaTS);
     const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
@@ -53,6 +79,7 @@ function formatearFechaYHora(fechaTS) {
     return formatoFecha;
   }
 
+  //filtros
   function filtrarTabla() {
     var input = document.getElementById('search').value.toLowerCase();
     var turnoFilter = document.getElementById('turno-filter').value.toLowerCase();
@@ -75,6 +102,16 @@ function formatearFechaYHora(fechaTS) {
             }
         }
     });
+}
+
+
+ // cambia display de detalles
+function mostrarDetalles(button){
+    var detailsRow = button.closest('.worker-row').nextElementSibling;
+    if (detailsRow.classList.contains('details')) {
+        detailsRow.style.display = detailsRow.style.display == 'none' ? 'table-row' : 'none';
+        button.textContent = detailsRow.style.display == 'none' ? 'Mostrar Detalles' : 'Ocultar Detalles';
+    }
 }
 
 getListaInformes()

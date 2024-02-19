@@ -68,9 +68,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
       throw error;
     }
   },
-  emitirInforme: async(operadorACargo, rutinaRealizada, observacionesRutina) => {
+  emitirInforme: async(nombre_trabajador, rol_trabajador, turno_trabajador, observacionesRutina, area_rutina, rutinas) => {
     try{
-      const data = await ipcRenderer.invoke('emitir-informe', operadorACargo, rutinaRealizada, observacionesRutina);
+      const data = await ipcRenderer.invoke('emitir-informe', nombre_trabajador, rol_trabajador, turno_trabajador, observacionesRutina, area_rutina, rutinas);
       return data;
     }
     catch(error){

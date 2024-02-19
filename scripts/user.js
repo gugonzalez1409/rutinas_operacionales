@@ -91,10 +91,10 @@ async function emitirInforme() {
     var observacionesRutina = document.getElementById('observacionesRutina');
     // checkboxes de rutinas
     const padre = document.getElementById('rutinaCheckboxes')
-    const checkboxes = padre.querySelectorAll('input[type="checkbox"]:checked');
+    const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
     //comprobar al menos una rutina fue seleccionada
     var bool = false;
-    checkboxes.forEach((checkbox)=>{
+    checkboxes.forEach((checkbox) =>{
       if(checkbox.checked == true){
         bool = true
       }
@@ -104,17 +104,25 @@ async function emitirInforme() {
       await window.messageAPI.alerta('send-alert', 'Rellene los campos necesarios para emitir informe')
       return;
     }
-    console.log(checkboxes)
-    //inserto los nombres como texto y no por referencia, para no perder info en el futuro (cambio de rutinas, turnos,areas, etc)
-    // guardar el contexto donde se hizo
-    //data = await window.electronAPI.emitirInforme(operadorACargo.value, rutinaRealizada.value, observacionesRutina.value);
-    // resetear valores insertados
+    else{
+      // info de rutinas realizadas y no realizadas
+      const rutinas = {}
+      checkboxes.forEach((checkbox) =>{
+        const label = checkbox.parentElement.textContent.trim() // obtener nombre de rutina
+        const estado = checkbox.checked ? 1 : 0 // comprueba si está marcado, 1 si, 0 no
+        rutinas[label] = estado;
+      })
+      console.log(rutinas)
+    data = await window.electronAPI.emitirInforme(nombre_trabajador, rol_trabajador, turno_trabajador, observacionesRutina.value, nombre_area, rutinas);
+    console.log(data)
+    // RESET CAMPOS DEL FORM
     operadorACargo.value = ''
     checkboxes.forEach((checkbox) => {
         checkbox.checked = false;
     });
     observacionesRutina.value = ''
     await window.messageAPI.alerta('send-alert', 'Informe emitido exitosamente')
+    }
   }
   catch (error) {
     await window.messageAPI.alerta('send-alert', 'Error al emitir informe')

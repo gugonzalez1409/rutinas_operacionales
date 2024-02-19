@@ -1,10 +1,10 @@
 <template>
-    <head>
-      <link rel="stylesheet" href="./styles/admin.css">
-    </head>
-    <div class="container template" id="main-template" data-tab="main">
-    <input type="text" id="search" placeholder="Buscar...">
-    <select id="turno-filter" placeholder="Filtro por turno">
+  <head>
+    <link rel="stylesheet" href="./styles/admin.css">
+  </head>
+  <div class="container template" id="main-template" data-tab="main">
+  <input type="text" id="search" placeholder="Buscar...">
+  <select id="turno-filter" placeholder="Filtro por turno">
     <option value="todos">Todos los turnos</option>
     <option value="A">Turno A</option>
     <option value="B">Turno B</option>
@@ -26,13 +26,13 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody> 
-      <tr id ="report-data"> <!-- fecha, nombre, rol, turno y area -->
-      </tr>
-      <tr id ="rutinas">  <!-- checkbox de rutinas y observaciones -->
+    <tbody id ="report-data"> <!-- fecha, nombre, rol, turno y area -->
+      <tr class="worker-row">
+      </tr> 
+      <tr class ="rutinas">  <!-- checkbox de rutinas y observaciones -->
+        </td>
       </tr>
     </tbody>
   </table>
-  </div>
   </div>
 </template>
