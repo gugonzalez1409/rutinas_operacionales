@@ -793,3 +793,24 @@ ipcMain.handle('get-trabajadores', async(event, area)=>{
     throw Error;
   }
 })
+
+ipcMain.handle('get-rutinas-dia', async(event, area)=>{
+  try {
+    const tiempo = new Date()
+    const dia = tiempo.getDay()
+    const {data, error} = await supabase
+    .from('dia_jornada')
+    .select('rutinas_operacionales!inner(descripcion_rutina), jornada!inner(nombre_jornada)')
+    .eq('rutinas_operacionales.area_rutina', area)
+    .eq('id_dia', dia)
+    if(error){
+      console.error('Error al obtener trabajadores: ', error.message)
+      throw new Error('Error al obtener trabajadores');
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ' , error.message)
+    throw Error;
+  }
+})

@@ -6,6 +6,7 @@ window.addEventListener('load', (event) => {
         'adminTrab.html',
         'modRutinas.html',
         'newRutina.html',
+        'rutinasHoy.html'
     ];
 
     const loadPage = async (page) => {
@@ -33,7 +34,7 @@ window.addEventListener('load', (event) => {
         });
     });
 
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
     var navLinks = document.querySelectorAll('.nav-link');
     var tabScripts = {
         'admin-tab': './scripts/admin.js',
@@ -56,5 +57,5 @@ document.addEventListener('DOMContentLoaded', function () {
         script.src = scriptPath;
         document.body.appendChild(script);
     }
-    });
+    });*/
     

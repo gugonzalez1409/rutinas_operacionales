@@ -108,7 +108,7 @@ async function actualizarTrabajador() {
     var rolTrab = document.getElementById('rolTrab').value;
     var turnoTrab = document.getElementById('turnoTrab').value;
     data = await window.electronAPI.actualizarTrabajador(idTrab, rolTrab, turnoTrab);
-    window.messageAPI.alerta("send-alert", "Trabajador actualizado exitosamente.")
+    await window.messageAPI.alerta("send-alert", "Trabajador actualizado exitosamente.")
   }
   catch(error){
     alert('Error al actualizar trabajador')
@@ -177,7 +177,7 @@ async function nuevoTrabajador(){
     nombreNuevoTrabajador.value = ''
     rolNuevoTrabajador.value = ''
     turnoNuevoTrabajador.value = ''
-    window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
+    await window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
 
   }
   catch(error){
@@ -208,10 +208,10 @@ async function nuevoRol(){
   try{
     var nombre = document.getElementById('nuevoRolNombre').value;
     var area = document.getElementById('areaRol').value;
-    data = window.electronAPI.nuevoRol(nombre, area)
+    data = await window.electronAPI.nuevoRol(nombre, area)
     nombre.innerHTML ='';
     area.innerHTML = '';
-    window.messageAPI.alerta("send-alert", "Nuevo rol creado exitosamente.")
+    await window.messageAPI.alerta("send-alert", "Nuevo rol creado exitosamente.")
   }
   catch(error){
     window.messageAPI.alerta("send-alert", "Error al crear nuevo rol.")
@@ -223,7 +223,7 @@ async function confirmActualizarTrabajador(){
   try{
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if(alert){
-      actualizarTrabajador()
+      await actualizarTrabajador()
     }
   }
   catch(error){
@@ -247,7 +247,7 @@ async function confirmNuevoTrabajador(){
   try {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear un nuevo trabajador con los datos seleccionados?")
     if(alert){
-      nuevoTrabajador()
+      await nuevoTrabajador()
     }
   }
   catch(error){
@@ -259,7 +259,7 @@ async function confirmNuevoRol(){
   try{
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear el rol con los datos seleccionados?")
     if(alert){
-      nuevoRol()
+      await nuevoRol()
     }
   }
   catch(error){
@@ -267,4 +267,4 @@ async function confirmNuevoRol(){
   }
 }
 
-  getTrabajadores()
+getTrabajadores()

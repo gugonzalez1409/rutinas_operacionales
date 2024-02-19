@@ -253,5 +253,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getTrabajadores: async(area)=> {
     const response = await ipcRenderer.invoke('get-trabajadores', area)
     return response;
+  },
+  getRutinasDia: async(area)=>{
+    const response = await ipcRenderer.invoke('get-rutinas-dia',area)
+    return response;
   }
 })

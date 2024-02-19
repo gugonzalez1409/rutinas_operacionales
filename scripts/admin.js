@@ -88,21 +88,26 @@ function formatearFechaYHora(fechaTS) {
 
     rows.forEach(function (row) {
         var cells = row.getElementsByTagName('td');
-
-        // Verificar si hay suficientes celdas antes de intentar acceder a la cuarta celda (columna de "Turno")
         if (cells.length >= 4) {
             var matchSearch = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(input));
-            var matchTurno = turnoFilter === 'todos' || cells[3].textContent.toLowerCase().includes(turnoFilter); 
+            var matchTurno = turnoFilter === 'todos' || cells[3].textContent.toLowerCase().includes(turnoFilter);
             var matchRol = rolFilter === 'todos' || cells[2].textContent.toLowerCase().includes(rolFilter);
             if (matchSearch && matchTurno && matchRol) {
                 row.style.display = '';
-            }
-            else {
+            } else {
                 row.style.display = 'none';
             }
         }
     });
+    // Ocultar todos los detalles después de filtrar
+    var detallesRows = document.querySelectorAll('.details');
+    detallesRows.forEach(function (detailsRow) {
+        detailsRow.style.display = 'none';
+        var button = detailsRow.previousElementSibling.querySelector('.mostrarDetalles');
+        button.textContent = 'Mostrar Detalles';
+    });
 }
+
 
  // cambia display de detalles
  function mostrarDetalles(button) {
