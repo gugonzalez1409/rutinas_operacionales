@@ -2,6 +2,7 @@ async function getListaInformes() {
     try {
         const data = await window.electronAPI.getListaInformes()
         const reporte = document.getElementById('report-data')
+        reporte.innerHTML = ''
         data.forEach(fila => {
             // info de trabajador que emitio informe
             const nuevaFila = document.createElement('tr');
@@ -14,7 +15,7 @@ async function getListaInformes() {
             <td>${fila.turno_trabajador}</td>
             <td>${fila.area_rutina}</td>
             <td class = "actions">
-            <button type="button" onclick = "mostrarDetalles(this)">Mostrar Detalles </button>
+            <button type="button" class="mostrarDetalles" onclick = "mostrarDetalles(this)">Mostrar Detalles</button>
             </td>
             `;
             reporte.appendChild(nuevaFila)
@@ -38,14 +39,13 @@ async function getListaInformes() {
               </ul>
             </td>
       `;
-            reporte.appendChild(detallesFila); 
+            reporte.appendChild(detallesFila);
         })
     }
     catch(error){
         console.error('Error al cargar datos en la lista desplegable:', error);
     }
 }
-
  // obtener todos los roles para hacer filtro
 async function getRolesFiltro(){
     const data = await window.electronAPI.getAllRoles();
@@ -104,15 +104,16 @@ function formatearFechaYHora(fechaTS) {
     });
 }
 
-
  // cambia display de detalles
-function mostrarDetalles(button){
+ function mostrarDetalles(button) {
     var detailsRow = button.closest('.worker-row').nextElementSibling;
     if (detailsRow.classList.contains('details')) {
-        detailsRow.style.display = detailsRow.style.display == 'none' ? 'table-row' : 'none';
-        button.textContent = detailsRow.style.display == 'none' ? 'Mostrar Detalles' : 'Ocultar Detalles';
+        var currentDisplayStyle = window.getComputedStyle(detailsRow).getPropertyValue('display');
+        detailsRow.style.display = currentDisplayStyle === 'none' ? 'table-row' : 'none';
+        button.textContent = detailsRow.style.display === 'none' ? 'Mostrar Detalles' : 'Ocultar Detalles';
     }
 }
+
 
 getListaInformes()
 getRolesFiltro()

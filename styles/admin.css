@@ -37,6 +37,11 @@ input[type="text"], select {
   font-size: 10px;
 }
 
+.mostrarDetalles {
+  display: block;
+  margin: auto;
+}
+
 button:hover {
   background-color: #0056b3;
 }

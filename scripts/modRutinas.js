@@ -33,8 +33,8 @@
         <td>${fila.id_rutina}</td>
         <td>${fila.descripcion_rutina}</td>
         <td class ="actions">
-        <button onclick="editarRutina(${fila.id_rutina})" class="icon-button"><i class="">Editar</i></button>
-        <button onclick="confirmBorrarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-trash">Borrar</i></button>
+        <button onclick="editarRutina(${fila.id_rutina})">Editar</button>
+        <button onclick="confirmBorrarRutina(${fila.id_rutina})">Borrar</button>
         </td>
       `;
       rutinas.appendChild(nuevaFila)

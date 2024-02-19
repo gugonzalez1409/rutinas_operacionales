@@ -20,7 +20,6 @@ async function confirmEdit() {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if (alert){
       editOption();
-      refresh();
     }
   }
   catch(error){
@@ -97,14 +96,6 @@ async function deleteOption() {
       console.error('Error al eliminar área:', error);
     }
   }
-
- /*function refresh(){
-    var active = document.querySelectorAll('.active'); // contenido
-    location.reload()
-    active[0].classList.add('active')
-    active[1].classList.add('active')
-    active[1].classList.add('show')
-}*/  
 
 function clearForm() {
     document.getElementById('newValue').value = '';
