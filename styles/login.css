@@ -5,7 +5,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif; /* Cambia 'Arial' por la fuente que prefieras */
+  font-family: 'Arial', sans-serif;
 }
 
 .login h2 {

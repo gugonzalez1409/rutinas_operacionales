@@ -1,32 +1,40 @@
-<template>
-  <head>
-    <link rel="stylesheet" href="./styles/user.css">
-  </head>
-    <div class="user template" id="user-template" data-tab="user">
-    <body>
-        <h2>Ingrese las rutinas y actividades realizadas</h2>
-        <form id="formUser">
-          <div class="form-group">
-            <label for="elegirArea">Seleccione el área:</label>
-            <select class="form-control" id="elegirArea">
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="selectTrabajador">Operador a cargo:</label>
-            <select class="form-control" id="selectTrabajador">
-              </select>
-          </div>
-          <div class="form-checkbox" id="form-checkbox">
-            <label for="form-checkbox" id="checkbox-label"></label>
-            <div id="rutinaCheckboxes"></div>
-          </div>        
-          <div class="form-textarea">
-            <label for="observacionesRutina">Ingrese observaciones: (opcional)</label>
-            <textarea class="form-control" id="observacionesRutina" rows="5"></textarea>
-          </div>
-        <button type="button" onclick="confirmForm()" class="btn btn-primary">Confirmar</button>  
-        <button type="button"  onclick="" class="btn btn-secondary">Terminar turno</button> 
-        </form>
-      </body>
-    </div>
-</template>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+  <link rel="stylesheet" href="./../styles/user.css">
+  <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <title>Ingreso de rutinas y actividades</title>
+</head>
+
+<body>
+  <div class="user template" id="user-template" data-tab="user">
+    <h2>Ingrese las rutinas y actividades realizadas</h2>
+    <form id="formUser" class="user-form">
+      <div class="form-group">
+        <label for="elegirArea">Seleccione el área:</label>
+        <select class="form-control" id="elegirArea"></select>
+      </div>
+      <div class="form-group">
+        <label for="selectTrabajador">Operador a cargo:</label>
+        <select class="form-control" id="selectTrabajador"></select>
+      </div>
+      <div class="form-checkbox" id="form-checkbox">
+        <label for="form-checkbox" id="checkbox-label"></label>
+        <div id="rutinaCheckboxes"></div>
+      </div>
+      <div class="form-textarea">
+        <label for="observacionesRutina">Ingrese observaciones: (opcional)</label>
+        <textarea class="form-control" id="observacionesRutina" rows="5"></textarea>
+      </div>
+      <button type="button" onclick="confirmForm()" class="btn btn-primary">Confirmar</button>
+      <button type="button" onclick="LogOut()" class="btn btn-secondary">Terminar turno</button>
+    </form>
+  </div>
+</body>
+<script src="./../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./../scripts/user.js"></script>
+</html>

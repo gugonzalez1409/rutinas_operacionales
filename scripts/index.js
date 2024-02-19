@@ -5,7 +5,6 @@ window.addEventListener('load', (event) => {
         'adminTrab.html',
         'modRutinas.html',
         'newRutina.html',
-        'user.html',
     ];
 
     const loadPage = async (page) => {

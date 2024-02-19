@@ -3,13 +3,17 @@ async function LogIn(){
         const email = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const log = await window.electronAPI.LogIn(email, password);
-        console.log(log)
-        if(log !== undefined){   
+        const rol = log.rol
+        if(rol !== undefined && rol == 'admin'){   
             window.location.href = './../index.html'
+        }
+        else if(rol != undefined && rol != 'admin'){
+            window.location.href = './user.html'
         }
     }
     catch(error){
         window.messageAPI.alerta('send-alert', 'Error al inciar sesión, asegurese de haber ingresado las credenciales correctamente')
+        clearLogin()
     }
 }
 
@@ -19,6 +23,9 @@ document.getElementById("login-form").addEventListener("keyup", function(event) 
     }
   });
 
-async function redirect(){
-
+function clearLogin(){
+    const email = document.getElementById('username');
+    const password = document.getElementById('password');
+    email.value = ''
+    password.value = ''
 }

@@ -23,8 +23,10 @@ async function getAreas() {
   });
 }
 
+// REFACTOR PARA OBTENER TRABAJADORES DE SESION INICIADA
 async function getTrabajadores(areaElegida) {
-  const data = await window.electronAPI.getTrabajadoresporArea(areaElegida);
+  const rol = await window.electronAPI.getRol()
+  const data = await window.electronAPI.getTrabajadoresporArea(areaElegida, rol);
   const selectTrabajador = document.getElementById('selectTrabajador');
   selectTrabajador.innerHTML = '';
   data.forEach(item => {
@@ -117,6 +119,14 @@ async function emitirInforme() {
   catch (error) {
     await window.messageAPI.alerta('send-alert', 'Error al emitir informe')
     console.error('Error al emitir informe: ', error);
+  }
+}
+
+async function LogOut(){
+  const data = await window.electronAPI.LogOut()
+  console.log(data)
+  if(data){
+    window.location.href= './login.html'
   }
 }
 

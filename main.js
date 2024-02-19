@@ -2,6 +2,8 @@ require('dotenv').config();
 const { app, BrowserWindow, ipcMain, remote, dialog } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
+const { event } = require('jquery');
+const main = require('electron-reload');
 const supabaseUrl = 'https://ftxxcnmgoyrppxvjjcmr.supabase.co';
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -10,6 +12,7 @@ let mainWindow
 let modalWindow
 
 let idRutina // para pasar al modal
+let rolSesion
 
 function createWindow() {
     mainWindow = new BrowserWindow({ 
@@ -20,6 +23,7 @@ function createWindow() {
         } 
     })
     mainWindow.loadFile('./pages/login.html')
+    //mainWindow.setMenu(null)
     mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
@@ -59,7 +63,20 @@ ipcMain.handle('log-in', async (event, email, password)=>{
       console.error('Error al iniciar sesión:', error.message);
         throw new Error('Error al iniciar sesión');
     }
-    return data;
+    else{
+      // obtener rol de usuario
+      const {data: userData, error: userError} = await supabase
+      .from('usuarios')
+      .select('rol')
+      .eq('email', email)
+      .single()
+      if(userError){
+        console.error('Error al obtener rol de usuario: ', error.message)
+        throw new Error('Error al obtener rol de usuario')
+      }
+      rolSesion = userData.rol
+      return userData
+    }
   }
   catch(error){
     console.error('Error en login: ', error.message);
@@ -67,8 +84,22 @@ ipcMain.handle('log-in', async (event, email, password)=>{
   }
 })
 
+ipcMain.handle('log-out', async(event)=>{
+  const { error } = await supabase.auth.signOut()
+  if(error){
+    console.log('Error al terminar turno: ',error.message)
+    throw error;
+  }
+  return 1;
+})
+
+ipcMain.handle('get-rol', async(event)=>{
+  const rol = parseInt(rolSesion)
+  return rol
+})
+
 //MENSAJES DE ALERTA Y CONFIRMACION DE CADA ACCION
-ipcMain.handle("send-alert", (event, incomingMessage) => {
+ipcMain.handle("send-alert", async(event, incomingMessage) => {
   const options = {
       type: "none",
       buttons: ["Ok"],
@@ -78,7 +109,7 @@ ipcMain.handle("send-alert", (event, incomingMessage) => {
   dialog.showMessageBox(mainWindow, options)
 })
 
-ipcMain.handle("send-confirm", (event, incomingMessage) => {
+ipcMain.handle("send-confirm", async(event, incomingMessage) => {
   const options = {
     type: "question",
     buttons: ["Cancel", "Ok"],
@@ -145,12 +176,13 @@ ipcMain.handle('get-areas', async () => {
     }
   });
 
-ipcMain.handle('get-trabajadores-por-area', async (event, areaElegida) =>{
+ipcMain.handle('get-trabajadores-por-area', async (event, areaElegida, rol) =>{
     try {
       const {data, error } = await supabase
       .from('trabajador')
       .select('*, rol_trabajador!inner(*)')
       .eq('rol_trabajador.id_area', areaElegida)
+      .eq('turno_trabajador', rol)
       if(error){
         console.error('Error al obtener datos:', error.message);
         throw new Error('Error al obtener datos');
@@ -617,13 +649,13 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
         if (hora >= 6 && hora <= 18) {
           nombre_turno = 'Rutinas domingo turno dia'
           turno = 1;
-        } else if ((hora >= 18 && dia === 7) || (hora <= 6 && dia === 1)) {
+        } else if ((hora >= 18 && dia === 0) || (hora <= 6 && dia === 1)) {
           nombre_turno = 'Rutinas domingo turno noche'
           turno = 2;
         }
         break;
       default:
-        console.log('Día no válido');
+        console.log('Error al obtener rutinas por turno');
     }
     if (turno !== undefined) {
       const data = await obtenerRutinas(area, dia, turno);

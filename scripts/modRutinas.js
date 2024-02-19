@@ -33,7 +33,7 @@
         <td>${fila.id_rutina}</td>
         <td>${fila.descripcion_rutina}</td>
         <td class ="actions">
-        <button onclick="editarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-edit">Editar</i></button>
+        <button onclick="editarRutina(${fila.id_rutina})" class="icon-button"><i class="">Editar</i></button>
         <button onclick="confirmBorrarRutina(${fila.id_rutina})" class="icon-button"><i class="fas fa-trash">Borrar</i></button>
         </td>
       `;

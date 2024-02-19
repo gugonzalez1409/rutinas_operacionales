@@ -20,9 +20,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
       throw error;
     }
   },
-  getTrabajadoresporArea: async (areaElegida) => {
+  getTrabajadoresporArea: async (areaElegida, rol) => {
     try {
-      const data = await ipcRenderer.invoke('get-trabajadores-por-area', areaElegida);
+      const data = await ipcRenderer.invoke('get-trabajadores-por-area', areaElegida, rol);
       return data;
     } catch(error){
       console.error('Error desde main:', error);
@@ -240,6 +240,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   LogIn: async(email, password)=> {
     const response = await ipcRenderer.invoke('log-in', email, password)
+    return response;
+  },
+  LogOut: async()=> {
+    const response = await ipcRenderer.invoke('log-out')
+    return response;
+  },
+  getRol: async()=> {
+    const response = await ipcRenderer.invoke('get-rol')
     return response;
   }
 })

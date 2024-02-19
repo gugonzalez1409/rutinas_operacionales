@@ -3,8 +3,9 @@
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: flex;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
   }
   .user p {
     text-align: center;
@@ -33,16 +34,22 @@
   }
   .user button {
     width: 25%;
-    padding: 10px;
+    padding: 15px;
     background-color: #3498db;
     color: #fff;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    align-items: center;
   }
   .user button.btn-secondary {
     background-color: #2c3e50;
   }
+
+  .user button.btn-secondary:hover{
+    background-color: #0b223a;
+  }
+
   .user h2{
     text-align: center;
   }
@@ -76,4 +83,4 @@
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.65rem;
-  }  
+  }
