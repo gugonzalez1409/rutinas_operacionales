@@ -1,0 +1,26 @@
+.rutinasHoy{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    align-self: auto;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+input[type="text"] {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+  }

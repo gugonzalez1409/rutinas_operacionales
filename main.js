@@ -798,6 +798,31 @@ ipcMain.handle('get-rutinas-dia', async(event, area)=>{
   try {
     const tiempo = new Date()
     const dia = tiempo.getDay()
+    console.log(dia)
+    let nombre_dia;
+    switch(dia){
+      case 0:
+        nombre_dia = 'Domingo'
+        break;
+      case 1:
+        nombre_dia = 'Lunes'
+        break;
+      case 2:
+        nombre_dia = 'Martes'
+        break;
+      case 3:
+        nombre_dia = 'Miércoles'
+        break;
+      case 4:
+        nombre_dia = 'Jueves'
+        break;
+      case 5:
+        nombre_dia = 'Viernes'
+        break;
+      case 6:
+        nombre_dia = 'Sábado'    
+        break;
+    }
     const {data, error} = await supabase
     .from('dia_jornada')
     .select('rutinas_operacionales!inner(descripcion_rutina), jornada!inner(nombre_jornada)')
@@ -807,7 +832,7 @@ ipcMain.handle('get-rutinas-dia', async(event, area)=>{
       console.error('Error al obtener trabajadores: ', error.message)
       throw new Error('Error al obtener trabajadores');
     }
-    return data;
+    return [data, nombre_dia];
   }
   catch(error){
     console.error('Error: ' , error.message)

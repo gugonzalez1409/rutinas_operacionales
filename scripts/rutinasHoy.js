@@ -16,18 +16,37 @@ async function getAreas(){
     })
 }
 
-async function getRutinasDia(area){
-    const data = await window.electronAPI.getRutinasDia(area)
-    const tabla = document.getElementById('rutinasPorAreaHoy')
-    tabla.innerHTML = ''
+async function getRutinasDia(area) {
+    const info = await window.electronAPI.getRutinasDia(area);
+    const data = info[0]
+    console.log(data)
+    const dia = info[1]
+    console.log(dia)
+    const titulo = document.getElementById('tituloDia')
+    titulo.textContent = 'Rutinas día' + ' ' + info[1];
+    const tabla = document.getElementById('rutinasPorAreaHoy');
+    tabla.innerHTML = '';
+    const rutinasPorNombre = {};
+
     data.forEach(item => {
-        const nuevaFila = document.createElement('tr')
+        const nombreRutina = item.rutinas_operacionales.descripcion_rutina;
+        if (rutinasPorNombre[nombreRutina]) {
+            rutinasPorNombre[nombreRutina].turnos.push(item.jornada.nombre_jornada);
+        } else {
+            rutinasPorNombre[nombreRutina] = {
+                turnos: [item.jornada.nombre_jornada]
+            };
+        }
+    });
+    for (const nombreRutina in rutinasPorNombre) {
+        const turnos = rutinasPorNombre[nombreRutina].turnos.join(' y ');
+        const nuevaFila = document.createElement('tr');
         nuevaFila.innerHTML = `
-        <td>${item.rutinas_operacionales.descripcion_rutina}</td>
-        <td>${item.jornada.nombre_jornada}</td>
-      `;
-      tabla.appendChild(nuevaFila)
-    })
+            <td>${nombreRutina}</td>
+            <td>${turnos}</td>
+        `;
+        tabla.appendChild(nuevaFila);
+    }
 }
 
 getAreas()
