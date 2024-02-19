@@ -2,6 +2,7 @@ window.addEventListener('load', (event) => {
     const pages = [
         'areas.html',
         'admin.html',
+        'trabArea.html',
         'adminTrab.html',
         'modRutinas.html',
         'newRutina.html',
@@ -32,29 +33,28 @@ window.addEventListener('load', (event) => {
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var navLinks = document.querySelectorAll('.nav-link');
-        var tabScripts = {
-            'admin-tab': './scripts/admin.js',
-            'adminTrab-tab': './scripts/adminTrab.js',
-            'areas-tab': './scripts/areas.js',
-            'modRutinas-tab': './scripts/modRutinas.js',
-            'newRutina-tab': './scripts/newRutina.js'
+document.addEventListener('DOMContentLoaded', function () {
+    var navLinks = document.querySelectorAll('.nav-link');
+    var tabScripts = {
+        'admin-tab': './scripts/admin.js',
+        'adminTrab-tab': './scripts/adminTrab.js',
+        'areas-tab': './scripts/areas.js',
+        'modRutinas-tab': './scripts/modRutinas.js',
+        'newRutina-tab': './scripts/newRutina.js',
+        'trabArea-tab': './scripts/trabArea.js'
         };
-        navLinks.forEach(function (navLink) {
-            navLink.addEventListener('click', function (event) {
-                event.preventDefault();
-                var tabId = navLink.getAttribute('id');
-                loadScript(tabScripts[tabId]);
-                //console.log('Se hizo clic en la pestaña:', tabId);
+    navLinks.forEach(function (navLink) {
+        navLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            var tabId = navLink.getAttribute('id');
+            loadScript(tabScripts[tabId]);
+            //console.log('Se hizo clic en la pestaña:', tabId);
             });
         });
-    
-        // Función para cargar un script dinámicamente
-        function loadScript(scriptPath) {
-            var script = document.createElement('script');
-            script.src = scriptPath;
-            document.body.appendChild(script);
-        }
+    function loadScript(scriptPath) {
+        var script = document.createElement('script');
+        script.src = scriptPath;
+        document.body.appendChild(script);
+    }
     });
     

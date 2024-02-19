@@ -775,3 +775,21 @@ ipcMain.handle('get-nombre-area', async(event, id)=>{
     throw error;
   }
 })
+
+ipcMain.handle('get-trabajadores', async(event, area)=>{
+  try{
+    const {data, error} = await supabase
+    .from('trabajador')
+    .select('nombre_trabajador, rol_trabajador!inner(nombre_rol, id_area), turno_trabajador!inner(nombre_turno)')
+    .eq('rol_trabajador.id_area', area)
+    if(error){
+      console.error('Error al obtener trabajadores: ', error.message)
+      throw new Error('Error al obtener trabajadores');
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ', error.message)
+    throw Error;
+  }
+})

@@ -24,16 +24,13 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@supabase/supabase-js": "^2.39.3",
-    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
     "dotenv": "^16.4.1",
     "electron-cookies": "^1.1.0",
     "electron-reload": "^1.2.5",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.7.1",
-    "nodemailer": "^6.9.8",
     "path": "^0.12.7",
-    "pdfmake": "^0.2.9",
     "popper.js": "^1.14.4"
   }
 }

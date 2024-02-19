@@ -249,5 +249,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getRol: async()=> {
     const response = await ipcRenderer.invoke('get-rol')
     return response;
+  },
+  getTrabajadores: async(area)=> {
+    const response = await ipcRenderer.invoke('get-trabajadores', area)
+    return response;
   }
 })
