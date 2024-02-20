@@ -131,10 +131,13 @@ async function emitirInforme() {
 }
 
 async function LogOut(){
-  const data = await window.electronAPI.LogOut()
-  console.log(data)
-  if(data){
-    window.location.href= './login.html'
+  var confirm = await window.messageAPI.confirmar('send-confirm', '¿Está seguro que desea terminar su turno?')
+  if(confirm){
+    const data = await window.electronAPI.LogOut()
+    console.log(data)
+    if(data){
+      window.location.href= './login.html'
+    }
   }
 }
 
