@@ -19,11 +19,9 @@ async function getAreas(){
 async function getRutinasDia(area) {
     const info = await window.electronAPI.getRutinasDia(area);
     const data = info[0]
-    console.log(data)
     const dia = info[1]
-    console.log(dia)
     const titulo = document.getElementById('tituloDia')
-    titulo.textContent = 'Rutinas día' + ' ' + info[1];
+    titulo.textContent = 'Rutinas día' + ' ' + dia;
     const tabla = document.getElementById('rutinasPorAreaHoy');
     tabla.innerHTML = '';
     const rutinasPorNombre = {};

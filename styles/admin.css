@@ -27,14 +27,27 @@ input[type="text"], select {
 }
 
 .admin button {
-  width: 50%;
+  width: 25%;
   background-color: #007BFF;
   align-self: center;
   color: #fff;
   border: none;
   cursor: pointer;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 12px;
+}
+
+.admin button.mostrarDetalles {
+  width: 70%;
+}
+
+.admin .excel {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.excel.button:hover{
+  background-color: #398738;
 }
 
 .mostrarDetalles {
@@ -42,6 +55,6 @@ input[type="text"], select {
   margin: auto;
 }
 
-button:hover {
+.admin button:hover {
   background-color: #0056b3;
 }

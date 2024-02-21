@@ -32,6 +32,7 @@ button {
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
+    margin: auto;
   }
 
 button:hover {
@@ -41,4 +42,12 @@ button:hover {
 .actions {
     display: flex;
     gap: 8px;
-  }    
+  }
+  
+button.deleteButton{
+  background-color: #c61a09;
+}
+
+button.deleteButton:hover{
+  background-color: #8c1406;
+}

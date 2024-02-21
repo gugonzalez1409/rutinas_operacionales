@@ -257,5 +257,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getRutinasDia: async(area)=>{
     const response = await ipcRenderer.invoke('get-rutinas-dia',area)
     return response;
+  },
+  exportarInformacion: (data)=>{
+    const response = ipcRenderer.invoke('exportar-informacion', data)
+    return response;
   }
 })

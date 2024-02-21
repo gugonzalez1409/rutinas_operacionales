@@ -33,8 +33,8 @@
         <td>${fila.id_rutina}</td>
         <td>${fila.descripcion_rutina}</td>
         <td class ="actions">
-        <button onclick="editarRutina(${fila.id_rutina})">Editar</button>
-        <button onclick="confirmBorrarRutina(${fila.id_rutina})">Borrar</button>
+        <button class="editButton" onclick="editarRutina(${fila.id_rutina})">Editar</button>
+        <button class="deleteButton" onclick="confirmBorrarRutina(${fila.id_rutina})">Borrar</button>
         </td>
       `;
       rutinas.appendChild(nuevaFila)
@@ -65,6 +65,7 @@
       var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de borrar la rutina con ID: " + id + "?")
       if(alert){
         borrarRutina(id)
+        location.reload()
       }
     }
     catch(error){

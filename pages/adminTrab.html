@@ -1,47 +1,48 @@
 <template>
-<head>
-  <link rel="stylesheet" href="./styles/adminTrab.css">
-</head>
-    <div class="adminTrab template" id="adminTrab-template" data-tab="adminTrab">
-        <body>
-          <form id="adminTrabForm" class="adminTrab">
-            <label for="nombreTrab">Nombre del Trabajador:</label>
-            <select id="nombreTrab" name="nombreTrab">
-              </select>
-            <label for="rolTrab">Rol de Trabajo:</label>
-            <select id="rolTrab" name="rolTrab">
-              </select>
-            <label for="turnoTrab">Turno de trabajo:</label>
-            <select id="turnoTrab" name="turnoTrab">
-              </select>
-            <button type="button" onclick="confirmActualizarTrabajador()">Actualizar trabajador</button>
-            <button type="button" onclick="confirmEliminarTrabajador()">Eliminar trabajador</button>
-            <button type="button" onclick="openForm()">Nuevo trabajador</button>
-            <button type="button" onclick="openRolForm()">Nuevo rol de trabajo</button>
-          </form>
-          <div id="nuevoTrabForm" style="display:none;" class="nuevoTrab">
-            <h2>Nuevo Trabajador</h2>
-            <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
-            <input type="text" id="nuevoTrabNombre" name="nuevoTrabNombre" required>
-        
-            <label for="nuevoTrabRol">Rol de trabajo:</label>
-            <select id="nuevoTrabRol" name="nuevoTrabRol">
-            </select>
-            <label for="nuevoTrabTurno">Turno:</label>
-            <select id="nuevoTrabTurno" name="nuevoTrabTurno">
-            </select>
-            <button type="button" onclick="confirmNuevoTrabajador()">Crear</button>
-            <button type="button" onclick="closeForm()">Cancelar</button>
-          </div>
-          <div id="nuevoRolForm" style="display:none;">
-            <h2>Nuevo Rol de trabajo</h2>
-            <label for="nuevoRolNombre">Nombre del Rol:</label>
-            <input type="text" id="nuevoRolNombre" name="nuevoRolNombre" required>
-            <label for="areaRol">Área asociada:</label>
-            <select id="areaRol" name="areaRol">
-            </select>
-            <button type="button" onclick="confirmNuevoRol()">Crear</button>
-            <button type="button" onclick="closeRolForm()">Cancelar</button>
-          </div>
-    </div>
+  <div class="adminTrab template" id="adminTrab-template" data-tab="adminTrab">
+    <head>
+      <link rel="stylesheet" href="./styles/adminTrab.css">
+    </head>
+    <body>
+      <form id="adminTrabForm" class="adminTrab">
+        <label for="nombreTrab">Nombre del Trabajador:</label>
+        <select id="nombreTrab" name="nombreTrab">
+        </select>
+        <label for="rolTrab">Rol de Trabajo:</label>
+        <select id="rolTrab" name="rolTrab">
+        </select>
+        <label for="turnoTrab">Turno de trabajo:</label>
+        <select id="turnoTrab" name="turnoTrab">
+        </select>
+        <button type="button" class="updateTrab" onclick="confirmActualizarTrabajador()">Actualizar trabajador</button>
+        <button type="button" class="deleteTrab" onclick="confirmEliminarTrabajador()">Eliminar trabajador</button>
+        <button type="button" class="newTrab" onclick="openForm()">Nuevo trabajador</button>
+        <button type="button" class="newRol" onclick="openRolForm()">Nuevo rol de trabajo</button>
+      </form>
+      <div id="nuevoTrabForm" style="display:none;" class="nuevoTrab">
+        <h2>Nuevo Trabajador</h2>
+        <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
+        <input type="text" id="nuevoTrabNombre" name="nuevoTrabNombre" required>
+
+        <label for="nuevoTrabRol">Rol de trabajo:</label>
+        <select id="nuevoTrabRol" name="nuevoTrabRol">
+        </select>
+        <label for="nuevoTrabTurno">Turno:</label>
+        <select id="nuevoTrabTurno" name="nuevoTrabTurno">
+        </select>
+        <button type="button" onclick="confirmNuevoTrabajador()">Crear</button>
+        <button type="button" onclick="closeForm()">Cancelar</button>
+      </div>
+      <div id="nuevoRolForm" style="display:none;">
+        <h2>Nuevo Rol de trabajo</h2>
+        <label for="nuevoRolNombre">Nombre del Rol:</label>
+        <input type="text" id="nuevoRolNombre" name="nuevoRolNombre" required>
+        <label for="areaRol">Área asociada:</label>
+        <select id="areaRol" name="areaRol">
+        </select>
+        <button type="button" onclick="confirmNuevoRol()">Crear</button>
+        <button type="button" onclick="closeRolForm()">Cancelar</button>
+      </div>
+    </body>
+  </div>
 </template>

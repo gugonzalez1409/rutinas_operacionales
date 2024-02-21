@@ -15,7 +15,7 @@ async function getListaInformes() {
             <td>${fila.turno_trabajador}</td>
             <td>${fila.area_rutina}</td>
             <td class = "actions">
-            <button type="button" class="mostrarDetalles" onclick = "mostrarDetalles(this)">Mostrar Detalles</button>
+            <button type="button" class="mostrarDetalles" onclick = "mostrarDetalles(this)">Detalles</button>
             </td>
             `;
             reporte.appendChild(nuevaFila)
@@ -66,7 +66,7 @@ async function getRolesFiltro(){
 // formateo de fecha para mostrar en tabla
 function formatearFechaYHora(fechaTS) {
     const fecha = new Date(fechaTS);
-    const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+    const diasSemana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
     const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     const diaSemana = diasSemana[fecha.getDay()];
     const dia = fecha.getDate();
@@ -104,7 +104,7 @@ function formatearFechaYHora(fechaTS) {
     detallesRows.forEach(function (detailsRow) {
         detailsRow.style.display = 'none';
         var button = detailsRow.previousElementSibling.querySelector('.mostrarDetalles');
-        button.textContent = 'Mostrar Detalles';
+        button.textContent = 'Detalles';
     });
 }
 
@@ -115,7 +115,33 @@ function formatearFechaYHora(fechaTS) {
     if (detailsRow.classList.contains('details')) {
         var currentDisplayStyle = window.getComputedStyle(detailsRow).getPropertyValue('display');
         detailsRow.style.display = currentDisplayStyle === 'none' ? 'table-row' : 'none';
-        button.textContent = detailsRow.style.display === 'none' ? 'Mostrar Detalles' : 'Ocultar Detalles';
+        button.textContent = detailsRow.style.display === 'none' ? 'Detalles' : 'Ocultar';
+    }
+}
+
+async function exportarInformacion(){
+    const data = await window.electronAPI.getListaInformes()
+    const dataFormateada = data.map(item => {
+        const fechaFormateada = formatearFechaYHora(item.fecha)
+        const rutinas = JSON.stringify(item.nombre_rutina)
+        return {
+            'ID Informe': item.id_informe,
+            'Fecha': fechaFormateada,
+            'Nombre Trabajador': item.nombre_trabajador,
+            'Rol Trabajador': item.rol_trabajador,
+            'Turno Trabajador': item.turno_trabajador,
+            'Observaciones Rutina': item.observaciones_rutina,
+            'Area Rutina': item.area_rutina,
+            'Nombre Rutina': rutinas
+        }
+    })
+    console.log(dataFormateada)
+    const xl = window.electronAPI.exportarInformacion(dataFormateada)
+    if(xl){
+        await window.messageAPI.alerta('send-alert', 'Descarga exitosa, busque el archivo "informe_rutinas.xlsx" en su carpeta de descargas')
+    }
+    else{
+        await window.messageAPI.alerta('send-alert', 'Error al convertir archivo, intentelo de nuevo más tarde')
     }
 }
 

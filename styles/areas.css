@@ -1,9 +1,9 @@
-  form {
+  .areas form {
     display: flex;
     flex-direction: column;
   }
 
-  label {
+  .areas label {
     margin-bottom: 8px;
     color: #333;
   }
@@ -16,18 +16,33 @@
     box-sizing: border-box;
   }
 
-  button {
+  .areas button {
     width: 50%;
+    background-color: #007BFF;
     align-self: center;
-    padding: 12px;
-    background-color: #3498db;
     color: #fff;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    font-size: 12px;
   }
 
-  button:hover {
+  .areas button:hover {
     background-color: #2980b9;
+  }
+
+  .areas button.add {
+    background-color: #4CAF50;
+  }
+
+  .areas button.add:hover {
+    background-color: #398738;
+  }
+
+  .areas button.delete {
+    background-color: #c61a09;
+  }
+
+  .areas button.delete:hover {
+    background-color: #8c1406;
   }

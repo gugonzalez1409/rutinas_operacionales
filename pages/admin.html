@@ -14,7 +14,8 @@
   </select>
   <select id="rol-filter" placeholder="Filtro por rol">
   </select>
-  <button onclick="filtrarTabla()">Filtrar</button>
+  <button class="admin button" onclick="filtrarTabla()">Filtrar</button>
+  <button class="excel button" onclick="exportarInformacion()">Descargar .XLSX</button>
   <table class ="admin-table">
     <thead>
       <tr>
@@ -22,7 +23,7 @@
         <th>Nombre</th>
         <th>Rol</th>
         <th>Turno</th>
-        <th>Área</th>
+        <th>Area</th>
         <th>Acciones</th>
       </tr>
     </thead>

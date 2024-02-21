@@ -178,7 +178,6 @@ async function nuevoTrabajador(){
     rolNuevoTrabajador.value = ''
     turnoNuevoTrabajador.value = ''
     await window.messageAPI.alerta("send-alert", "Trabajador creado exitosamente.")
-
   }
   catch(error){
     window.messageAPI.alerta("send-alert", "Error al crear trabajador.")
@@ -224,6 +223,7 @@ async function confirmActualizarTrabajador(){
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if(alert){
       await actualizarTrabajador()
+      location.reload()
     }
   }
   catch(error){
@@ -236,6 +236,7 @@ async function confirmEliminarTrabajador(){
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de eliminar el trabajador seleccionado?")
     if(alert){
       eliminarTrabajador()
+      location.reload()
     }
   }
   catch(error){
@@ -247,7 +248,8 @@ async function confirmNuevoTrabajador(){
   try {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear un nuevo trabajador con los datos seleccionados?")
     if(alert){
-      await nuevoTrabajador()
+      nuevoTrabajador()
+      location.reload()
     }
   }
   catch(error){
@@ -259,7 +261,8 @@ async function confirmNuevoRol(){
   try{
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de crear el rol con los datos seleccionados?")
     if(alert){
-      await nuevoRol()
+      nuevoRol()
+      location.reload()
     }
   }
   catch(error){

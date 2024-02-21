@@ -20,6 +20,7 @@ async function confirmEdit() {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro de editar los datos seleccionados?")
     if (alert){
       editOption();
+      location.reload();
     }
   }
   catch(error){
@@ -31,6 +32,7 @@ async function confirmAdd() {
   var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro que desea agregar el area?")
     if (alert) {
       addOption();
+      location.reload();
     }
   }
 
@@ -38,6 +40,7 @@ async function confirmDelete() {
     var alert = await window.messageAPI.confirmar("send-confirm", "¿Está seguro que desea eliminar este area?")
     if (alert) {
       deleteOption();
+      location.reload();
     }
   }
 
@@ -99,6 +102,28 @@ async function deleteOption() {
 
 function clearForm() {
     document.getElementById('newValue').value = '';
+}
+
+function obtenerEstadoPestanaActual() {
+  const pestanas = document.querySelectorAll('.nav-link');
+  let activeTab = null;
+  let showTab = null;
+
+  pestanas.forEach((pestaña) => {
+    if (pestaña.classList.contains('active')) {
+      activeTab = pestaña.id;
+      if (pestaña.getAttribute('aria-selected') === 'true') {
+        showTab = pestaña.getAttribute('href').substring(1);
+      }
+    }
+  });
+  return { activeTab, showTab };
+}
+
+function guardarEstadoEnLocalStorage() {
+  const { activeTab, showTab } = obtenerEstadoPestanaActual();
+  localStorage.setItem('activeTab', activeTab);
+  localStorage.setItem('showTab', showTab);
 }
 
 getAreas()

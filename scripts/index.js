@@ -34,28 +34,16 @@ window.addEventListener('load', (event) => {
         });
     });
 
-/*document.addEventListener('DOMContentLoaded', function () {
-    var navLinks = document.querySelectorAll('.nav-link');
-    var tabScripts = {
-        'admin-tab': './scripts/admin.js',
-        'adminTrab-tab': './scripts/adminTrab.js',
-        'areas-tab': './scripts/areas.js',
-        'modRutinas-tab': './scripts/modRutinas.js',
-        'newRutina-tab': './scripts/newRutina.js',
-        'trabArea-tab': './scripts/trabArea.js'
-        };
-    navLinks.forEach(function (navLink) {
-        navLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            var tabId = navLink.getAttribute('id');
-            loadScript(tabScripts[tabId]);
-            //console.log('Se hizo clic en la pestaña:', tabId);
-            });
+document.addEventListener('DOMContentLoaded', () => {
+    // Agregar event listener para el cambio de pestaña
+    const pestanas = document.querySelectorAll('.nav-link');
+    pestanas.forEach((pestaña) => {
+        pestaña.addEventListener('click', () => {
+        guardarEstadoEnLocalStorage();
         });
-    function loadScript(scriptPath) {
-        var script = document.createElement('script');
-        script.src = scriptPath;
-        document.body.appendChild(script);
-    }
-    });*/
-    
+    });    
+    // Llamar a la función para guardar el estado al inicio
+    guardarEstadoEnLocalStorage();
+});
+  
+        

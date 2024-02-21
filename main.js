@@ -2,8 +2,8 @@ require('dotenv').config();
 const { app, BrowserWindow, ipcMain, remote, dialog } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
-const { event } = require('jquery');
-const main = require('electron-reload');
+const XLSX = require('xlsx');
+const fs = require('fs');
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -23,8 +23,8 @@ function createWindow() {
         } 
     })
     mainWindow.loadFile('./pages/login.html')
-    //mainWindow.setMenu(null)
-    mainWindow.webContents.openDevTools()
+    mainWindow.setMenuBarVisibility(false)
+    //mainWindow.webContents.openDevTools()
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
@@ -798,7 +798,6 @@ ipcMain.handle('get-rutinas-dia', async(event, area)=>{
   try {
     const tiempo = new Date()
     const dia = tiempo.getDay()
-    console.log(dia)
     let nombre_dia;
     switch(dia){
       case 0:
@@ -838,4 +837,18 @@ ipcMain.handle('get-rutinas-dia', async(event, area)=>{
     console.error('Error: ' , error.message)
     throw Error;
   }
+})
+
+ipcMain.handle('exportar-informacion', async(event, data)=>{
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Datos');
+  // Obtener la ruta de la carpeta de descargas
+  const descargasPath = app.getPath('downloads');
+  // Construir la ruta completa al archivo XLSX en la carpeta de descargas
+  const xlsxFilePath = path.join(descargasPath, 'informe_rutinas.xlsx');
+  // Escribir los datos en el archivo XLSX
+  XLSX.writeFile(wb, xlsxFilePath);
+  // Devolver la ruta del archivo exportado para informar al proceso de renderizado
+  return;
 })

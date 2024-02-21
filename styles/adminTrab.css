@@ -1,7 +1,78 @@
-.adminTrab button{
-    width: 50%;
-  }
-
-.nuevoTrab button{
+.adminTrab button {
   width: 50%;
-} 
+  background-color: #007BFF;
+  align-self: center;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.adminTrab button.deleteTrab{
+  background-color: #c61a09;
+  width: 50%;
+}
+
+.adminTrab button.deleteTrab:hover{
+  background-color: #8c1406;
+  
+};
+
+.adminTrab button.newTrab {
+  background-color: #4CAF50 !important;
+  width: 50%;
+}
+
+.adminTrab button.newTrab:hover {
+  background-color: #398738 !important;
+}
+
+.adminTrab form {
+  display: flex;
+  flex-direction: column;
+}
+
+.adminTrab label {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.adminTrab button {
+  width: 50%;
+  background-color: #007BFF;
+  align-self: center;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.adminTrab button:hover {
+  background-color: #2980b9;
+}
+
+.adminTrab .newTrab {
+  background-color: #4CAF50;
+}
+
+.adminTrab .newTrab:hover {
+  background-color: #398738;
+}
+
+.adminTrab button.delete {
+  background-color: #c61a09;
+}
+
+.adminTrab button.delete:hover {
+  background-color: #8c1406;
+}

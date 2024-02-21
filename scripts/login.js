@@ -7,7 +7,7 @@ async function LogIn(){
         if(rol !== undefined && rol == 'admin'){   
             window.location.href = './../index.html'
         }
-        else if(rol != undefined && rol != 'admin'){
+        if(rol != undefined && rol != 'admin'){
             window.location.href = './user.html'
         }
     }
