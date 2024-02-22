@@ -145,6 +145,22 @@ async function exportarInformacion(){
     }
 }
 
+async function confirmBorrarInformes(){
+    var confirm = await window.messageAPI.confirmar('send-confirm', '¿Está seguro que desea borrar los informes?');
+    if(confirm){
+        var confirm2 = await window.messageAPI.confirmar('send-confirm', 'Esta acción borrará TODOS los informes realizados por operadores y NO se podrá deshacer, ¿Está seguro?')
+        if(confirm2){
+            borrarInformes()
+            await window.messageAPI.alerta('send-alert', 'Informes borrados exitosamente')
+        }
+    }
+}
+
+async function borrarInformes(){
+    const data = await window.electronAPI.borrarInformes();
+    return data;
+}
+
 
 getListaInformes()
 getRolesFiltro()

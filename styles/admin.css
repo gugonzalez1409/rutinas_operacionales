@@ -27,9 +27,8 @@ input[type="text"], select {
 }
 
 .admin button {
-  width: 25%;
+  width: 24%;
   background-color: #007BFF;
-  align-self: center;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -38,7 +37,7 @@ input[type="text"], select {
 }
 
 .admin button.mostrarDetalles {
-  width: 70%;
+  width: 100%;
 }
 
 .admin .excel {
@@ -57,4 +56,51 @@ input[type="text"], select {
 
 .admin button:hover {
   background-color: #0056b3;
+}
+
+.admin .refresh {
+  background-color: #FF8000;
+}
+
+.admin .refresh:hover {
+  background-color: #D46F00;
+}
+
+.admin .deleteall {
+  background-color: #c61a09;
+}
+
+.admin .deleteall:hover {
+  background-color: #8c1406;
+}
+
+.pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-container button {
+  width: 80px;
+  padding: 8px;
+  margin: 0 5px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.pagination-container button:hover {
+  background-color: #0056b3;
+}
+
+.pagination-container span {
+  margin: 0 10px;
+  font-size: 12px;
+}
+
+.pagination-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

@@ -4,8 +4,8 @@ const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const XLSX = require('xlsx');
 const fs = require('fs');
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseUrl = 'https://ftxxcnmgoyrppxvjjcmr.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0eHhjbm1nb3lycHB4dmpqY21yIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNDgyOTAzOCwiZXhwIjoyMDIwNDA1MDM4fQ.pJABUWJmVcrND8a-yGcJy-JeTjvKAUqz1CMaxiNy0AQ';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let mainWindow

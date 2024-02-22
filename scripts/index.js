@@ -1,6 +1,5 @@
 window.addEventListener('load', (event) => {
     const pages = [
-        'areas.html',
         'admin.html',
         'trabArea.html',
         'adminTrab.html',
@@ -33,17 +32,5 @@ window.addEventListener('load', (event) => {
         loadPage(page);
         });
     });
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Agregar event listener para el cambio de pestaña
-    const pestanas = document.querySelectorAll('.nav-link');
-    pestanas.forEach((pestaña) => {
-        pestaña.addEventListener('click', () => {
-        guardarEstadoEnLocalStorage();
-        });
-    });    
-    // Llamar a la función para guardar el estado al inicio
-    guardarEstadoEnLocalStorage();
-});
   
         

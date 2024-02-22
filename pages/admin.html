@@ -14,8 +14,12 @@
   </select>
   <select id="rol-filter" placeholder="Filtro por rol">
   </select>
+  <div class="button-container">
   <button class="admin button" onclick="filtrarTabla()">Filtrar</button>
+  <button class="refresh button" onclick="location.reload()">Refrescar ventana</button>
   <button class="excel button" onclick="exportarInformacion()">Descargar .XLSX</button>
+  <button class="deleteall button" onclick="confirmBorrarInformes()">Eliminar reportes</button>
+  </div>
   <table class ="admin-table">
     <thead>
       <tr>
@@ -32,5 +36,12 @@
       </tr> 
     </tbody>
   </table>
+  <div class="pagination-container">
+    <button @click="irAPagina(1)">Primera</button>
+    <button @click="irAPagina(paginaActual - 1)" :disabled="paginaActual === 1">Anterior</button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button @click="irAPagina(paginaActual + 1)" :disabled="paginaActual === totalPaginas">Siguiente</button>
+    <button @click="irAPagina(totalPaginas)">Última</button>
+  </div>
   </div>
 </template>

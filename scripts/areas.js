@@ -1,4 +1,4 @@
-async function getAreas() {
+/*async function getAreas() {
   try {
     const data = await window.electronAPI.getAreas();
     const elegirArea = document.getElementById('options');
@@ -13,7 +13,7 @@ async function getAreas() {
   catch (error) {
     console.error('Error al cargar lista de datos:', error);
   }
-}
+}*/
 
 async function confirmEdit() {
   try{
