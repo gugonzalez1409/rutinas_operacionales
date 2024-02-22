@@ -852,3 +852,21 @@ ipcMain.handle('exportar-informacion', async(event, data)=>{
   // Devolver la ruta del archivo exportado para informar al proceso de renderizado
   return;
 })
+
+ipcMain.handle('borrar-informes', async(event)=> {
+  try{
+    const {data, error} = await supabase
+    .from('informe_rutinas')
+    .delete()
+    .neq('id_informe', 0)
+    if(error){
+      console.error('Error: ', error.message)
+      throw Error;
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ' , error.message)
+    throw Error;
+  }
+})

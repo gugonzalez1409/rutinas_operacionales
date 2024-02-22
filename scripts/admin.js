@@ -127,15 +127,14 @@ async function exportarInformacion(){
         return {
             'ID Informe': item.id_informe,
             'Fecha': fechaFormateada,
-            'Nombre Trabajador': item.nombre_trabajador,
-            'Rol Trabajador': item.rol_trabajador,
-            'Turno Trabajador': item.turno_trabajador,
-            'Observaciones Rutina': item.observaciones_rutina,
-            'Area Rutina': item.area_rutina,
-            'Nombre Rutina': rutinas
+            'Nombre': item.nombre_trabajador,
+            'Rol de trabajo': item.rol_trabajador,
+            'Turno': item.turno_trabajador,
+            'Observaciones': item.observaciones_rutina,
+            'Area': item.area_rutina,
+            'Rutinas': rutinas
         }
     })
-    console.log(dataFormateada)
     const xl = window.electronAPI.exportarInformacion(dataFormateada)
     if(xl){
         await window.messageAPI.alerta('send-alert', 'Descarga exitosa, busque el archivo "informe_rutinas.xlsx" en su carpeta de descargas')
