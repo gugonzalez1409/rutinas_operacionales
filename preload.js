@@ -265,5 +265,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   borrarInformes: async()=> {
     const response = ipcRenderer.invoke('borrar-informes');
     return response;
+  },
+  getEstadisticas: async(area)=>{
+    const response = ipcRenderer. invoke('get-estadisticas', area)
+    return response;
   }
 })

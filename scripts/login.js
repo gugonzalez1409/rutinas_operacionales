@@ -1,10 +1,11 @@
 async function LogIn(){
     try{
-        const email = document.getElementById('username').value;
+        var email = document.getElementById('username').value;
+        email = email + '@arauco.com'
         const password = document.getElementById('password').value;
         const log = await window.electronAPI.LogIn(email, password);
-        const rol = log.rol
-        if(rol !== undefined && rol == 'admin'){   
+        const rol = log.rol;
+        if(rol !== undefined && rol == 'admin'){  
             window.location.href = './../index.html'
         }
         if(rol != undefined && rol != 'admin'){
@@ -17,7 +18,7 @@ async function LogIn(){
     }
 }
 
-document.getElementById("login-form").addEventListener("keyup", function(event) {
+document.getElementById("login-form").addEventListener("keyup", function(event){
     if (event.key === "Enter") {
       LogIn();
     }

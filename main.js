@@ -612,85 +612,96 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
     const hora = tiempo.getHours();
     // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
     //const minutos = tiempo.getMinutes();
-    let turno;
     let nombre_turno;
-    switch (dia) {
-      case 1:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas lunes turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 1) || (hora <= 6 && dia === 2)) {
-          nombre_turno = 'Rutinas lunes turno noche'
-          turno = 2;
-        }
-        break;
-      case 2:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas martes turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 2) || (hora <= 6 && dia === 3)) {
-          nombre_turno = 'Rutinas martes turno noche'
-          turno = 2;
-        }
-        break;
-      case 3:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas miércoles turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 3) || (hora <= 6 && dia === 4)) {
-          nombre_turno = 'Rutinas miércoles turno noche'
-          turno = 2;
-        }
-        break;
-      case 4:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas jueves turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 4) || (hora <= 6 && dia === 5)) {
-          nombre_turno = 'Rutinas jueves turno noche'
-          turno = 2;
-        }
-        break;
-      case 5:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas viernes turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 5) || (hora <= 6 && dia === 6)) {
-          nombre_turno = 'Rutinas viernes turno noche'
-          turno = 2;
-        }
-        break;
-      case 6:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas sábado turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 6) || (hora <= 6 && dia === 7)) {
-          nombre_turno = 'Rutinas sábado turno noche'
-          turno = 2;
-        }
-        break;
-      case 0:
-        if (hora >= 6 && hora <= 18) {
-          nombre_turno = 'Rutinas domingo turno dia'
-          turno = 1;
-        } else if ((hora >= 18 && dia === 0) || (hora <= 6 && dia === 1)) {
-          nombre_turno = 'Rutinas domingo turno noche'
-          turno = 2;
-        }
-        break;
-      default:
-        console.log('Error al obtener rutinas por turno');
-    }
-    if (turno !== undefined) {
-      const data = await obtenerRutinas(area, dia, turno);
+    //TURNO LUNES DIA
+    if(dia == 1 && (hora >= 6 || hora <= 18) ){
+      nombre_turno = 'Rutinas lunes turno dia' 
+      const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
     }
-  } catch (error) {
-    console.error('Error al obtener rutinas por turno: ', error.message);
+    // TURNO LUNES NOCHE
+    else if( (dia == 1 && hora >= 18) || (dia == 2 && hora <= 6) ){ 
+      nombre_turno = 'Rutinas lunes turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO MARTES DIA
+    else if(dia == 2 && (hora >= 6 || hora <= 18) ){ 
+      nombre_turno = 'Rutinas martes turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO MARTES NOCHE
+    else if((dia == 2 && hora >= 18) || (dia == 3 && hora <= 6)){ 
+      nombre_turno ='Rutinas martes turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO MIERCOLES DIA
+    else if(dia == 3 && (hora >= 6 || hora <= 18)){ 
+      nombre_turno = 'Rutinas miercoles turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO MIERCOLES NOCHE
+    else if((dia == 3 && hora >= 18) || (dia == 4 && hora <= 6)){ 
+      nombre_turno = 'Rutinas miercoles turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO JUEVES DIA
+    else if(dia == 4 && (hora >= 6 || hora <= 18)){
+      nombre_turno = 'Rutinas jueves turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO JUEVES NOCHE
+    else if((dia == 4 && hora >= 18) || (dia == 5 && hora <= 6)){
+      nombre_turno = 'Rutinas jueves turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO VIERNES DIA
+    else if(dia == 5 && (hora >= 6 || hora <= 18)){
+      nombre_turno = 'Rutinas viernes turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO VIERNES NOCHE
+    else if((dia == 5 && hora >= 18) || (dia == 6 && hora <= 6)){
+      nombre_turno = 'Rutinas viernes turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO SABADO DIA
+    else if(dia == 6 && (hora >= 6 || hora <= 18)){
+      nombre_turno = 'Rutinas sábado turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO SABADO NOCHE
+    else if((dia == 6 && hora >= 18) || (dia == 7 && hora <= 6)){
+      nombre_turno = 'Rutinas sabado turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    }
+    // TURNO DOMINGO DIA
+    else if(dia == 7 && (hora >= 6 || hora <= 18)){
+      nombre_turno = 'Rutinas domingo turno dia'
+      const data = await obtenerRutinas(area, dia, 1)
+      return [data, nombre_turno];
+    }
+    // TURNO DOMINGO NOCHE
+    else if((dia == 7 && hora >= 18) || (dia == 1 && hora <= 6)){
+      nombre_turno = 'Rutinas domingo turno noche'
+      const data = await obtenerRutinas(area, dia, 2)
+      return [data, nombre_turno];
+    } 
+  }
+  catch(error){
+    console.error('Error al obtener rutinas por turno: ', error.message)
     throw new Error('Error al obtener rutinas por turno');
   }
-
-
 });
 
 ipcMain.handle('edit-nombre-rutina', async(event, nombre, id)=>{
@@ -843,13 +854,9 @@ ipcMain.handle('exportar-informacion', async(event, data)=>{
   const ws = XLSX.utils.json_to_sheet(data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Datos');
-  // Obtener la ruta de la carpeta de descargas
   const descargasPath = app.getPath('downloads');
-  // Construir la ruta completa al archivo XLSX en la carpeta de descargas
   const xlsxFilePath = path.join(descargasPath, 'informe_rutinas.xlsx');
-  // Escribir los datos en el archivo XLSX
   XLSX.writeFile(wb, xlsxFilePath);
-  // Devolver la ruta del archivo exportado para informar al proceso de renderizado
   return;
 })
 
@@ -859,6 +866,24 @@ ipcMain.handle('borrar-informes', async(event)=> {
     .from('informe_rutinas')
     .delete()
     .neq('id_informe', 0)
+    if(error){
+      console.error('Error: ', error.message)
+      throw Error;
+    }
+    return data;
+  }
+  catch(error){
+    console.error('Error: ' , error.message)
+    throw Error;
+  }
+})
+
+ipcMain.handle('get-estadisticas', async(event, area)=>{
+  try{
+    const {data, error} = await supabase
+    .from('informe_rutinas')
+    .select('*')
+    .eq('area_rutina', area)
     if(error){
       console.error('Error: ', error.message)
       throw Error;

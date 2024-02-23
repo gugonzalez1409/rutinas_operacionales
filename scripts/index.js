@@ -5,7 +5,8 @@ window.addEventListener('load', (event) => {
         'adminTrab.html',
         'modRutinas.html',
         'newRutina.html',
-        'rutinasHoy.html'
+        'rutinasHoy.html',
+        'estadisticas.html'
     ];
 
     const loadPage = async (page) => {
