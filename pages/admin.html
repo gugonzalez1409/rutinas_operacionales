@@ -13,8 +13,7 @@
     <option value="D">Turno D</option>
     <option value="E">Turno E</option>
   </select>
-  <select id="rol-filter" placeholder="Filtro por rol">
-  </select>
+  <select id="area-filter" placeholder="Filtro por area"></select>
   <div class="button-container">
   <button class="admin button" onclick="filtrarTabla()">Filtrar</button>
   <button class="refresh button" onclick="location.reload()">Refrescar ventana</button>
@@ -37,12 +36,5 @@
       </tr> 
     </tbody>
   </table>
- <!-- <div class="pagination-container">
-    <button @click="irAPagina(1)">Primera</button>
-    <button @click="irAPagina(paginaActual - 1)" :disabled="paginaActual === 1">Anterior</button>
-    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-    <button @click="irAPagina(paginaActual + 1)" :disabled="paginaActual === totalPaginas">Siguiente</button>
-    <button @click="irAPagina(totalPaginas)">Última</button>
-  </div> -->
   </div>
 </template>

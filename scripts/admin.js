@@ -63,6 +63,21 @@ async function getRolesFiltro(){
     })
 }
 
+async function getAreasFiltro(){
+    const data = await window.electronAPI.getAreas()
+    const filtroArea = document.getElementById('area-filter')
+    const todo_area = document.createElement('option')
+    todo_area.value = 'todos'
+    todo_area.text = 'Todas las areas'
+    filtroArea.add(todo_area)
+    data.forEach(item =>{
+        const option = document.createElement('option')
+        option.value = item.nombre_area;
+        option.text = item.nombre_area;
+        filtroArea.add(option)
+    })
+}
+
 // formateo de fecha para mostrar en tabla
 function formatearFechaYHora(fechaTS) {
     const fecha = new Date(fechaTS);
@@ -83,16 +98,16 @@ function formatearFechaYHora(fechaTS) {
   function filtrarTabla() {
     var input = document.getElementById('search').value.toLowerCase();
     var turnoFilter = document.getElementById('turno-filter').value.toLowerCase();
-    var rolFilter = document.getElementById('rol-filter').value.toLowerCase();
+    var areaFilter = document.getElementById('area-filter').value.toLowerCase()
     var rows = document.querySelectorAll('tbody tr');
 
     rows.forEach(function (row) {
         var cells = row.getElementsByTagName('td');
-        if (cells.length >= 4) {
+        if (cells.length >= 5) {
             var matchSearch = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(input));
             var matchTurno = turnoFilter === 'todos' || cells[3].textContent.toLowerCase().includes(turnoFilter);
-            var matchRol = rolFilter === 'todos' || cells[2].textContent.toLowerCase().includes(rolFilter);
-            if (matchSearch && matchTurno && matchRol) {
+            var matchArea = areaFilter === 'todos' || cells[4].textContent.toLowerCase().includes(areaFilter);
+            if (matchSearch && matchTurno && matchArea) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
@@ -162,4 +177,4 @@ async function borrarInformes(){
 
 
 getListaInformes()
-getRolesFiltro()
+getAreasFiltro()
