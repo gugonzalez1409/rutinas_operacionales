@@ -9,7 +9,7 @@ async function getAreas(){
         options.add(option)
     })
     const area = options.options[options.selectedIndex].text;
-    //await getEstadisticas(area)
+    await getEstadisticas(area)
     options.addEventListener('change', async function(){
         const area = options.options[options.selectedIndex].text;
         await getEstadisticas(area)

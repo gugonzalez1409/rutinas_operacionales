@@ -610,23 +610,99 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
     const tiempo = new Date();
     const dia = tiempo.getDay();
     const hora = tiempo.getHours();
+    var turno;
+    if(hora >= 6 && hora <=18){ //si son entre las 6 de la mañana y las 6 de la tarde
+       turno = 1; // turno de dia
+    }
+    else {
+      turno = 2; // si no turno de noche
+    }
+    let nombre_turno;
+    switch(dia){
+      case 0:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Domingo turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Domingo turno noche'
+          break;
+        }
+      case 1:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Lunes turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Lunes turno noche'
+          break;
+        }
+      case 2:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Martes turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Martes turno noche'
+          break;
+        }
+      case 3:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Miercoles turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Miercoles turno noche'
+          break;
+        }
+      case 4:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Jueves turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Jueves turno noche'
+          break;
+        }
+      case 5:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Viernes turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Viernes turno noche'
+          break;
+        }
+      case 6:
+        if(turno == 1){
+          nombre_turno = 'Rutinas Sabado turno dia'
+          break;
+        }
+        else {
+          nombre_turno = 'Rutinas Sabado turno noche'
+          break;
+        }
+    }
+    const data = await obtenerRutinas(area,dia,turno)
+    return [data, nombre_turno]
+
     // en caso de (ver utilidad) en casos borde (de 5 a 6, de 6 a 7)
     //const minutos = tiempo.getMinutes();
-    let nombre_turno;
+    
     //TURNO LUNES DIA
-    if(dia == 1 && (hora >= 6 || hora <= 18) ){
-      nombre_turno = 'Rutinas lunes turno dia' 
+    /*if(dia == 1 && (hora >= 6 && hora <= 18) ){
+      nombre_turno = 'Rutinas lunes turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
     }
     // TURNO LUNES NOCHE
-    else if( (dia == 1 && hora >= 18) || (dia == 2 && hora <= 6) ){ 
+    else if( (dia == 1 && hora >= 18) || (dia == 2 && hora <= 6) ){
       nombre_turno = 'Rutinas lunes turno noche'
       const data = await obtenerRutinas(area, dia, 2)
       return [data, nombre_turno];
     }
     // TURNO MARTES DIA
-    else if(dia == 2 && (hora >= 6 || hora <= 18) ){ 
+    else if(dia == 2 && (hora >= 6 && hora <= 18) ){ 
       nombre_turno = 'Rutinas martes turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
@@ -638,7 +714,7 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
       return [data, nombre_turno];
     }
     // TURNO MIERCOLES DIA
-    else if(dia == 3 && (hora >= 6 || hora <= 18)){ 
+    else if(dia == 3 && (hora >= 6 && hora <= 18)){ 
       nombre_turno = 'Rutinas miercoles turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
@@ -650,7 +726,7 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
       return [data, nombre_turno];
     }
     // TURNO JUEVES DIA
-    else if(dia == 4 && (hora >= 6 || hora <= 18)){
+    else if(dia == 4 && (hora >= 6 && hora <= 18)){
       nombre_turno = 'Rutinas jueves turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
@@ -662,7 +738,7 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
       return [data, nombre_turno];
     }
     // TURNO VIERNES DIA
-    else if(dia == 5 && (hora >= 6 || hora <= 18)){
+    else if(dia == 5 && (hora >= 6 && hora <= 18)){
       nombre_turno = 'Rutinas viernes turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
@@ -674,29 +750,29 @@ ipcMain.handle('get-rutinas-turno', async (event, area) => {
       return [data, nombre_turno];
     }
     // TURNO SABADO DIA
-    else if(dia == 6 && (hora >= 6 || hora <= 18)){
+    else if(dia == 6 && (hora >= 6 && hora <= 18)){
       nombre_turno = 'Rutinas sábado turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
     }
     // TURNO SABADO NOCHE
-    else if((dia == 6 && hora >= 18) || (dia == 7 && hora <= 6)){
+    else if((dia == 6 && hora >= 18) || (dia == 0 && hora <= 6)){
       nombre_turno = 'Rutinas sabado turno noche'
       const data = await obtenerRutinas(area, dia, 2)
       return [data, nombre_turno];
     }
     // TURNO DOMINGO DIA
-    else if(dia == 7 && (hora >= 6 || hora <= 18)){
+    else if(dia == 0 && (hora >= 6 && hora <= 18)){
       nombre_turno = 'Rutinas domingo turno dia'
       const data = await obtenerRutinas(area, dia, 1)
       return [data, nombre_turno];
     }
     // TURNO DOMINGO NOCHE
-    else if((dia == 7 && hora >= 18) || (dia == 1 && hora <= 6)){
+    else if((dia == 0 && hora >= 18) || (dia == 1 && hora <= 6)){
       nombre_turno = 'Rutinas domingo turno noche'
       const data = await obtenerRutinas(area, dia, 2)
       return [data, nombre_turno];
-    } 
+    }*/ 
   }
   catch(error){
     console.error('Error al obtener rutinas por turno: ', error.message)
