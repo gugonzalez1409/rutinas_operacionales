@@ -46,23 +46,7 @@ async function getListaInformes() {
         console.error('Error al cargar datos en la lista desplegable:', error);
     }
 }
- // obtener todos los roles para hacer filtro
-async function getRolesFiltro(){
-    const data = await window.electronAPI.getAllRoles();
-    const filtroRol = document.getElementById('rol-filter')
-    filtroRol.innerHTML = ''
-    const todo = document.createElement('option')
-    todo.value = 'todos'
-    todo.text = `Todos los roles`
-    filtroRol.add(todo)
-    data.forEach(item =>{
-        const option = document.createElement('option')
-        option.value = item.nombre_rol
-        option.text = item.nombre_rol
-        filtroRol.add(option);
-    })
-}
-
+ // obtener todas las areas para hacer filtro
 async function getAreasFiltro(){
     const data = await window.electronAPI.getAreas()
     const filtroArea = document.getElementById('area-filter')
@@ -75,6 +59,27 @@ async function getAreasFiltro(){
         option.value = item.nombre_area;
         option.text = item.nombre_area;
         filtroArea.add(option)
+    })
+    filtroArea.addEventListener('change', function(){
+        filtrarTabla()
+    })   
+}
+
+async function getTurnosFiltro(){
+    const data = await window.electronAPI.getTurnos()
+    const filtroTurno = document.getElementById('turno-filter')
+    const todo_turno = document.createElement('option')
+    todo_turno.value = 'todos'
+    todo_turno.text = 'Todos los turnos'
+    filtroTurno.add(todo_turno)
+    data.forEach(item => {
+        const option = document.createElement('option')
+        option.value = item.nombre_turno;
+        option.text = item.nombre_turno;
+        filtroTurno.add(option)
+    })
+    filtroTurno.addEventListener('change', function(){
+        filtrarTabla();
     })
 }
 
@@ -95,7 +100,7 @@ function formatearFechaYHora(fechaTS) {
   }
 
   //filtros
-  function filtrarTabla() {
+function filtrarTabla() {
     var input = document.getElementById('search').value.toLowerCase();
     var turnoFilter = document.getElementById('turno-filter').value.toLowerCase();
     var areaFilter = document.getElementById('area-filter').value.toLowerCase()
@@ -114,7 +119,7 @@ function formatearFechaYHora(fechaTS) {
             }
         }
     });
-    // Ocultar todos los detalles después de filtrar
+    // Ocultar detalles despuEs de filtrar
     var detallesRows = document.querySelectorAll('.details');
     detallesRows.forEach(function (detailsRow) {
         detailsRow.style.display = 'none';
@@ -178,3 +183,4 @@ async function borrarInformes(){
 
 getListaInformes()
 getAreasFiltro()
+getTurnosFiltro()

@@ -19,17 +19,22 @@ async function getNombreRutina(){
     try{
         const id = await getIDrutina();
         const data = await window.electronAPI.getNombreRutina(id)
-        if (data && data.length > 0) {
-            const nombre = data[0]['descripcion_rutina'];
-            const nombreInput = document.getElementById('nombreModRutina');
-            if (nombreInput) {
-                nombreInput.value = nombre;
-            }
-            return nombre;
+        const nombre = data[0]['descripcion_rutina'];
+        return nombre;
         }
-    }
     catch(error){
         console.error('Error al obtener nombre de rutina:', error);
+    }
+}
+
+async function insertNombreRutina(){
+    try {
+        const nombre = await getNombreRutina();
+        const input = document.getElementById('nombreModRutina')
+        input.value = nombre;
+    }
+    catch(error){
+        console.error('Error al insertar nombre en input: ', error)
     }
 }
 
@@ -60,11 +65,11 @@ async function getAreasEditRutina(){
 async function getJornadaActual(){
     const id = await window.electronAPI.getIDrutina()
     const data = await window.electronAPI.getJornadaActual(id);// array con los dias y jornada
-    console.log(data);
+    //console.log(data);
     //obtener checkboxes
     const padre = document.getElementById('ModNewRutina-template')
     const checkboxes = padre.querySelectorAll('input[type="checkbox"]');
-    console.log(checkboxes)
+    //console.log(checkboxes)
     data.forEach(item => {
         if(checkboxes[0].value == item['id_jornada']){
             checkboxes[0].checked = true
@@ -127,7 +132,6 @@ function actualizarSelecciones() {
 async function modificarRutina(){
     const id = await getIDrutina(); // id rutina seleccionada
     const old_nombre = await getNombreRutina();
-    // conseguir nombre y area originales
     const old_area = await getAreaRutina();
     const new_nombre = document.getElementById('nombreModRutina').value; // nombre de rutina
     const new_area = document.getElementById('areaModRutina').value; // area de rutina
@@ -163,6 +167,6 @@ async function modificarRutina(){
 }
 
 getJornadaActual()
-getNombreRutina()
+insertNombreRutina()
 getAreasEditRutina()
 getAreaRutina()

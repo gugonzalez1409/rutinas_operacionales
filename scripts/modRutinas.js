@@ -45,12 +45,12 @@
     }
   }
 
-  async function editarRutina(id) {
+  async function editarRutina(id){
     const modal = await window.electronAPI.abrirModal(id);
 
   }
 
-  async function borrarRutina(id) {
+  async function borrarRutina(id){
     try{ 
         data = await window.electronAPI.borrarRutina(id)
         window.messageAPI.alerta('send-alert','Rutina borrada exitosamente')
