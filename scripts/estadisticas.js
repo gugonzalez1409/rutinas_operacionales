@@ -32,7 +32,7 @@ async function getEstadisticas(area){
             let total = 0;
             let hechas = 0;
             informesFiltrados.forEach(informe => {
-                console.log('turno', item.nombre_turno)
+                //console.log('turno', item.nombre_turno)
                 const rutinas = informe.nombre_rutina;
                 //console.log(rutinas)
                 const totalRutinas = Object.keys(rutinas).length

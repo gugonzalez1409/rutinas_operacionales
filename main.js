@@ -3,7 +3,6 @@ const { app, BrowserWindow, ipcMain, remote, dialog } = require('electron');
 const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const XLSX = require('xlsx');
-const fs = require('fs');
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -11,7 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 let mainWindow
 let modalWindow
 
-let idRutina // para pasar al modal
+let idRutina
 let rolSesion
 
 function createWindow() {
@@ -71,7 +70,7 @@ ipcMain.handle('log-in', async (event, email, password)=>{
       .eq('email', email)
       .single()
       if(userError){
-        console.error('Error al obtener rol de usuario: ', error.message)
+        console.error('Error al obtener rol de usuario: ', userError.message)
         throw new Error('Error al obtener rol de usuario')
       }
       rolSesion = userData.rol

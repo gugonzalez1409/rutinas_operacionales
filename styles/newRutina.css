@@ -46,3 +46,7 @@
     height: 50px;
     background-color: #4CAF50;
   }
+
+  .button-agregar:hover{
+    background-color: #9F8E51;
+  }
