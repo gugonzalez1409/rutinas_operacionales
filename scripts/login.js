@@ -14,6 +14,7 @@ async function LogIn(){
     }
     catch(error){
         window.messageAPI.alerta('send-alert', 'Error al inciar sesión, asegurese de haber ingresado las credenciales correctamente')
+        console.error('Error al iniciar sesion: ', error)
         clearLogin()
     }
 }

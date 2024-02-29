@@ -18,7 +18,7 @@ async function getAreas(){
 
 async function getEstadisticas(area){
     try {
-        const informes = await window.electronAPI.getEstadisticas(area);
+        const informes = await window.electronAPI.getEstadisticas(area); //obtiene todos los informes del area
         const turnos = await window.electronAPI.getTurnos();
         const tabla = document.getElementById('estadisticasPorTurno')
         tabla.innerHTML = '';
